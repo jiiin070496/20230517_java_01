@@ -1,36 +1,40 @@
 package kh.lclass.oop.sample;
 
-public class Person /* extends Object(적지않아도 자동으로 들어가있음) */ {
+//import java.lang.String;
 
-	private String name;  //주민등록상의 이름
-	private int age;
-	private char gender;
-
+public class Person /* extends Object */ {
+	private String name;  // 주민등록증상이름
+	private int age;  // 만
+	private char gender;  // '남' / '여'
+	
 	// 기본생성자
 	public Person() {}
-
-	// allArgumentConstructer , Argument - 매개인자
-	public Person(String name, int age, char gender) { 
-		this.name = name;          //생성자 초기화, 생성시에 받아옴
-		this.age = age;
-		this.gender = gender;
+	
+	// allArgumentsConstructor 만들어주세요.
+	// allArgumentsConstructor 란 모든 매개인자를 받아서 처리하는 생성자
+	// overloading 으로 생성자
+	public Person(String name, int age, char gender, final int maxCnt ) {
+		this.name=name;
+		this.age=age;
+		this.gender=gender;
 	}
-
+	
+	
 	@Override
 	public String toString() {
 		return "Person [name=" + name + ", age=" + age + ", gender=" + gender + "]";
 	}
 
-	// getter/setter
+	// getter / setter
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	public int getAge() {
+	protected int getAge() {
+		// 만나이계산법
 		return age;
 	}
 
@@ -45,6 +49,15 @@ public class Person /* extends Object(적지않아도 자동으로 들어가있�
 	public void setGender(char gender) {
 		this.gender = gender;
 	}
-
-
+	
+	
 }
+
+
+
+
+
+
+
+
+

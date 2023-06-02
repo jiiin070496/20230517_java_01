@@ -1,21 +1,23 @@
 package kh.lclass.oop.sample;
 
-public interface TestInterface{
-	
-	public final int MAXCNT = 10;
-	public  void method1();    //능력단위별 평가보기
-	public  String method2();  // 평가 안내
-	public  int method3(int a, int b);  // 평가 리뷰
-//	public  int method3();  // 평가 리뷰
+import java.awt.im.spi.InputMethod;
+import java.io.Serializable;
 
+public interface TestInterface extends /* InputMethod, */Serializable {
+	int MAXCNT = 10;
+	public static final int MAXCNT2 = 10;
+	public void method1() ;  // 능력단위별 평가보기
+	public String method2();  // 평가안내
+	public int method3(int a, int b);  // 평가리뷰
 	
-	//게시판
-//	int insertBoard(Car vo); // value object - 사물, 자료를 담고있는 클래스
+//	public int method3();  // 평가리뷰
+	
+//	int insertBoard(Car vo);
 //	int deleteBoard(Car vo);
 //	int updateBoard(Car vo);
-//	Car selectOne(int boardNo);  //글 하나 선택
+//	Car selectOne(int boardNo);
 //	Car[] selectList();
-//	Car[] selectListArr(String searchWord);
-//	List<Car> selectList(String searchWord);
-//	Car[] searchSelect(String Word);
+//	Car[] selectList(String searchWord);
+//	List<Car> selectListList(String searchWord);
+//	Car[] searchSelectBoard(String word);
 }

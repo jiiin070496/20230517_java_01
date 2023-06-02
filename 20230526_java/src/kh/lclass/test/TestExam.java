@@ -8,17 +8,32 @@ public class TestExam {
 	}
 	public void printGugudan() {
 		Scanner sc = new Scanner(System.in);
-		System.out.print("정수 입력: ");
 		int dan = sc.nextInt();
-		//dan이 2-9사이정수라면
-		
-		if(dan >=2 && dan <= 9) {
-			for(int i = 1; i <10; i++ ) {
-				System.out.println(dan + "X" + i + "=" + dan*i);
+		// dan 이 2-9 사이 정수면
+		if( 2 <= dan && dan <= 9) {
+			//구구단 표현
+			for(int su=1; su<10; su+=1 ) {
+				System.out.println(dan +"*"+su+"="+dan*su);
 			}
+			
+		} else {
+			// 아니라면 "2-9사이정수를 입력해주세요"
+			System.out.println("2-9사이 정수를 입력해주세요.");
+		}
+		
+		// dan 이 2-9 사이 정수가 아니라면 
+		if( 2 > dan || dan > 9 ) {
+			// "2-9사이정수를 입력해주세요"
+		} else {
+		// 그외 정수라명
+			//구구단 표현
+		}
+		
+		// dan 이 2-9 사이 정수가 아니라면 
+		if( !(2 <= dan && dan <= 9) ) {
+			
 		}else {
-			System.out.print("2~9 사이 정수를 입력해주세요");
-
+			
 		}
 	}
 }

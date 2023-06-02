@@ -1,6 +1,5 @@
 package kh.lclass.oop.sample;
 
-public class DriverSub extends Driver {
+public class DriverSub extends Driver{
 
-	
 }

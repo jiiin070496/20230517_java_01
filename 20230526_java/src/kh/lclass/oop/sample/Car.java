@@ -1,30 +1,27 @@
 package kh.lclass.oop.sample;
 
 public class Car {
-
-	private int price = 4000;
+	private int price;
 	
 	public Car() {}
 	public Car(int price) {
 		this.price = price;
 	}
 	
-	
 	@Override
 	public String toString() {
 		return "Car [price=" + price + "]";
 	}
-	
 	public int getPrice() {
 		return price;
 	}
-	
+
 	public void setPrice(int price) {
 		this.price = price;
 	}
 
 	public void defaultFun() {
-		System.out.println("car 기본기능");
+		System.out.println("Car 기본기능");
 	}
 	
 	public void moveCar() {
