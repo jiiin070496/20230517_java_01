@@ -46,16 +46,13 @@ public class LibraryMenu {
 	}
 
 
-	private void searchBook() {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 	public void selectAll() {
 		for(int i = 0; i<5; i++) {
 			System.out.println(i+"번 도서 : "+ lc.selectAll());
 		}
+	}
 
 	public void searchBook() {
 		System.out.print("검색할 제목 키워드: ");
@@ -63,10 +60,10 @@ public class LibraryMenu {
 		for(int i = 0; i<5; i++) {
 			if(lc.searchBook(searchKeyword)[i] != null) {
 				System.out.println(lc.searchBook(searchKeyword)[i]);
-				}
 			}
 		}
 	}
+	
 	public void rentBook() {
 		selectAll();
 		System.out.print("대여할 도서 번호 선택: ");
