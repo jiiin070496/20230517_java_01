@@ -23,8 +23,7 @@ public class Main {
 //		new TestFileIO().testFileReadData();
 //		new TestFileIO().testFileOutPutStreamObject();
 		new TestFileIO().testFileInPutStreamObject();
-		System.out.println("===main 끝 ==="
-				+ "");
+		System.out.println("===main 끝 ==="+ "");
 	}
 
 }

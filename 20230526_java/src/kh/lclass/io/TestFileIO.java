@@ -36,7 +36,7 @@ public class TestFileIO {
 			oos.writeObject(p1);
 			oos.writeObject(p2);
 			oos.flush();
-
+		
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -48,41 +48,42 @@ public class TestFileIO {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
+		
 	}
 
 	public void testFileInPutStreamObject() {
 
 		String filePath = "D:/data2/test/aaa.txt";
-		FileInputStream ios = null; // 기반스트림
+		FileInputStream fis = null; // 기반스트림
 		ObjectInputStream ois = null; // 보조스트림
-		try {
-			ios = new FileInputStream(filePath);
-			ois = new ObjectInputStream(ios);
-			
-			if(ois.readObject() instanceof Person) {
-				Person a = (Person)(ois.readObject());
-				//Person b = (Person)(ois.readObject());
-				System.out.println(a);
-				//System.out.println(b);
-				}
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (ois != null)
-					ois.close();
-				if (ios != null)
-					ios.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+//		try {
+//			fis = new FileInputStream(filePath);
+//			ois = new ObjectInputStream(fis);
+//			
+//			if(ois.readObject() instanceof Person) {
+//				//Person a = (Person)(ois.readObject());
+//				Person b = (Person)(ois.readObject());
+//				//System.out.println(a);
+//				System.out.println(b);
+//				}
+//
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		} catch (ClassNotFoundException e) {
+//			e.printStackTrace();
+//		} finally {
+//			try {
+//				if (ois != null)
+//					ois.close();
+//				if (fis != null)
+//					fis
+//					.close();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
 
 	}
 
@@ -90,8 +91,9 @@ public class TestFileIO {
 		String filePath = "D:/data2/test/aaa.txt";
 		try(DataInputStream dis = new DataInputStream(new FileInputStream(filePath));){
 			long temp = 0L;
-			while(temp = dis.readLong() != 0) {
+			while((temp = dis.readLong()) != 0) {
 				System.out.println(String.valueOf(temp));
+			}
 			} catch(IOException e) {
 				e.printStackTrace();
 			}
@@ -99,9 +101,11 @@ public class TestFileIO {
 
 	public void testFileRead3() {
 //		String filePath = "D:/data2/test/aaa.txt";
-		try (BufferedReader br = null; FileInputStream fis = null; InputStreamReader isr = null;)
-
-		{
+		try (
+			BufferedReader br = null;
+			FileInputStream fis = null; 
+			InputStreamReader isr = null;
+			){
 			String str = null;
 			while ((str = br.readLine()) != null) {
 				System.out.println(str);
