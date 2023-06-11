@@ -21,8 +21,8 @@ public class Main {
 //		Kh kh = new Kh();
 //		kh.khSpecial();
 //		new TestFileIO().testFileReadData();
-//		new TestFileIO().testFileOutPutStreamObject();
-		new TestFileIO().testFileInPutStreamObject();
+		new TestFileIO().testFileOutPutStreamObject();
+//		new TestFileIO().testFileInPutStreamObject();
 		System.out.println("===main 끝 ==="+ "");
 	}
 

@@ -43,12 +43,14 @@ public class TestFileIO {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (oos != null) oos.close();
-				if (fos != null) fos.close();
+				if (oos != null)
+					oos.close();
+				if (fos != null)
+					fos.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		
+		}
 	}
 
 	public void testFileInPutStreamObject() {
@@ -56,34 +58,33 @@ public class TestFileIO {
 		String filePath = "D:/data2/test/aaa.txt";
 		FileInputStream fis = null; // 기반스트림
 		ObjectInputStream ois = null; // 보조스트림
-//		try {
-//			fis = new FileInputStream(filePath);
-//			ois = new ObjectInputStream(fis);
-//			
-//			if(ois.readObject() instanceof Person) {
-//				//Person a = (Person)(ois.readObject());
-//				Person b = (Person)(ois.readObject());
-//				//System.out.println(a);
-//				System.out.println(b);
-//				}
-//
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		} catch (ClassNotFoundException e) {
-//			e.printStackTrace();
-//		} finally {
-//			try {
-//				if (ois != null)
-//					ois.close();
-//				if (fis != null)
-//					fis
-//					.close();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
+		try {
+			fis = new FileInputStream(filePath);
+			ois = new ObjectInputStream(fis);
+			
+			if(ois.readObject() instanceof Person) {
+				//Person a = (Person)(ois.readObject());
+				Person b = (Person)(ois.readObject());
+				//System.out.println(a);
+				System.out.println(b);
+				}
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (ois != null)
+					ois.close();
+				if (fis != null)
+					fis.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 
 	}
 
