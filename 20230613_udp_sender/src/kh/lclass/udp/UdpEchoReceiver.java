@@ -10,7 +10,7 @@ public class UdpEchoReceiver {
 		new UdpEchoReceiver().receiverUdp();
 	}
 	public void receiverUdp() {
-		//1. 내 포트번호 정하기(2개)
+		//1. 내 포트번호 정하기
 		int myPort = 6001; // 내 포트
 		//int destPort = 5001; // 받는용도로만 쓸땐 상대방 포트 필요없음
 		DatagramSocket dSock = null;
@@ -21,7 +21,7 @@ public class UdpEchoReceiver {
 			
 			//메시지 수신 - 반복적으로 받아야하므로
 			while(true) {
-				byte[] byteMsg = new byte[20];
+				byte[] byteMsg = new byte[1000];
 				DatagramPacket receivedData 
 				= new DatagramPacket(byteMsg, byteMsg.length);
 				dSock.receive(receivedData);
@@ -36,7 +36,7 @@ public class UdpEchoReceiver {
 				String receivedStr = new String(receivedData.getData()); //바이트 배열을 스트링으로
 				System.out.println("수신메시지: " + receivedStr);
 			
-				//받은 메시지를 Echo 메시지 송신(다시 상대방에게)
+				//받은 메시지를 Echo 메시지 송신(다시 상대방에게) //sendUdp의 3.
 				DatagramPacket sendData 
 				= new DatagramPacket
 				(receivedData.getData(), receivedData.getLength(), 

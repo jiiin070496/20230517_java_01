@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11"/>
+	<classpathentry excluding="Chap01_Poly/src/|20230526_java/src/|20230613_udp_sender/src/" kind="src" path=""/>
+	<classpathentry kind="src" path="20230526_java/src"/>
+	<classpathentry kind="src" path="20230613_udp_sender/src"/>
+	<classpathentry kind="src" path="Chap01_Poly/src"/>
+	<classpathentry kind="output" path="20230526_java/bin"/>
+</classpath>
