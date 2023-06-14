@@ -42,9 +42,10 @@ public class ClientGUI extends JFrame implements ActionListener {
 	}
 
 	// TODO 새 메시지를 받았을때 메소드 호출됨.
-	public void appenMsg(String msg) {
+	public void appendMsg(String msg) {
 		// jta (채팅창)에 msg를 추가함
 		jta.append(msg);
+		jta.append("\n");
 	}
 
 	@Override

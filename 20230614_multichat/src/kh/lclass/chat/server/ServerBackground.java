@@ -9,6 +9,7 @@ import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,9 @@ public class ServerBackground {
 
 	// 서버 생성 및 설정
 	public void setting() {
+		// 참고: 동시접속자로 map에 정보가 동기화되어 들어가도록 설정함(동시접속불가).
+		Collections.synchronizedMap(mapClients);
+		
 		try {
 			ServerSocket = new ServerSocket(7777); // 클라이언트와 같은 포트넘버
 			// 멀티챗이기때문에 여러명의 접속을 받아들임. gui프로그램의 경우 창 닫힐때까지 무한반복, break없음
@@ -58,7 +62,7 @@ public class ServerBackground {
 		for(String key : keys) {
 			BufferedWriter wr = mapClients.get(key);
 			try {
-				wr.write(msg);
+				wr.write(key+":"+msg+"\n");
 				wr.flush();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -66,7 +70,7 @@ public class ServerBackground {
 		}
 	}
 
-	/////////////////////////////	 Inner Class    ///////////////////////////////
+	/////////////////////////////	 Inner Class    /////////////////////////////
 
 	class Client extends Thread {
 		//private Socket socket;

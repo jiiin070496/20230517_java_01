@@ -31,11 +31,11 @@ public class ClientBackground {
 	public void connection() {
 		try {
 			// 서버와 연결
-			socket = new Socket("192.168.10.27", 7777); // ip-localhost라고 적어도 됨
+			socket = new Socket("127.0.019.1", 7777); // ip-localhost라고 적어도 됨
 			// 서버와 입/출력 통로(br, bw) 생성
 			br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-
+			//접속되면 바로 나의 nickname 전송
 			bw.write(nickname + "\n");
 			bw.flush();
 			
@@ -43,8 +43,7 @@ public class ClientBackground {
 			// server에서 수신받은 msg
 			while(br != null) {
 				String msg = br.readLine(); // 메시지를 꺼내서 넣고 appenMsg에 전달
-				//new ClientGUI("닉").appenMsg(msg);
-				gui.appenMsg(msg);
+				gui.appendMsg(msg);
 				
 			}
 		} catch (UnknownHostException e) {
@@ -57,8 +56,9 @@ public class ClientBackground {
 	public void sendMessage(String msg) {
 		// server에 msg전달
 		try {
-			bw.write(msg + "\n");
-			//bw.flush();
+			bw.write(nickname + ": "+ msg + "\n");
+			bw.flush();
+			gui.appendMsg(msg);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
