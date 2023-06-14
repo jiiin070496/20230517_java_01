@@ -10,9 +10,8 @@ import java.net.UnknownHostException;
 
 public class ClientBackground {
 	private Socket socket; // 필드에 선언된 Socket은 garbage collection에 의해 close됨.
-	private BufferedReader br;
-	private BufferedWriter bw;
-	private String nickname;
+	private BufferedReader br; //입력통로
+	private String nickname; // 클라이언트 이름
 	private ClientGUI gui; //null값 // = new X,  
 	
 	

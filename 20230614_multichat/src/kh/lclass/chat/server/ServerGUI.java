@@ -24,12 +24,12 @@ public class ServerGUI extends JFrame implements ActionListener {
 
 		jta.setEditable(false);// 채팅창은 입력되지 않도록 함
 		jta.setFont(new Font("맑은 고딕", Font.PLAIN, 18)); // 글자 폰트, 크기
-		jta.setBackground(new Color(230, 255, 230));
+		jta.setBackground(new Color(230, 255, 230));//화면 색
 
 		add(jta, BorderLayout.CENTER);
-		add(jtf, BorderLayout.SOUTH);
+		add(jtf, BorderLayout.SOUTH);// 채팅창 위치
 		
-		jtf.addActionListener(this);
+		jtf.addActionListener(this);//버튼의 액션
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 		

@@ -11,6 +11,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class ClientGUI extends JFrame implements ActionListener {
+	// 컴파일시 인식할 ClientGUI으로 만들어진 객체 고유 ID
 	private static final long serialVersionUID = 2463446062892953051L;
 	private JTextArea jta = new JTextArea(30, 30);
 	private JTextField jtf = new JTextField(30);
@@ -22,8 +23,8 @@ public class ClientGUI extends JFrame implements ActionListener {
 		this.nickname = nickname;
 		
 		// 생성자에서는 초기화 (즉, 화면 초기화)
-		setBounds(200, 100, 400, 600);
-		setTitle(nickname + "님의 chat");
+		setBounds(200, 100, 400, 600); // 창이뜨는 위치와 크기
+		setTitle(nickname + "님의 chat");//채팅창 이름
 
 		jta.setEditable(false);
 		jta.setFont(new Font("맑은 고딕", Font.BOLD, 18));
@@ -51,7 +52,7 @@ public class ClientGUI extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String msg = jtf.getText(); // 입력한 글 꺼내고싶을때
-		System.out.println(msg + "\n");
+		System.out.println(msg + "\n");//뿌림
 		jtf.setText(""); // 입력창에 입력된 글을 초기화
 		// TODO Server에 전달하기 위해 ClientBackground에 전달
 		cb.sendMessage(msg);
