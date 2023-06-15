@@ -92,6 +92,7 @@ public class ServerBackground {
 				mapClients.put(nickname, bw);
 				
 				//client map 모구에세 접속 정보 전달
+				System.out.println("[냄궁]-1" + nickname);
 				sendMessage(nickname + "님 접속했습니다.\n");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -116,37 +117,3 @@ public class ServerBackground {
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

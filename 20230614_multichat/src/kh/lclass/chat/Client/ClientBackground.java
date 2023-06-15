@@ -11,6 +11,7 @@ import java.net.UnknownHostException;
 public class ClientBackground {
 	private Socket socket; // 필드에 선언된 Socket은 garbage collection에 의해 close됨.
 	private BufferedReader br; //입력통로
+	private BufferedWriter bw;
 	private String nickname; // 클라이언트 이름
 	private ClientGUI gui; //null값 // = new X,  
 	
@@ -35,6 +36,7 @@ public class ClientBackground {
 			br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 			//접속되면 바로 나의 nickname 전송
+			System.out.println("[냄궁]-2" + nickname);
 			bw.write(nickname + "\n");
 			bw.flush();
 			
@@ -55,6 +57,7 @@ public class ClientBackground {
 	public void sendMessage(String msg) {
 		// server에 msg전달
 		try {
+			System.out.println("[냄궁]-3" + nickname);
 			bw.write(nickname + ": "+ msg + "\n");
 			bw.flush();
 			gui.appendMsg(msg);
@@ -64,6 +67,7 @@ public class ClientBackground {
 	}
 	// 닉네임 setter
 	public void setNickname(String nickName) {
+		System.out.println("[냄궁]-4" + nickname);
 		this.nickname = nickName;
 	}
 	
@@ -71,16 +75,3 @@ public class ClientBackground {
 		this.gui = gui;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
