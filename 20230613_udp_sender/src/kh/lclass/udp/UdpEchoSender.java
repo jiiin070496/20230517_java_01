@@ -23,7 +23,7 @@ public class UdpEchoSender {
 		BufferedReader br = null;
 		// 2. datagramSocket 객체 생성
 		try {
-			dSock = new DatagramSocket(myPort); // 매개인자 없으면 자동 port번호 할당, 지정하면 해당 포트번호로 소켓생성
+			//&dSock = new DatagramSocket(myPort); // 매개인자 없으면 자동 port번호 할당, 지정하면 해당 포트번호로 소켓생성
 
 			br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -48,7 +48,7 @@ public class UdpEchoSender {
 					byte[] byteMsg = sendMsg.getBytes();
 
 					// 5. 전송할 메시지를 DatagramPacket 객체에 담음
-					DatagramPacket sendData = new DatagramPacket(byteMsg, byteMsg.length, destIp, destPort);
+					//&DatagramPacket sendData = new DatagramPacket(byteMsg, byteMsg.length, destIp, destPort);
 
 					// 6.소켓 레퍼런스를 사용하여 메시지 전송
 					dSock.send(sendData);
@@ -60,7 +60,7 @@ public class UdpEchoSender {
 				}
 				// 메시지 수신
 				byte[] byteMsg = new byte[1000];
-				DatagramPacket receivedData = new DatagramPacket(byteMsg, byteMsg.length);
+				//&DatagramPacket receivedData = new DatagramPacket(byteMsg, byteMsg.length);
 				dSock.receive(receivedData);
 //				System.out.println("===정달받은 정보들 = ");
 //				System.out.println(byteMsg.length); // 받은 "안녕" 의 길이
