@@ -16,6 +16,13 @@ create user kh identified by kh;
 --권한을 묶어서 만들어둔 롤을 사용하여 권한을 부여함
 --connect - 접속관련 권한들이 있는 role
 --resource - 자원(table view등 객체)관련 권한들이 있는 role
-grant connect, resource  to scott;
-grant connect, resource to kh;
---revoke connect, resource from scott; -> 권한 뺏기
+--grant connect, resource to scott;
+--grant connect, resource to kh;
+
+alter user scott default tablespace USERS quota unlimited on users;
+grant unlimited tablespace to scott;
+
+alter user kh default tablespace USERS quota unlimited on users;
+grant unlimited tablespace to kh;
+--revoke connect, resource from scott; 
+---> 권한 뺏기

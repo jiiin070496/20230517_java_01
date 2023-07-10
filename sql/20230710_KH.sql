@@ -85,6 +85,26 @@ select  trunc(123.4567, 3) from dual;
 -- 숫자처리함수 CEIL(인자로 전달 받은 숫자 혹은 컬럼을 올림 후 반환)
 select ceil(10.0001) from dual;
 
+-- 날짜 처리 함수
+select sysdate from dual;
+
+-- 날짜 처리 함수 months_Between : 인자로 날짜 두 개를 전달받아 개월 수 차이를 숫자 데이터형으로 변환
+select emp_name, hire_date, months_between(sysdate, hire_date)
+    from employee;
+
+--날짜 처리 함수 ADD_MONTHS : 개월 수 +
+select EMP_NAME, HIRE_DATE, ADD_MONTHS(HIRE_DATE, 6)
+    FROM EMPLOYEE;
+
+-- NEXT_DAY : 인자로 받은 요일이 가장 가까운 날짜 반환
+SELECT SYSDATE, NEXT_DAY(SYSDATE, '월요일')FROM EMPLOYEE;
+
+--LAST_DAY : 인자로 전달받은 날짜가 속한 달의 마지막 날짜 변환
+SELECT EMP_NAME, HIRE_DATE, LAST_DAY(HIRE_DATE) FROM EMPLOYEE;
+
+--EXTRACT : 년, 월, 일 정보 추출하여 반환
+SELECT 
+
 select length(emp_name) len, lengthb(emp_name) bytelen
     from employee
     ;
@@ -174,6 +194,89 @@ select *
 
 select DEPT_CODE FROM EMPLOYEE;
 SELECT DISTINCT DEPT_CODE FROM EMPLOYEE;
+
+-- 형변환 함수
+-- TO_CHAR
+SELECT EMP_NAME, TO_CHAR(HIRE_DATE, 'YYYY-MM-DD')
+    TO_CHAR(HIRE_DATE, 'YY/MON, DAY, DY')
+        FROM EMPLOYEEL
+    ;
+
+-- TO_DATE
+SELECT EMP_NO, EMP_NAME, HIRE_DATE
+    FROM EMPLOYEE
+    WHERE HIRE_DATE > TO_DATE(20000101, 'YYYYMMDD') -- 2000년도 이후에 입사한 사원의 사번, 이름, 입사일 조회
+;
+-- TO_NUMBER : 날짜 혹은 문자형 데이터를 숫자형 데이터로 변환하여 반환
+SELECT TO_NUMBER('1,000,000', '99,999,999')-TO_NUMBER('550,000', '999,000') FROM DUAL;
+
+-- NULL 처리 함수 NVL: NULL로 되어있는 컬럼의 값을 인자로 지정한 숫자 혹은 문자로 변경하여 반환
+SELECT EMP_NO, EMP_NAME, SALARY, NVL(BONUS, 0),(SALARY+(SALARY*NVL(BONUS, 0))*12
+    FROM EMPLOYEE
+    ;
+--선택 함수
+--DECODE : 비교하고자 하는 값 또는 컬럼이 조건식과 같으면 결과 값 반환
+SELECT EMP_ID, EMP_NAME, EMP_NO, DECODE(SUBSTR(EMP_NO, 8, 1), '1', '남', '2', '여') AS 성별
+    FROM EMPLOYEE
+    ;
+    
+-- CASE: 비교하고자 하는 값 또는 컬럼이 조건식과 같으면 결과값 반환(조건은 범위 값 가능)
+-- CASE 예시1
+SELECT EMP_ID, EMP_NAME, EMP_NO, CASE WHEN SUBSTR(EMP_NO, 8, 1)=1 THEN '남자'
+    ELSE '여자' END AS 성별
+        FROM EMPLOYEE
+        ;
+
+-- CASE 예시2
+SELECT EMP_NAME, SALARY, 
+    CASE WHEN SALARY > 5000000 THEN '1등급'
+         WHEN SALARY > 3500000 THEN '2등급'
+         WHEN SALARY > 2000000 THEN '3등급'
+    ELSE '4등급'
+    END 월급루팡
+        FROM EMPLOYEE
+        ;
+
+-- 그룹 함수
+-- SUM: 해당 컬럼 값들의 총합 반환
+-- EMPLOYEE TABLE에서 남자 사원의 급여 총합 조회
+SELECT SUM(SALARY) 
+    FROM EMPLOYEE
+    WHERE SUBSTR(EMP_NO, 8, 1) = 1;
+    
+-- EMPLOYEE TABLE에서 부서코드가 DS인 직원의보너스 포함 연봉 조회
+SELECT SUM(SALARY+(SALARY*NVL(BONUS, 0)*12)
+    FROM EMPLOYEE
+    WHERE DEPT_CODE = 'D5'
+    ;
+
+-- AVG: 해당 컬럼 값들의 평균 반환
+--EMPLOYEE 테이블에서 전 사원의 보너스 평균을 소수 셋 째 자리에서 반올람 한 것 조회
+SELECT ROUND(AVG(NVL(BONUS, 0)),2) -- NVL을 하지 않을 시 NULL값을 가진 행은 평균 계산에서 제외되어 계산 
+    FROM EMPLOYEE
+    ;
+
+-- COUNT : 테이블 조건을 만족하는 행의 개수 반환
+--EMPLOYEE 테이블에서 전체 사원 수 조회
+SELECT COUNT(*)
+    FROM EMPLOYEE;
+--EMPLOYEE 테이블에서 부서코드가 D5인 직원의 수 조회
+SELECT COUNT(DEPT_CODE)
+    FROM EMPLOYEE
+    WHERE DEPT_CODE = 'D5'
+    ;
+-- EMPLOYEE 테이블에서 사원드이 속해있는 부서의 수 조회
+SELECT COUNT(DISTINCT DEPT_CODE)
+    FROM EMPLOYEE
+    ;
+
+
+
+
+
+
+
+
 
 
 -- string a = (substring(emp_no, 8, 1)== 2 ? "여":"남";
