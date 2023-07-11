@@ -269,10 +269,207 @@ SELECT COUNT(DEPT_CODE)
 SELECT COUNT(DISTINCT DEPT_CODE)
     FROM EMPLOYEE
     ;
+--부서코드와 급여 3000000 이상인 직원의 그룹별 평균 조회
+select avg(salary)
+    from employee
+    where salary >= 3000000
+    group by dept_code
+    order by 1
+;    
+
+--부서코드와 급여 3000000 이상인 그룹조회
+select dept_code, floor(avg(salary))
+    from employee
+    group by dept_code
+    having  floor(avg(salary)) >= 3000000
+    order by dept_code
+;        
+
+-- 사원명, 부서번호, 부서명, 부숴위치를 조회
+select employee.emp_name, employee.dept_code, department.dept_title, department.location_id, location.national_code 
+    from employee te
+        join department on employee.dept_code = department.dept_id
+        join location on department.location_id = location.local_code
+        join national tv4 on 
+        -- join 조건에 사용되는 컬럼명이 다르면 using 사용 불가
+;
+
+select emp_id c1, emp_name c2, job_code c3, job_name c4
+    from employee 
+        join job using(job_code)
+        ;
+
+select emp_id ei, emp_name en, dept_code dc, dept_title dt
+    from employee
+    join department on dept_code = dept_id
+    ;
+
+
+select *
+    from employee e -- 기준
+        join department d on e.dept_code = d.dept_id
+    ;
+
+select *
+    from employee e -- 기준
+        left outer join department d on e.dept_code = d.dept_id
+    ;
+    
+select *
+    from employee e -- 기준
+        right outer join department d on e.dept_code = d.dept_id
+    ;
+
+select *
+    from employee e -- 기준
+        full outer join department d on e.dept_code = d.dept_id
+    ;
+    
+select emp_name, dept_title
+    from employee, department
+        where dept_code(+) = dept_id
+    ;
+
+select emp_name as 이름, dept_title as 부서명
+    from employee
+    cross join department
+    ;
+select emp_name, salary, e.sal_level
+    from employee e
+    join sal_grade s on (salary between min_sal and max_sal)
+;    
+
+select e.emp_id, e.emp_name 사원이름, e.dept_code, e.manager_id, m.emp_name 관리자이름
+    from employee e, employee m
+        where e.manager_id = m.emp_id
+;
+desc employee;
+
+-- 단일행 서브쿼리
+-- 전 직원의 급여 평균보다 많은 급여를 받는 직원의 이름, 직급, 부서, 급여조회
+select emp_id, emp_name, job_code, salary
+    from employee
+    where salary >= (select avg(salary) from employee)
+;
+-- 다중행 서브쿼리, 부서 별 최고 급여를 받는 직원의 이름, 직급, 부서, 급여 조회
+select emp_name, job_code, dept_code, salary
+    from employee
+    where salary in
+    (select MAX(salary)
+    from employee
+    group by dept_code)
+        order by 3
+;
 
 
 
+-- 다중열 서브쿼리, 퇴사한 여직원과 같은 부서, 같은 직급에 해당하는 사원의 이름, 직급, 부서, 입사일 조회
+select emp_name, job_code, dept_code, hire_date
+    from employee
+    where (dept_code, job_code)in 
+    (select dept_code, job_code 
+    from employee 
+    where substr(emp_no, 8, 1)=2 and ent_yn = 'y')
+;
 
+
+
+-- 다중행, 다중열 서브쿼리, 직급별 최소 급여를 받는 직원의 사번, 이름, 직급, 급여 조회
+
+select emp_id, emp_name, job_code, salary
+    from employee
+    where (job_code, salary)
+    in (select job_code, min(salary)
+        from employee
+        group by job_code)
+    order by job_code
+    ;
+
+SELECT * FROM EMPLOYEE;
+SELECT * FROM DEPARTMENT;
+SELECT * FROM JOB;
+SELECT * FROM LOCATION;
+SELECT * FROM NATIONAL;
+SELECT * FROM SAL_GRADE;
+
+-- inline-view 
+select rownum, emp_name, salary
+    from employee
+    where rownum <= 5
+    order by rownum
+;
+
+--with
+with lclass as
+    (select emp_name, salary
+    from employee
+    order by salary asc)
+select rownum, emp_name, salary
+from lclass;
+
+--rank over()
+select 월급순위, emp_name, salary
+    from (select emp_name, salary,
+        rank()over(order by salary desc) as 월급순위
+        from employee
+        order by salary desc
+    )
+;
+-- dense_rank()over
+select 순위, emp_name, salary
+from(select emp_name, salary
+        dense_rank()over (order by salary desc) as 순위
+        from employee
+        order by salary desc
+);
+
+---------------------------------------------------
+-- KH_연습문제
+---------------------------------------------------
+SELECT * FROM EMPLOYEE;
+SELECT * FROM DEPARTMENT;
+SELECT * FROM JOB;
+SELECT * FROM LOCATION;
+SELECT * FROM NATIONAL;
+SELECT * FROM SAL_GRADE;
+
+
+-- 1. JOB테이블의 모든 정보 조회
+select * from job;
+
+-- 2. JOB테이블의 직급 이름 조회
+select job_name from job;
+
+-- 3. DEPARTMENT 테이블의 모든 정보 조회
+select * from department;
+
+-- 4. EMPLOYEE 테이블의 직원명, 이메일, 전화번호, 고용일 조회
+select emp_name, email, phone, hire_date
+    from employee
+;
+
+-- 5. EMPLOYEE 테이블의 고용일, 사원 이름, 월급 조회
+select hire_date, emp_name, salary
+    from employee
+;
+
+-- 6. EMPLOYEE 테이블에서 이름, 연봉, 총수령액(보너스포함), 실수령액(총액 - (연봉*세금 3%)) 조회
+select emp_name 이름, salary*12 연봉, (salary+bonus)*12 총수령액, 
+    from employee;
+
+-- 7. EMPLOYEE 테이블에서 SAL_LEVEL이 S1인 사원의 이름, 월급, 고용일, 연락처 조회
+select emp_name, salary, hire_date, phone
+    from employee
+    where sal_level = 's1'
+    ;
+
+-- 8. EMPLOYEE 테이블에서 실수령액(6번 참고)이 5천만원 이상인 사원의 이름, 월급, 실수령액, 고용일 조회
+
+-- 9. EMPLOYEE 테이블에 월급이 4000000 이상이고 JOB_CODE가 J2인 사원의 전체 내용 조회
+SELECT *
+FROM EMPLOYEE
+WHERE SALARY >= 4000000 and JOB_CODE = 'j2'
+;
 
 
 
