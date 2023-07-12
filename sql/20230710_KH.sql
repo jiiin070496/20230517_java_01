@@ -471,6 +471,182 @@ FROM EMPLOYEE
 WHERE SALARY >= 4000000 and JOB_CODE = 'j2'
 ;
 
+---------------------------------------------------------------------------
+--GROUPING SETS
+select dept_code, job_code, manager_id, floor(avg(salary))
+    from employee
+        group by grouping sets ((dept_code, job_code, manager_id), 
+                                (dept_code, manager_id),
+                                (job_code, manager_id))
+;
+select dept_code, job_code, manager_id, floor(avg(salary))
+    from employee
+        group by dept_code, job_code, manager_id
+;
+
+---------------------------------------------------------------------------
+--UNIQUE 예시
+CREATE TABLE USER_UNIQUE(
+    user_no number, 
+    user_id varchar2(20) UNIQUE, 
+    user_pwd varchar2(30) not null,
+    user_name varchar2(30),
+    gender varchar2(10),
+    phone varchar2(30),
+    email varchar2(50)
+);
+
+insert into user_unique values(1, 'user01', 'pass01', '홍길동', '남', '010-1234-5678', 'asd@nate.net');
+
+-- UNIQUE 예시2
+CREATE TABLE USER_UNIQUE2(
+    USER_NO NUMBER,
+    USER_ID VARCHAR2(20),
+    USER_PWD VARCHAR2(30)NOT NULL,
+    USER_NAME VARCHAR2(30),
+    GENDER VARCHAR2(10),
+    PHONE VARCHAR2(30),
+    EMAIL VARCHAR2(50),
+    UNIQUE (USER_ID)
+);
+
+INSERT INTO USER_UNIQUE2 VALUES(1, 'USER01', 'PASS01', '홍길동', '남', '010-1234-4567', 'asd@nate.net');
+
+--UNIQUE 예시3
+
+CREATE TABLE  USER_UNIQUE3(
+    USER_NO NUMBER,
+    USER_ID VARCHAR2(20),
+    USER_PWD VARCHAR2(30)NOT NULL,
+    USER_NAME VARCHAR2(30),
+    GENDER VARCHAR2(10),
+    PHONE VARCHAR2(30),
+    EMAIL VARCHAR2(50),
+    UNIQUE (USER_NO, USER_ID)
+);
+
+select * from user_UNIQUE2;
+INSERT INTO USER_UNIQUE3 VALUES(1, 'USER01', 'PASS01', '홍길동', '남', '010-1234-4567', 'asd@nate.net');
+INSERT INTO USER_UNIQUE3 VALUES(2, 'USER01', 'PASS01', NULL, NULL, '010-1234-4567', 'asd@nate.net')
+---------------------------------------------------------------------------
+-- PRIMARY KEY 예시
+
+CREATE TABLE USER_PRIMARYKEY(
+    USER_NO NUMBER PRIMARY KEY, 
+    USER_ID VARCHAR2(20) UNIQUE,
+    USER_PWD VARCHAR2(30) NOT NULL,
+    USER_NAME VARCHAR2(30),
+    GENDER VARCHAR2(10),
+    PHONE VARCHAR2(30),
+    EMAIL VARCHAR2(50)   
+);
+INSERT INTO USER_PRIMARYKEY VALUES(1, 'USER01', 'PASS01', '홍길동', '남', '010-1234-4567', 'asd@nate.net');
+INSERT INTO USER_PRIMARYKEY VALUES(1, 'USER02', 'PASS02', '냄궁', '남', '010-1234-4567', 'KOONG@nate.net');
+INSERT INTO USER_PRIMARYKEY VALUES(1, 'USER01', 'PASS01', '홍길동', '남', '010-1234-4567', 'asd@nate.net');
+
+CREATE TABLE USER_PRIMARYKEY2(
+    USER_NO NUMBER,
+    USER_ID VARCHAR2(20),
+    USER_PWD VARCHAR2(30) NOT NULL,
+    USER_NAME VARCHAR2(30),
+    GENDER VARCHAR2(20),
+    PHONE VARCHAR2(30),
+    EMAIL VARCHAR2(50),
+    PRIMARY KEY (USER_NO, USER_ID)
+);
+
+INSERT INTO USER_PRIMARYKEY2 VALUES(1, 'USER01', 'PASS01', '홍길동', '남', '010-1234-4567', 'asd@nate.net');
+INSERT INTO USER_PRIMARYKEY2 VALUES(1, 'USER02', 'PASS02', '냄궁', '남', '010-1234-4567', 'KOONG@nate.net');
+INSERT INTO USER_PRIMARYKEY2 VALUES(2, 'USER01', 'PASS01', '쏘롱', '여', '010-1234-4567', 'SSOL@nate.net');
+select * from user_PRIMARYKEY;
+---------------------------------------------------------------------------
+--FOREIGN KEY 예시
+CREATE TABLE USER_GRADE(
+    GRADE_CODE NUMBER PRIMARY KEY,
+    GRADE_NAME VARCHAR(30) NOT NULL
+);
+
+INSERT INTO USER_GRADE VALUES(10, '일반회원');
+INSERT INTO USER_GRADE VALUES(20, '우수회원');
+INSERT INTO USER_GRADE VALUES(30, '특별회원');
+
+SELECT * FROM USER_GRADE;
+DROP TABLE USER_FOREIGNKEY;
+CREATE TABLE USER_FOREIGNKEY(
+    USER_NO NUMBER PRIMARY KEY,
+    USER_ID VARCHAR(20) UNIQUE,
+    USER_PWD VARCHAR(30) NOT NULL,
+    USER_NAME VARCHAR(30),
+    GENDER VARCHAR(10),
+    PHONE VARCHAR(30),
+    GRADE_CODE NUMBER,
+    FOREIGN KEY (GRADE_CODE)    
+
+        --여기 CONSTRAINT 이름 정해주기. 
+        -- FK_USER_FOREIGNKEY_GRADE_CODE_USER_GRADE        
+        --자동생성 SYS_0000000
+            REFERENCES USER_GRADE(GRADE_CODE) ON DELETE CASCADE
+);
+
+CREATE TABLE USER_FOREIGNKEY2(
+    USER_NO NUMBER PRIMARY KEY,
+    USER_ID VARCHAR(20) UNIQUE,
+    USER_PWD VARCHAR(30) NOT NULL,
+    USER_NAME VARCHAR(30),
+    GENDER VARCHAR(10),
+    PHONE VARCHAR(30),
+    GRADE_CODE NUMBER REFERENCES USER_GRADE(GRADE_CODE)
+);
+
+INSERT INTO USER_FOREIGNKEY VALUES (1, 'USER01', 'PASS01', '홍길동', '남', '010-1234-4567', '10');
+INSERT INTO USER_FOREIGNKEY VALUES (2, 'USER02', 'PASS02', '냄궁', '남', '010-1234-4568', '20');
+INSERT INTO USER_FOREIGNKEY VALUES (3, 'USER03', 'PASS03', '쏘롱', '여', '010-1234-4569','30');
+INSERT INTO USER_FOREIGNKEY VALUES (4, 'USER04', 'PASS04', '신사임당', '여', '010-1234-4560',NULL);
+-- 오류 INSERT INTO USER_FOREIGNKEY VALUES (5, 'USER05', 'PASS05', '안중근', '남', '010-1234-4560',50);
+
+SELECT * FROM USER_FOREUGHKEY;
+
+CREATE TABLE USER_FOREIGNKEY3(
+    USER_NO NUMBER PRIMARY KEY,
+    USER_ID VARCHAR2(20) UNIQUE,
+    USER_PWD VARCHAR2(30) NOT NULL,
+    USER_NAME VARCHAR2(30),
+    GENDER VARCHAR2(10),
+    PHONE VARCHAR2(30),
+    EMAIL VARCHAR2(50),
+    GRADE_CODE NUMBER CONSTRAINS FK_USER_FOREIGNKEY_GRADE_CODE_USER_GRADE REFERENCES USER_GRADE(GRADE_CODE) ON DELETE CASCADE
+);
+
+
+DELETE FROM USER_GRADE WHERE GRADE_CODE = 10;
+SELECT * FROM USER_CONSTRAINTS;
+SELECT * FROM USER_FOREIGNKEY3;
+
+
+CREATE TABLE USER_FOREIGNKEY4(
+    USER_NO NUMBER PRIMARY KEY,
+    USER_ID VARCHAR2(20) UNIQUE,
+    USER_PWD VARCHAR2(30) NOT NULL,
+    USER_NAME VARCHAR2(30),
+    GENDER VARCHAR2(10),
+    PHONE VARCHAR2(30),
+    EMAIL VARCHAR2(50),
+    GRADE_CODE NUMBER REFERENCES USER_GRADE(GRADE_CODE) ON DELETE CASCADE
+);
+
+DELETE FROM USER_GRADE WHERE GRADE_CODE = '10';
+---------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
 
 
 
