@@ -285,5 +285,169 @@ select * from emp
 -- EMPLOYEE테이블에서 부서코드와 보너스 받는 사원 수 조회하고 부서코드 순으로 정렬
 -- EMPLOYEE테이블에서 성별과 성별 별 급여 평균(정수처리), 급여 합계, 인원 수 조회하고 인원수로 내림차순 정렬
 
+-- 03-11. GRADE 별로 평균 급여에 10프로 내외의 급여를 받는 사원명을 조회 - 정렬
+select S.GRADE, e.ename, e.sal
+    from emp e join salgrade s
+        on e.sal between s,losal and s.hisal 
+    where e.sal >=
+;
+
+select S.GRADE, e.ename, e.sal
+    from emp e join salgrade s
+        on e.sal between s,losal and s.hisal 
+    where e.sal >=
+;
+
+
+Create or replace view view_emp_salgrade
+as
+select e.empno, e.ename, job, mgr, hiredate, sal, comm, deptno, grade, losal, hisal 
+    from emp e join salgrade s
+        on e.sal between s.losal and s.hisal
+;
+
+-- 03-12 지역 재난 지원금을 사원들에게 추가 지급
+--조건 :
+--1. NEW YORK지역은 SAL의 2%, DALLAS지역은 SAL의 5%, CHICAGO지역은 SAL의 3%,
+--BOSTON지역은 SAL의 7%
+--2. 추가지원금이 많은 사람 순으로 정렬
+-- CASE 1. case, when-then
+ select empno, ename, sal, loc, 
+       sal + case loc
+            when 'NEW YORK' then sal*0.02
+            when 'DALLAS' then sal*0.05
+            when 'CHICAGO' then sal*0.03
+            when 'BOSTON' then sal*0.07
+        END            
+        as sal_subsidy
+    from emp e
+        join dept d using (deptno)
+--    where
+--    group by
+--    having
+    order by sal_subsidy - sal desc
+;
+
+-- CASE 2. decode
+ select empno, ename, sal, loc, 
+        sal+decode(loc, 'NEW YORK',sal*0.02, 'DALLAS',sal*0.05, 'CHICAGO',sal*0.03, 'BOSTON', sal*0.07 )
+        as sal_subsidy
+    from emp e
+        join dept d using (deptno)
+    order by (sal_subsidy-sal) desc
+;
+
+--salesman들의, 급여와, 같은 급여를 받는 사원을 조회
+select empno, ename, sal
+    from emp
+--    where sal > ALL(select sal from emp where job='SALESMAN')
+    where sal > (select MAX(sal) from emp where job='SALESMAN')
+
+--        where sal in (2975, 2850, 2450)
+;
+
+SELECT ENAME, SAL FROM EMP WHERE JOB='SALESMAN';
+
+---------------------------------------------------------
+--관리자로 등록되어 있는 사원들을 조회
+select empno, ename
+    from emp e
+    where exists (select empno from emp e2 where e2.empno = e.mgr)
+;
+--exists 없이
+select distinct e.empno, e.ename
+    from emp e join emp e2
+        on e.empno = e2.mgr
+    order by empno asc
+;
+--join 대비 상관쿼리 사용시 속도 매우 향상
+
+---------------------------------------------------------
+--부서번호가 30인 사원들의 급여와 부서번호를 묶어 메인 쿼리로 전달
+select *
+    from emp
+    where (deptno, sal) in (select deptno, sal from emp where deptno=30)
+;
+
+---------------------------------------------------------
+-- 부서별 평균급여와 직원들 정보를 조회해주세요.
+select e.*,
+        -- 스칼라서브쿼리 작성되어야함.
+        (select trunc(avg(sal)) from emp e2 where e2.deptno = e.deptno) avgsal
+    from emp e
+;
+---------------------------------------------------------
+
+-- 직원 정보와, 부서번호, 부서명, 부서위치
+select ename, deptno, dname, loc
+    from emp join dept using(deptno)
+;
+--스칼라서브쿼리
+select ename, deptno,
+        (select dname from dept d where d.deptno = e.deptno ) dname
+        ,(select loc from dept d where d.deptno = e.deptno )loc
+    from emp e
+;
+---------------------------------------------------------
+
+--salesman과 manager를 조회해주세요.
+
+select * from emp where job in ('salesman', 'manager');
+
+select empno, ename, job 
+from emp 
+where job='salesman'
+
+union --order by 불가능
+
+select empno, ename, job 
+from emp 
+where job='manager'
+;
+
+---------------------------------------------------------
+
+--급여가 1000미만인 직원, 2000 미만인 직원 조회- 중복 결과(union all)
+select empno, ename, sal from emp where sal < 1000
+union all
+select empno, ename, sal from emp where sal < 2000
+;
+
+---------------------------------------------------------
+
+--급여가 1000 초과인 직원, 2000 미만인 직원 조회 - 교집합 intersect
+select empno, ename, sal from emp where sal > 1000
+intersect
+select empno, ename, sal from emp where sal < 2000
+;
+---------------------------------------------------------
+
+--2000 미만인 직원을 제외하고 조회 - 차집합 minus
+select empno, ename, sal from emp
+minus
+select empno, ename, sal from emp where sal < 2000
+;
+-- not exists 
+select empno, ename, sal from emp e
+    where not exists (select e2.sal from emp e2 where e.sal < 2000)
+;
+---------------------------------------------------------
+-- DDL - COMMENT -
+comment on column EMP.MGR is '관리자사번';
+
+desc emp;
+desc user_constraints;
+select * from user_constraints;
+select * from user_tables;
+select * from user_views;
+select * from user_cons_columns;
+
+---------------------------------------------------------
+
+
+
+
+
+
 
 
