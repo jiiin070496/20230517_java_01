@@ -64,3 +64,21 @@ select * from employee
 
 -- 12. EMPLOYEE 테이블에서 이름 끝이 '연'으로 끝나는 사원의 이름 조회,  where emp_name like '%연'
 select * from employee where emp_name like '%연';
+-- 13. EMPLOYEE테이블에서 전화번호 처음 3자리가 010이 아닌 사원의 이름, 전화번호를 조회
+select emp_name, phone from employee
+    where substr(phone, 1, 3) <> '010';
+    
+-- 14. EMPLOYEE테이블에서 메일주소 '_'의 앞이 4자이면서 DEPT_CODE가 D9 또는 D6이고
+--    고용일이 90/01/01 ~ 00/12/01이고, 급여가 270만 이상인 사원의 전체를 조회
+select * from employee
+    where email like '____#_%' escape '#' and dept_code in ('D9','D6')
+    and hire_date between to_date(19900101, 'yymmdd') and to_date(20001201, 'yymmdd')
+    and salary > 2700000;
+    
+-- 15. EMPLOYEE테이블에서 사원 명과 직원의 주민번호를 이용하여 생년, 생월, 생일 조회
+select emp_name, substr(emp_no, 1, 2) as 생년, substr(emp_no, 3, 2) as 생월, 
+substr(emp_no, 5, 2) as 생일
+from employee
+;
+-- 16. EMPLOYEE테이블에서 사원명, 주민번호 조회 (단, 주민번호는 생년월일만 보이게 하고, '-'다음 값은 '*'로 바꾸기)
+select emp_name, 
