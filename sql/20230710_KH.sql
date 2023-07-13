@@ -5,6 +5,8 @@ SELECT * FROM LOCATION;
 SELECT * FROM NATIONAL;
 SELECT * FROM SAL_GRADE;
 
+
+
 desc employee;
 
 SELECT * FROM EMPLOYEE WHERE JOB_CODE = 'J1';
@@ -637,36 +639,243 @@ CREATE TABLE USER_FOREIGNKEY4(
 DELETE FROM USER_GRADE WHERE GRADE_CODE = '10';
 ---------------------------------------------------------------------------
 
+CREATE TABLE USER_CHECK(
+    USER_NO NUMBER PRIMARY KEY,
+    USER_ID VARCHAR2(20) UNIQUE,
+    USER_PWD VARCHAR2(30) NOT NULL,
+    USER_NAME VARCHAR2(30),
+    GENDER VARCHAR2(10), --CHECK(GENDER IN ('남','여')),
+    PHONE VARCHAR2(30),
+    EMAIL VARCHAR2(50),
+    CHECK(GENDER IN('남','여')) 
+);
+
+INSERT INTO USER_CHECK VALUES (1, 'USER01', 'PASS01', '홍길동', '남', '010-1234-4567', 'jiiiin12@nate.net');
+SELECT * FROM USER_CHECK;
+
+
+----------------------------------------------------------
+-- 7_DML
+insert into employee
+values(1, '홍길동', '850114-1010101', 'asdjkl@naver.com', '01012345678', 'D5', 'J2', 'S4',3800000,
+        NULL, '200', SYSDATE, NULL, DEFAULT);
+
+insert into employee
+values(900, '장채현', '850114-1010101', 'jang_ch@naver.com', '01012345678', 'D1', 'J8', 'S3',4300000,
+        0.2, '200', SYSDATE, NULL, DEFAULT);
+
+-- insert 예시2
+create table emp_01(
+    emp_id number,
+    emp_name varchar2(30),
+    dept_title varchar2(20)
+);
+
+insert into emp_01(
+    select emp_id,
+        emp_name,
+        dept_title
+        from employee
+        left join department on (dept_code = dept_id)
+);
+
+select * from employee;
+
+-- insert all 예시1
+insert all
+into emp_dept_d1 values(emp_id, emp_name, dept_code, hire_date)
+into emp_manager values(emp_id, emp_name, manager_id)
+select emp_id, emp_name, dept_code, hire_date, manager_id
+from employee
+where dept_code = 'D1';
+
+-- insert all 예시2
+create table emp_old
+as select emp_id, 
+            emp_name,
+            hire_date,
+            salary
+    from employee
+    where 1 = 0;
+
+create table emp_new
+as select emp_id, 
+            emp_name,
+            hire_date,
+            salary
+    from employee
+    where 1 = 0;
+
+insert all
+when hire_date < '2000/01/01' then
+        into emp_old values (emp_id, emp_name, hire_date, salary)
+        when hire_date >= '2000/01/01' then
+        into emp_new values (emp_id, emp_name, hire_date, salary)
+select emp_id, emp_name, hire_date, salary
+from employee;
+
+select * from emp_old;
+select * from emp_new;
+
+-- UPDATE 예시2
+create table emp_salary
+as select emp_id,
+            emp_name,
+            dept_code,
+            salary,
+            bonus
+    from employee;
+    
+select * from emp_salary
+where emp_name in ('유재식','방명수');
+
+update emp_salary
+set salary = (select salary
+            from emp_salary
+            where emp_name = '유재식'),
+    bonus = (select bonus
+            from emp_salary
+            where emp_name = '유재식')
+where emp_name = '방명수';
+
+-- UPDATE 예시3
+update emp_salary
+set (salary, bonus) = 
+        (select salary, bonus
+        from emp_salary
+        where emp_name = '유재식')
+where emp_name = '방명수';
+
+select * from emp_salary
+where emp_name in ('유재식','방명수');
+
+update emp_salary
+set bonus = 0.3
+where emp_id in 
+(select emp_id
+from employee
+join department on(dept_id = dept_code)
+join location on (location_id = local_code)
+where local_name like 'ASIA%');
+
+-- DELETE 예시1
+delete from employee
+where emp_name = '장채현';
+
+-- DELETE 예시2 제약조건 비활성화
+delete from department
+where dept_id = 'D1';
+
+alter table employee
+disable constraint emp_deptcode_fk cascade; -- 활성화 enable constraint emp_deptcode_fk;
 
 
 
+----------------------------------------------------------
+create table DEPT_COPY as select * from DEPARTMENT;
+-- 8_DDL 
+-- 컬럼 추가
+alter table dept_copy
+add(cname varchar2(20));
+
+alter table dept_copy
+add(lname varchar(40)default'한국');
+-- 제약조건 추가
+alter table dept_copy
+add constraint dcopy_did_pk primary key(dept_id);
+add constraint dcopy_dtitle_uno UNIQUE(dept_title);
+modify lname constraint dcopy_lname_nn NOT NULL;
+
+select uc.constraint_name,
+       uc.constraint_type,
+        uc.table_name,
+        ucc.culumn_name,
+        uc.search_condition
+        from user_constraints uc
+        join user_cons_column ucc on(uc.constraint_name=ucc.constraint_name)
+        where uc.table_name = 'dept_copy';
+
+-- 컬럼 수정
+alter table dept_copy
+    modify dept_id char(3)
+    modify dept_title varchar(30)
+    modify location_id varchar(2)
+    modify lname default '미국';
+desc dept_copy;
 
 
+-- 컬럼 삭제
+alter table dept_copy
+drop column dept_id;
 
+select * from tb1;
+create table TB1(
+    pk number primary key,
+    fk number references tb1,
+    col1 number,
+    check(pk > 0 and col1 > 0)
+);
+ alter table tb1
+    drop column pk; -- 참조하고 있는 컬럼이 있다면 컬럼 삭제 불가능
 
+ alter table tb1
+    drop column PK cascade constraint; 
 
+-- 제약조건 삭제
+alter table dept_copy
+    drop constraint dcopy_did_pk
+    drop constraint dcopy_dtitle_unq
+    modify lname null;
+    
+-- 컬럼 이름 변경
+alter table dept_copy
+rename column dept_title to dept_name;
 
+select * from dept_test;
 
+-- 테이블 이름 변경
+alter table dept_copy
+rename to dept_test;
 
+-- DROP 싹다 삭제
+drop table dept_test cascade constraint;
 
+---------------------------------------------------
+-- VIEW
+-- 예시 1
+create or replace view v_employee as 
+select emp_id, emp_name, dept_title, national_name
+    from employee
+    left join department on (dept_id = dept_code)
+    left join location on (location_id = local_code)
+    left join national using(national_code);
 
+select * from v_employee;
 
+-- 예시2
+--create or replace view v_emp_job as 
+--select emp_id, emp_name, job_name,
+--        decode(substr(emp_no, 8, 1), 1, '남', 2, '여')
+--        extract(year from sysdate)- extract(year from hire_date)
+--from employee
+--join job using(job_code);
 
--- string a = (substring(emp_no, 8, 1)== 2 ? "여":"남";
---if(substr(emp_no, 8, 1) == 2){
---    return "여"'
---}else if(substr(emp_no, 8, 1) == 4){
---    return "여";
---}else if(substr(emp_no, 8, 1) == 1){
---    return "남";
---}else if(substr(emp_no, 8, 1) == 3){
---    return "남";
---}else {
---    return "그 외";
---}
---
---
---
---select substr(emp_no, 1, 6) from employee;
+CREATE OR REPLACE VIEW v_emp_job(사번, 이름, 직급, 성별, 근무년수)AS
+SELECT emp_id, emp_name, job_name,
+       decode(substr(emp_no, 8, 1), 1, '남', 2, '여'),
+       extract(year from sysdate) - extract(year from hire_date)
+FROM employee
+JOIN job USING (job_code);
+select * from v_emp_job;
 
+-- 예시 3
+CREATE OR REPLACE VIEW v_job AS
+SELECT j1.job_code as 사번, j1.job_name as 이름
+    from job j1;
+    
+insert into v_job;
+SELECT * From v_job; 
 
+---------------------------------------------------------------------
+-- 여기까지 20230713_KH
+---------------------------------------------------------------------

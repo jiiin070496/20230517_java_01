@@ -27,12 +27,13 @@ rem OATES:     Created: 16-Feb-83
 --CONNECT SCOTT/TIGER
 
 -- EMP-FK - DEPT-PK
-DROP TABLE EMP; 
+-- drop 순서는 create 순서 반대
+-- FK 인 테이블을 먼저 drop
+DROP TABLE EMP cascade constraints; 
 DROP TABLE DEPT;
-
 DROP TABLE BONUS;
 DROP TABLE SALGRADE;
-
+-- PK 인 테이블을 먼저 create
 CREATE TABLE DEPT
 (
 DEPTNO NUMBER(2) CONSTRAINT PK_DEPT PRIMARY KEY,
