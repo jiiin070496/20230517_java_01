@@ -74,3 +74,26 @@ select *
 
 --19. 오늘 날짜에서 년도만 추출
 select extract(year from sysdate) from dual; 
+
+------------------------------------------------------
+-- KH예제 3.
+------------------------------------------------------
+-- 9. GRADE별로 급여을 가장 작은 사원명을 조회
+select s.grade as "등급", e.ename as "등급별가장적은급여"
+    from emp e, salgrade s
+    where (grade, sal) in
+    (select grade, min(sal) from emp, salgrade
+    where sal > losal and sal < hisal   
+    group by grade
+    );
+
+
+-- 10.
+select grade, min(sal) as min_sal, max(sal) as max_sal, round(avg(sal), 2) as avg_sal
+    from emp e join salgrade s 
+        on e.sal > s.losal and e.sal < s.hisal
+    group by grade
+;
+
+select * from emp;
+select * from salgrade;

@@ -81,4 +81,45 @@ substr(emp_no, 5, 2) as 생일
 from employee
 ;
 -- 16. EMPLOYEE테이블에서 사원명, 주민번호 조회 (단, 주민번호는 생년월일만 보이게 하고, '-'다음 값은 '*'로 바꾸기)
-select emp_name, 
+
+
+
+
+
+-- 9.
+
+
+
+--select grade, min(sal) as min_sal, max(sal) as max_sal, round(avg(sal), 2) as 평균급여
+--    from emp e join salgrade s on e.sal>s.losal and e.sal<s.hisal
+--    group by grade
+--;
+------------------------------------------------------
+
+select * from employee;
+select * from salgrade;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

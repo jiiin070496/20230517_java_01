@@ -994,6 +994,3 @@ alter index pk_emp rebuild;
 
 
 
-
-
-
