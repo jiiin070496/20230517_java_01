@@ -846,5 +846,154 @@ create table dept_copy2 as select * from dept where 1<>1;
 -- DDL 명령어 수행시 COMMIT 행동도 함께 수행됨. VIEW, USER 등 똑같이 포함됨
 
 ---------------------------------------------------------------------
--- 여기까지 20230713_SCOTT
+-- 0714_SCOTT
 ---------------------------------------------------------------------
+create view view_emp10
+    as select max(sal) maxsal, job from emp group by job;
+
+----------------------VIEW----------------------------
+--t2테이블이 없음에도 view를 생성
+create or replace force view view_test2
+    AS SELECT * FROM t2
+;
+create force view view_test2
+    AS SELECT * FROM t2
+;
+create or replace view view_test3
+    AS SELECT * FROM t3
+;
+create or replace view view_emp_readonly
+    as 
+    select * from emp
+    with read only
+;
+
+insert into view_emp_readonly (empno, ename, deptno) values(8100, 'hgse', 30); 
+--SQL 오류: ORA-42399: 읽기 전용 뷰에서는 DML 작업을 수행할 수 없습니다.
+--42399.0000 - "cannot perform a DML operation on a read-only view"
+
+create or replace view view_emp_checkoption
+    as
+    select * from emp
+    where deptno=30
+    with check option -- deptno에 걸림, 바꿀 수 없음
+;
+select * from view_emp_checkoption;
+update view_emp_checkoption set deptno=20 where empno=7499;
+--ORA-01402: 뷰의 WITH CHECK OPTION의 조건에 위배 됩니다
+update view_emp_checkoption set comm=350 where empno=7499;
+--다른건 됨
+
+update emp set comm=350 where empno=7499;
+
+
+create sequence seq_t1;
+select seq_t1.nextval from dual;
+select seq_t1.currval from dual;
+
+-- sequence의 nextval은 unique한 값에 insert시에 활용됨.
+-- sequence 이름 지울때 - SEQ_table명_컬럼명
+-- 예를 들어 emp테이블 empno에 적용 - seq_emp_empno
+-- insert into emp values (seq_emp_mepeno.nextval, '홍길동',....);
+
+select * from user_sequences;
+select * from user_indexes;
+select * from user_cons_columns;
+
+-- 함수기반 index
+create index idx_emp_sal on emp(sal);
+
+create index idx_emp_sal on emp(sal*12);
+-- where 절에 sal*12 > 5000 처럼 조건문에 사용이 번번할때 index를 걸어줌 
+
+create index idx_emp_sal_comm on emp(sal,comm);
+-- where 절에 sal*12 > 5000 and comm > 200 처럼 조건문에 사용이 번번할때 index를 걸어줌 
+
+select * from emp where sal>3000 and comm is not null;
+
+--bitmap기반 index - 도메인의 종류가 적을때 동일한 데이터가 많은 경우 ex) gender 남/여
+create bitmap idx_emp_deptno on emp(deptno);
+create bitmap idx_emp_deptno_job on emp(job,deptno);
+
+-- 1. UNIQUE
+    -- insert 오류체크빠름. 
+-- 2. NON_UNIQUE
+alter index pk_emp rebuild;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

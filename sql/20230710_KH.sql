@@ -840,8 +840,10 @@ rename to dept_test;
 -- DROP 싹다 삭제
 drop table dept_test cascade constraint;
 
----------------------------------------------------
+---------------------------------------------------------
 -- VIEW
+----------------------------------------------------------
+
 -- 예시 1
 create or replace view v_employee as 
 select emp_id, emp_name, dept_title, national_name
@@ -866,6 +868,7 @@ SELECT emp_id, emp_name, job_name,
        extract(year from sysdate) - extract(year from hire_date)
 FROM employee
 JOIN job USING (job_code);
+
 select * from v_emp_job;
 
 -- 예시 3
@@ -879,3 +882,118 @@ SELECT * From v_job;
 ---------------------------------------------------------------------
 -- 여기까지 20230713_KH
 ---------------------------------------------------------------------
+-- 0714
+---------------------------------------------------------------------
+CREATE OR REPLACE VIEW v_job(JOB_CODE, JOB_NAME)
+AS SELECT JOB_CODE, j1.JOB_NAME
+    FROM job j1    
+    JOIN job j2 
+        USING (job_code);
+-- self join은 반드시 table에 별칭사용해야함
+insert into v_job values('J8', '인턴');
+
+create or replace view v_job2(job_code)
+    as select job_code from job;
+    
+insert into v_job2 values('J9');    
+select * from job;
+
+
+---------------------------------------------------------------------
+-- KH실습 4
+---------------------------------------------------------------------
+
+-- 2. 나이 상 가장 막내의 사원코드, 사원명, 나이, 부서명, 직급명 조회
+select * from
+    (SELECT emp_id, emp_name, d.dept_title, j.job_name,
+          extract(year from sysdate) - extract(year from to_date(substr(emp_no, 1, 2), 'rr')) age
+        FROM employee e
+        JOIN department d ON (e.dept_code = d.dept_id)
+        JOIN "JOB" j USING (job_code);
+    )tb1
+    where age < minage
+;
+select max(emp_no) from employee;
+select max(emp_name) from employee;
+select min(emp_name) from employee;
+
+
+select extract(year from sysdate) - extract(year from to_date(substr(emp_no, 1, 2), 'rr'))
+    from employee;
+
+select extract(year from to_date('500112', 'yymmdd')) yy,
+            extract(year from to_date('500112', 'rrmmdd')) mm
+    from dual;
+
+-- 7. 한국이나 일본에서 근무 중인 사원의 사원명, 부서명, 지역명, 국가명 조회
+
+select emp_name, d.dept_title, j.job_name, c.local_name, n.national_name
+    from employee e
+    join department d on (e.dept_code=d.dept_id)
+    join "JOB" J using (job_code)
+    join location c using(local_code)
+    join national n using (national_code)
+;
+select * from department;
+select * from location;
+select * from national;
+
+--8. 한 사원과 같은 부서에서 일하는 사원의 이름 조회
+select e1.emp_name, e2.emp_name
+    from employee e1
+    join employee e2 on e1.dept_code=e2.dept_code 
+        and e1.emp_name <> e2.emp_name
+--    where e1.emp_name <> e2.emp_name
+order by e1.emp_name
+;
+
+----------------------------------------------------------------------------------------
+-- 실습02
+----------------------------------------------------------------------------------------
+-- 21
+select * from employee;
+select emp_name, dept_code,
+        substr(emp_no, 1, 2)||'년 '||substr(emp_no, 3, 2)||'월 '||substr(emp_no, 5, 2)||'일' "생년월일"
+--         "만 나이"
+        , extract(year from sysdate) - extract(year from to_date(substr(emp_no, 1, 2), 'rr')) "만나이"
+    from employee
+;
+select to_date(substr(emp_no, 1, 6), 'rrmmdd')
+        , to_char(to_date(substr(emp_no, 1, 6), 'rrmmdd'), 'yy"년" mm"월" dd"일"')
+        , (sysdate - to_date(substr(emp_no, 1, 6), 'rrmmdd'))/365
+    from employee
+;
+
+create synonym empp for employee;
+select * from empp;
+
+--grant select on department to scott; -> 스캇에게 권한을 줌
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

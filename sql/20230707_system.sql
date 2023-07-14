@@ -8,6 +8,7 @@ create user scott identified by tiger;
 alter session set "_ORACLE_SCRIPT"=true;
 
 create user kh identified by kh;
+create user techuniv identified by univ;
 
 
 --상태: 실패 -테스트 실패: ORA-01045: 사용자 SCOTT는 CREATE SESSION 권한을 가지고있지 않음; 로그온이 거절되었습니다
@@ -16,7 +17,7 @@ create user kh identified by kh;
 --권한을 묶어서 만들어둔 롤을 사용하여 권한을 부여함
 --connect - 접속관련 권한들이 있는 role
 --resource - 자원(table view등 객체)관련 권한들이 있는 role
---grant connect, resource to scott;
+grant connect, resource, dba to techuniv;
 --grant connect, resource to kh;
 
 alter user scott default tablespace USERS quota unlimited on users;
@@ -24,5 +25,13 @@ grant unlimited tablespace to scott;
 
 alter user kh default tablespace USERS quota unlimited on users;
 grant unlimited tablespace to kh;
+
 --revoke connect, resource from scott; 
 ---> 권한 뺏기
+
+--select * from  kh.dept; 
+--create public synonym dept_public for KH.DEPT; -- 후에
+
+--계정삭제. 접속해제 후
+alter session set "_ORACLE_SCRIPT"=true;
+drop user kh;
