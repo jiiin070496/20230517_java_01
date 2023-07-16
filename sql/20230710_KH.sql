@@ -898,55 +898,6 @@ create or replace view v_job2(job_code)
 insert into v_job2 values('J9');    
 select * from job;
 
-
----------------------------------------------------------------------
--- KH실습 4
----------------------------------------------------------------------
-
--- 2. 나이 상 가장 막내의 사원코드, 사원명, 나이, 부서명, 직급명 조회
-select * from
-    (SELECT emp_id, emp_name, d.dept_title, j.job_name,
-          extract(year from sysdate) - extract(year from to_date(substr(emp_no, 1, 2), 'rr')) age
-        FROM employee e
-        JOIN department d ON (e.dept_code = d.dept_id)
-        JOIN "JOB" j USING (job_code);
-    )tb1
-    where age < minage
-;
-select max(emp_no) from employee;
-select max(emp_name) from employee;
-select min(emp_name) from employee;
-
-
-select extract(year from sysdate) - extract(year from to_date(substr(emp_no, 1, 2), 'rr'))
-    from employee;
-
-select extract(year from to_date('500112', 'yymmdd')) yy,
-            extract(year from to_date('500112', 'rrmmdd')) mm
-    from dual;
-
--- 7. 한국이나 일본에서 근무 중인 사원의 사원명, 부서명, 지역명, 국가명 조회
-
-select emp_name, d.dept_title, j.job_name, c.local_name, n.national_name
-    from employee e
-    join department d on (e.dept_code=d.dept_id)
-    join "JOB" J using (job_code)
-    join location c using(local_code)
-    join national n using (national_code)
-;
-select * from department;
-select * from location;
-select * from national;
-
---8. 한 사원과 같은 부서에서 일하는 사원의 이름 조회
-select e1.emp_name, e2.emp_name
-    from employee e1
-    join employee e2 on e1.dept_code=e2.dept_code 
-        and e1.emp_name <> e2.emp_name
---    where e1.emp_name <> e2.emp_name
-order by e1.emp_name
-;
-
 ----------------------------------------------------------------------------------------
 -- 실습02
 ----------------------------------------------------------------------------------------
@@ -968,6 +919,123 @@ create synonym empp for employee;
 select * from empp;
 
 --grant select on department to scott; -> 스캇에게 권한을 줌
+
+---------------------------------------------------------------------
+-- KH실습 4
+---------------------------------------------------------------------
+
+-- 1. 70년대 생 (1970~1979) 중 여자이면서 전씨인 사원의 이름과 주민번호, 부서명, 직급조회
+select e.emp_name, e.emp_no, d.dept_title, j.job_name 
+    from employee e
+        join department d on e.dept_code = d.dept_id
+        join job j on e.job_code = j.job_code
+        where (e.emp_no, e.emp_name) IN 
+            (select emp_no, emp_name
+            from employee
+            where substr(emp_no,1,2) between 70 and 79
+            and substr(emp_no, 8, 1)='2' and emp_name like '전%');
+
+-- 2. 나이 상 가장 막내의 사원코드, 사원명, 나이, 부서명, 직급명 조회
+select * from
+    (SELECT emp_id, emp_name, d.dept_title, j.job_name,
+          extract(year from sysdate) - extract(year from to_date(substr(emp_no, 1, 2), 'rr')) age
+        FROM employee e
+        JOIN department d ON (e.dept_code = d.dept_id)
+        JOIN "JOB" j USING (job_code)
+    )tb1
+    where age < minage
+;
+
+-- 3. 이름에 '형'이 들어가는 사원의 사원코드, 사원명, 직급조회
+select emp_id, emp_name, job_name
+    from employee e     
+        join job j on e.job_code = j.job_code
+    where emp_name like '%형%'
+;
+
+-- 4. 부서코드가 D5이거나 D6인 사원의 사원명, 직급명, 부서코드, 부서명 조회
+SELECT emp_name, job_name, dept_code, dept_title
+    from employee e 
+        join department d on e.dept_code = d.dept_id
+        join job j on e.job_code = j.job_code
+        where dept_code IN('D5', 'D6')
+;
+-- 5. 보너스를 받는 사원의 사원명, 부서명, 지역명 조회
+select emp_name, bonus, dept_title, local_name
+    from employee e
+        join department d on e.dept_code = d.dept_id
+        join location l on d.location_id = l.local_code
+        where bonus is not null;
+
+-- 6. 사원명, 직급명, 부서명, 지역명 조회
+select emp_name, job_name, dept_title, local_name
+    from employee e
+        join job j on e.job_code = j.job_code
+        join department d on e.dept_code = d.dept_id
+        join location l on d.location_id = l.local_code;
+
+--7. 한국이나 일본에서 근무 중인 사원의 사원명, 부서명, 지역명, 국가명 조회
+select emp_name, dept_title, local_name, national_name
+    from employee e
+        join department d on e.dept_code=d.dept_id
+        join location l on d.location_id = l.local_code
+        join  national n on l.national_code = n.national_code
+    where n.national_name = '한국' or n.national_name = '일본'
+;
+
+--8. 한 사원과 같은 부서에서 일하는 사원의 이름 조회
+select e1.emp_name, e2.emp_name
+    from employee e1
+    join employee e2 on e1.dept_code=e2.dept_code 
+        and e1.emp_name <> e2.emp_name
+--    where e1.emp_name <> e2.emp_name
+order by e1.emp_name
+;
+
+-- 9. 보너스가 없고 직급코드가 J4이거나 J7인 사원의 이름, 직급명, 급여조회(NVL 이용)
+select emp_name, job_name, salary
+    from employee e
+        join job j on e.job_code = j.job_code
+    where e.job_code in('J4', 'J7') AND BONUS IS NULL;
+
+-- 10. 보너스 포함한 연봉이 높은 5명의 사번, 이름, 부서명, 직급, 입사일, 순위조회
+select emp_id, emp_name, dept_title, job_name, hire_date
+    from(select emp_id, emp_name, dept_title, job_name, hire_date, 
+        (salary*(salary+nvl(bonus, 0))*12 )as grade
+            from employee e
+            join department d on e.dept_code = d.dept_id
+            join job j on e.job_code = j.job_code
+            join location l on d.location_id = l.local_code
+            order by grade desc)
+    where rownum <=5;
+
+-- 11. 부서 별 급여 합계가 전체 급여 총 합의 20%보다 많은 부서의 부서명, 부서별 급여 합계
+-- 11-1 join과 having을 사용
+select d.dept_title, sum(salary)
+    from employee e
+        join department d on e.dept_code = d.dept_id
+        having sum(salary)>=sum(salary)*0.02;
+
+select * from employee;
+select * from department;
+SELECT * FROM JOB;
+select * from location;
+select * from national;
+
+
+select max(emp_no) from employee;
+select max(emp_name) from employee;
+select min(emp_name) from employee;
+
+
+select extract(year from sysdate) - extract(year from to_date(substr(emp_no, 1, 2), 'rr'))
+    from employee;
+
+select extract(year from to_date('500112', 'yymmdd')) yy,
+            extract(year from to_date('500112', 'rrmmdd')) mm
+    from dual;
+
+
 
 
 

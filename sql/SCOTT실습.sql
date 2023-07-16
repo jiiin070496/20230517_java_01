@@ -76,7 +76,7 @@ select *
 select extract(year from sysdate) from dual; 
 
 ------------------------------------------------------
--- KH예제 3.
+-- SCOTT예제 3.
 ------------------------------------------------------
 -- 9. GRADE별로 급여을 가장 작은 사원명을 조회
 select s.grade as "등급", e.ename as "등급별가장적은급여"
@@ -87,13 +87,31 @@ select s.grade as "등급", e.ename as "등급별가장적은급여"
     group by grade
     );
 
-
 -- 10.
 select grade, min(sal) as min_sal, max(sal) as max_sal, round(avg(sal), 2) as avg_sal
-    from emp e join salgrade s 
+    from emp e join salgrade s
         on e.sal > s.losal and e.sal < s.hisal
     group by grade
 ;
 
+-- 12. NEW YORK지역은 SAL의 2%, DALLAS지역은 SAL의 5%, CHICAGO지역은 SAL의 3%, BOSTON지역은 SAL의 7%
+-- 추가지원금이 많은 사람 순으로 정렬
+SELECT empno, ename, sal, 
+(case when loc = 'NEW YORK' then sal*1.02
+when loc = 'DALLAS' then sal*1.05
+when loc = 'CHICAGO' then sal*1.03
+when loc = 'BOSTON' then sal*1.07
+end)AS SAL_SUBSIDY
+    from emp e, dept d
+    where e.deptno = d.deptno
+    order by (case when loc = 'NEW YORK' then sal*1.02
+        when loc = 'DALLAS' then sal*1.05
+        when loc = 'CHICAGO' then sal*1.03
+        when loc = 'BOSTON' then sal*1.07
+        end) DESC
+;
+
+
 select * from emp;
 select * from salgrade;
+select * from dept;
