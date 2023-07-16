@@ -5,6 +5,33 @@ SELECT * FROM LOCATION;
 SELECT * FROM NATIONAL;
 SELECT * FROM SAL_GRADE;
 
+--group by 예시
+SELECT dept_code, floor(avg(salary))
+    from employee
+    group by dept_code
+    having floor(avg(salary))>=3000000
+    order by dept_code;
+    
+select decode(substr(emp_no, 8, 1),1, '남', 2, '여') as "성별", floor(avg(salary)) as "평균",
+    sum(salary) as "합계", count(*) as "인원수"
+    from employee
+    group by decode(substr(emp_no, 8, 1),1, '남', 2, '여')
+    order by 4 desc;
+
+-- rollup
+select dept_code, job_code, sum(salary)
+    from employee
+    group by rollup(dept_code, job_code)
+    order by 1
+;
+
+-- cube
+select dept_code, job_code, sum(salary)
+    from employee
+    group by cube(dept_code, job_code)
+    order by 1
+;
+
 
 
 desc employee;
@@ -63,7 +90,7 @@ SELECT EMP_NAME, SALARY, JOB_CODE
 -- 문자처리함수 substr
 select substr('showmethemoney',1,2) from dual;
 
--- 문자처리함수, INITCAP
+-- 문자처리함수, INITCAP () 첫글자 대문자
 select initcap('welcome to my world') from dual;
 
 -- 문자처리함수, concat
@@ -79,7 +106,7 @@ select abs(-10.9) from dual;
 select mod(100, 3) from dual;
 
 -- 숫자처리함수, round(전달받은 숫자 혹은 컬럼에서 지정한 위치부터 반올림하여 값 반환)
-select round(10.11)from dual;
+select round(12.11, -1)from dual;
 
 -- 숫자처리함수, TRUNC(인자로 전달받은 숫자 혹은 컬럼에서 지정한 위치부터 소수점 자리의 수를 버리고 반환)
 select  trunc(123.4567, 3) from dual;
@@ -105,7 +132,7 @@ SELECT SYSDATE, NEXT_DAY(SYSDATE, '월요일')FROM EMPLOYEE;
 SELECT EMP_NAME, HIRE_DATE, LAST_DAY(HIRE_DATE) FROM EMPLOYEE;
 
 --EXTRACT : 년, 월, 일 정보 추출하여 반환
-SELECT 
+SELECT emp_name as "사원명", extract(year from hire_date) as "입사년도" from employee;
 
 select length(emp_name) len, lengthb(emp_name) bytelen
     from employee
@@ -118,7 +145,7 @@ select email, instr(email, '@', 3) 위치
     from employee
     ;
 --email은 @ 이후에 .이 1개 이상 있어야함    
-select email --, instr(email, '@'), instr (email, '.', instr(email, '@')) 위치
+select email, instr(email, '@'), instr (email, '.', instr(email, '@')) 위치
     from employee
     where instr (email, '.', instr(email, '@')) != 0
     ;
@@ -146,8 +173,7 @@ SELECT emp_name, emp_no,
         when '1' then '남' 
         when '3' then '남'
         else '그외'
-    end
-    as "성 별"
+    end as "성 별"
     from employee
 ;
 
@@ -169,8 +195,11 @@ select ceil(avg(salary)) 평균급여 from employee;
 select trunc(avg(salary)) 평균급여 from employee;
 
 
-select count(DISTINCT DEPT_CODE) 
+select count(DISTINCT dept_code) 
     FROM EMPLOYEE;
+select count(DISTINCT job_code) 
+    FROM EMPLOYEE;
+
 select count(DEPT_CODE) 
     FROM EMPLOYEE; -- 21
 select count(*) 
@@ -178,6 +207,10 @@ select count(*)
 select count(*) 
     from EMPLOYEE 
     where dept_code is null;
+
+select count(*) 
+    from EMPLOYEE 
+    where bonus is not null;
     
 --count(컬럼명)은 resultset의 row값이 null이라면 count 되지 않음    
 -- count(*) row 개수
@@ -199,9 +232,9 @@ SELECT DISTINCT DEPT_CODE FROM EMPLOYEE;
 
 -- 형변환 함수
 -- TO_CHAR
-SELECT EMP_NAME, TO_CHAR(HIRE_DATE, 'YYYY-MM-DD')
+SELECT EMP_NAME, TO_CHAR(HIRE_DATE, 'YYYY-MM-DD'),
     TO_CHAR(HIRE_DATE, 'YY/MON, DAY, DY')
-        FROM EMPLOYEEL
+        FROM EMPLOYEE
     ;
 
 -- TO_DATE
@@ -214,7 +247,7 @@ SELECT TO_NUMBER('1,000,000', '99,999,999')-TO_NUMBER('550,000', '999,000') FROM
 
 -- NULL 처리 함수 NVL: NULL로 되어있는 컬럼의 값을 인자로 지정한 숫자 혹은 문자로 변경하여 반환
 SELECT EMP_NO, EMP_NAME, SALARY, NVL(BONUS, 0),(SALARY+(SALARY*NVL(BONUS, 0))*12
-    FROM EMPLOYEE
+    from employee
     ;
 --선택 함수
 --DECODE : 비교하고자 하는 값 또는 컬럼이 조건식과 같으면 결과 값 반환
@@ -230,7 +263,7 @@ SELECT EMP_ID, EMP_NAME, EMP_NO, CASE WHEN SUBSTR(EMP_NO, 8, 1)=1 THEN '남자'
         ;
 
 -- CASE 예시2
-SELECT EMP_NAME, SALARY, 
+SELECT EMP_NAME as "월급 루팡", SALARY, 
     CASE WHEN SALARY > 5000000 THEN '1등급'
          WHEN SALARY > 3500000 THEN '2등급'
          WHEN SALARY > 2000000 THEN '3등급'
@@ -242,9 +275,9 @@ SELECT EMP_NAME, SALARY,
 -- 그룹 함수
 -- SUM: 해당 컬럼 값들의 총합 반환
 -- EMPLOYEE TABLE에서 남자 사원의 급여 총합 조회
-SELECT SUM(SALARY) 
+SELECT emp_name, emp_no, job_code, SALARY 
     FROM EMPLOYEE
-    WHERE SUBSTR(EMP_NO, 8, 1) = 1;
+    WHERE SUBSTR(EMP_NO, 8, 1) != 1;
     
 -- EMPLOYEE TABLE에서 부서코드가 DS인 직원의보너스 포함 연봉 조회
 SELECT SUM(SALARY+(SALARY*NVL(BONUS, 0)*12)
@@ -1014,7 +1047,18 @@ select emp_id, emp_name, dept_title, job_name, hire_date
 select d.dept_title, sum(salary)
     from employee e
         join department d on e.dept_code = d.dept_id
-        having sum(salary)>=sum(salary)*0.02;
+            group by d.dept_title
+                having sum(salary)>=((select sum(salary) from employee)*0.2);
+
+-- 11-2 Inline View 사용
+select *
+    from(select d.dept_title, sum(salary) as sums 
+            from employee e, department d
+            where e.dept_code = d.dept_id
+            group by d.dept_title) sum
+        where sum.sums>=((select sum(salary) from employee)*0.2);
+
+-- 11-3 with 사용
 
 select * from employee;
 select * from department;
