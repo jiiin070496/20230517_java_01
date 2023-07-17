@@ -35,3 +35,29 @@ grant unlimited tablespace to kh;
 --계정삭제. 접속해제 후
 alter session set "_ORACLE_SCRIPT"=true;
 drop user kh;
+
+
+
+create user ssr identified by ssr1126;
+alter session set "_ORACLE_SCRIPT"=true;
+grant connect, resource, dba to ssr;
+drop user ssr;
+
+create user naemkoo identified by naem0704;
+alter session set "_ORACLE_SCRIPT"=true;
+grant connect, resource, dba to naemkoo;
+drop user naemkoo;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
