@@ -36,6 +36,7 @@ grant unlimited tablespace to kh;
 alter session set "_ORACLE_SCRIPT"=true;
 drop user kh;
 
+<<<<<<< HEAD
 
 
 create user ssr identified by ssr1126;
@@ -61,3 +62,21 @@ drop user naemkoo;
 
 
 
+=======
+-- ROLE 
+-- 접속 관련된 설정 -  oracle 12이후 버전에서 false 싱테러 접속됨.
+alter session set "_ORACLE_SCRIPT"=false;
+create role role_scott_manager;
+create user c##kh2 identified by kh2;
+
+--connect -롤 이름
+-- 권한들의 묶음 = role
+--create session - 접속 권한
+
+--create table, alter table. drop table, create view, create sequence, alter sequence.....등 등
+-- 공간 space를 사용하는 권한들 묶어서 resource 롤에 저장
+
+grant create table, create view to role_manager;
+-- grant 권한명, 권한명, ....., 롤 명, 롤명, ..... to 롤명, 사용자명;
+grant role_manager to kh2;
+>>>>>>> bf30b39e49f55044e9bf22cb9b70610edfb7abb7

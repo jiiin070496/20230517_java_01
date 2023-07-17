@@ -920,43 +920,85 @@ create bitmap idx_emp_deptno_job on emp(job,deptno);
 -- 2. NON_UNIQUE
 alter index pk_emp rebuild;
 
+-- DDL - SEQUENCE
+create sequence seq_tb1_c1 start with 10 increment by 10 maxvalue 90 minvalue 10 nocycle cache 20;
+select seq_tb1_c1.nextval from dual;
+select seq_tb1_c1.currval from dual;
+-- 사용예시 : DQL이나 DML에 사용됨.
 
+-- DDL - INDEX(createm alter, drop), table과 무관하지만 table DQL과 DML에는 사용됨
+-- SELECT문 속도 향상. DML 속도 저하가 되므로 적절하게 사용해야함
+-- WHERE 절에 주로 사용되는 COLUMN에 INDEX
+-- PK - CONSTRAINT 생성 시 INDEX도 생성됨.
+-- CREATE BITMAP INDEX IDX_TB1_C1 ON TB1(C1); 
+-- ALTER INDEX IDX_TB1_C1 rebuild;
+--DML - insert, update, delete
+--view 도 가능하나 - with read only 불가, with check option
 
+-- RANK() OVER || 21일 평가
+-- over-ram 용량이 많이 차지하고 느릴 수 있음.
+select deptno, empno, ename, sal
+        , sum(sal) over(partition by deptno) sumsal 
+    from emp
+;    
+-- over(order by)
+-- window - over(order by ..): 기존 rownum 대비 간결함. - 동일한 순위가 있을때 다음 순위값 +1 이 dense_rank() 
+select deptno, empno, ename, sal
+        , rank()over(order by sal asc)ranksal -- 순위, 4등 2명 다음 6등
+        , dense_rank()over(order by sal asc)dranksal -- 순위, 4등 2명 다음 5등
+        , row_number()over(order by sal asc)rnsal -- 그냥 순서 
+--        , rank(2450) within group over(order by sal asc) clarksal
+        , rank()over(partition by deptno order by sal asc)dept_sal_rank -- group by를 사용하지 않아도 deptno 별로 묶여서 나옴
+    from emp
+    order by deptno
+;   
+select dense_rank(2450) within group(order by sal asc) clarksal
+    from emp
+;   
 
+--rownum
+select deptno, empno, ename, sal
+        , rank()over(order by sal asc)ranksal
+    from (select rownum rn, t1.* from(select deptno, empno, ename, sal from emp order by sal asc)t1);
+;    
 
+-- 누적분산 cume_dist()
+-- 부서 코드가 30번인 직원의 이름, 급여, 급여에 대한 누적분산을 조회
+select ename, sal
+        , cume_dist()over(order by sal) sal_cume_dist
+    from emp
+    where deptno = 30;
 
+--- 부서별 직원의 이름, 급여, 급여에 대한 누적분산을 조회
+select ename, deptno, sal
+        , cume_dist()over(partition by deptno order by sal) sal_cume_dist
+    from emp
+--    where deptno = 30
+    ;
+select ename, deptno, sal
+        , trunc(cume_dist()over(partition by deptno order by sal), 2) sal_cume_dist
+        , trunc(ratio_to_report(sal)over(partition by deptno), 2) sal_ratio --  전체중 차지하고있는 비율
+    from emp
+--    where deptno = 30
+;
 
+select deptno, ename, sal
+        , first_value(ename) over(partition by deptno order by sal desc)as dept_rich
+        , last_value(ename) over(partition by deptno order by sal desc
+--        window 
+-- 생략시 현재 행이 작성되는 내용(값)까지만 알 수 있음. 다음 행에 나올 값은 알지 못함.
+--unbounded preceding : 윈도우의 첫행
+--unbounded following : 윈도우의 마지막행
+--1 preceding : 현재행의 이전행
+--1 following : 현재행의 다음행
+-- current row: 현재행
+                                rows between current row and unbounded following
+        )as dept_poor
+        from emp
+        where sal is not null;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+select deptno, ename, empno, sal, sum(sal) over (partition by deptno)s_sal --> deptno 그룹의 sal을 다 더한 값
+    from emp;
 
 
 
