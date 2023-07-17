@@ -912,11 +912,8 @@ SELECT j1.job_code as 사번, j1.job_name as 이름
 insert into v_job;
 SELECT * From v_job; 
 
----------------------------------------------------------------------
--- 여기까지 20230713_KH
----------------------------------------------------------------------
+
 -- 0714
----------------------------------------------------------------------
 CREATE OR REPLACE VIEW v_job(JOB_CODE, JOB_NAME)
 AS SELECT JOB_CODE, j1.JOB_NAME
     FROM job j1    
@@ -930,6 +927,153 @@ create or replace view v_job2(job_code)
     
 insert into v_job2 values('J9');    
 select * from job;
+
+---------------------------------------------------------------------
+-- ROLLUP과 CUBE
+---------------------------------------------------------------------
+--20230717
+-- group by - 꼭 지켜져야하는 룰 : group by 컬럼명, 컬럼명 만 select로 선택할 수 있음.
+select job_code, sum(salary) sumsal 
+    from employee 
+    group by job_code 
+order by 1;
+
+select job_code, sum(salary) from employee group by rollup(job_code) order by 1;
+select job_code, sum(salary) from employee group by cube(job_code) order by 1;
+
+-- 일반적인 group by
+select job_code, sum(salary) sumsal 
+    from employee 
+    group by dept_code, job_code 
+order by 1;
+
+select dept_code, job_code, sum(salary)
+    from employee
+    group by rollup(dept_code, job_code)
+order by 1;
+
+select dept_code, job_code, sum(salary)
+    from employee
+    group by cube(dept_code, job_code)
+--    having dept_code is not null and job_code is not null
+order by 1;
+-- 위 같은 결과가 나오기 위해선 cube(c1, c2) = rollup(c1, c2)+rollup(c2)
+
+select dept_code, job_code, sum(salary)
+    from employee
+    group by rollup(dept_code, job_code)
+    union
+select '', job_code, sum(salary)
+    from employee
+    group by rollup(job_code)
+    order by 1;
+
+select dept_code, job_code, sum(salary)
+    from employee
+    group by cube(dept_code, job_code)
+    order by 1; 
+
+select dept_code, job_code, sum(salary)
+        case 
+        --grouping(c1):  c1의 집계부분인지 0, 1로 확인됨.
+        -- 0: 해당 컬럼으로 grouping 안된상태
+        -- 1: 해당 컬럼으로 grouping 된 상태
+        when grouping(dept_code) = 0 and grouping(job_code) = 1 then '부서별 합계'
+        when grouping(dept_code) = 1 and grouping(job_code) = 0 then '직급별 합계'
+        when grouping(dept_code) = 1 and grouping(job_code) = 1 then '총 합계'
+        else '그룹별 합계'
+        end as 구분
+    from employee
+    group by cube(dept_code, job_code)
+    order by 1;
+--grouping 의 결과는 0 or 1
+
+select dept_code, job_code, sum(salary)
+        case 
+        -- 0: 해당 컬럼으로 grouping 안된상태
+        -- 1: 해당 컬럼으로 grouping 된 상태
+        when grouping(dept_code) = 0 and grouping(job_code) = 1 then '부서별 합계'
+        when grouping(dept_code) = 1 and grouping(job_code) = 0 then '직급별 합계'
+        when grouping(dept_code) = 1 and grouping(job_code) = 1 then '총 합계'
+        else '그룹별 합계'
+        end as 구분
+    from employee
+    group by rollup(dept_code, job_code)
+    order by 1;
+
+
+-- \\\LAG & LEAD
+select emp_name, dept_code, salary
+    , LAG(salary, 1, 0)over(order by salary) 이전값, -- 1: 한행 위의 값, 0: 이전 행이 없으면 0 처리함.
+--    , LAG(salary, 1, salary) ver(order by salary)조회2
+    , LEAD(salary, 1, 0) over(order by salary) 다음 값 -- 1: 다음 행 값, 0: 다음 행이 없으면 0 처리함.
+    from employee
+    order by desc_code
+;
+------------------------------------------------------------------
+-- 20230717 PPT-SQL활용_분석함수 실습
+------------------------------------------------------------------\
+
+-- 등수 매기는 함수 
+-- 1. rank: 같은 등수가 있을 때는 다음 등수 값이 건너 뜀. 예) 1, 1, 3
+select emp_id, emp_name , salary, rank()over(order by salary desc) 급여순위
+    from employee
+--    where sal is not null;
+;
+
+
+-- 2. dense_rank(): 같은 순위일 때도 순위값이 건너뛰지 않음. 예)1, 2, 3, 4
+select emp_name, emp_id, salary, rank()over(order by salary desc)"순위1"
+    , dense_rank() over (order by salary desc)"순위2"
+    , dense_rank() over (partition by dept_code order by salary desc)"순위3" --그룹 안에서의 순위
+    from employee
+    order by 2 desc;
+    
+-- rank를 이용한 top-N 분석방법
+select *
+    from(select emp_name, salary, rank()over(order by salary desc)순위
+    from employee)
+    where 순위 <= 5; -- 상위 5개의 정보 조회
+;
+-- 급여 적은순(내림차순) 11순위에 해당하는 정보 조회
+select *
+    from (select emp_name, salary, rank()over(order by salary desc)순위
+    from employee)
+    where 순위 = 11;
+    
+-- cume_dist()
+-- 부서코드가 '50'인 직원의 이름, 급여, 누적분산을 조회
+SELECT emp_name, salary, round(cume_dist()over(order by salary),1) 누적분산
+    from employee
+    where dept_code = 'D5';
+
+-- NTILE()
+-- 급여를 4등급으로 분류
+select emp_name, salary,
+    ntile(4)over(order by salary)등급
+    from employee;
+
+-- row_number()
+-- 사번, 이름, 급여, 입사일, 순번(단, 순번은 급여가 많은 순으로, 같은 급여는 입사일이 빠른 사람부터)
+select emp_id, emp_name, salary, hire_date,
+        row_number()over(order by salary desc, hire_date asc)순번
+        from employee;
+
+-- 집계함수
+-- employee 테이블로부터 부서코드가'60'인 직원들의 사번, 급여, 해당 부서그룹(window)의 사번을 오름차순 정렬하고,
+-- 급여의 합계를 첫행부터 마지막행까지 구해서 win1에.
+select emp_id, salary, sum(salary)over(partition by dept_code
+        order by emp_id rows between unbounded preceding 
+        and unbounded following)"win1"
+
+
+
+
+
+
+
+
+select * from employee;
 
 ----------------------------------------------------------------------------------------
 -- 실습02
@@ -1079,6 +1223,7 @@ select extract(year from to_date('500112', 'yymmdd')) yy,
             extract(year from to_date('500112', 'rrmmdd')) mm
     from dual;
 
+-- 춘대학교 3-15 rollup, cube 사용.
 
 
 
