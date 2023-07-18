@@ -1000,13 +1000,37 @@ select deptno, ename, sal
 select deptno, ename, empno, sal, sum(sal) over (partition by deptno)s_sal --> deptno 그룹의 sal을 다 더한 값
     from emp;
 
+select empno, ename, sal, ntile(4) over(order by sal)
+    from emp;
 
+-----------------------------------------------------------
+-- 0718
+-----------------------------------------------------------
+desc dept;
+select * from dept;
+insert into dept values(10,'ACCOUNT','NEW YORK');
+insert into dept values('&deptno','&부서명','&지역');
+commit;
 
+select * from emp
+    where 
+--    ename = '%SMITH'
+--        ENAME LIKE '%SMITH' 
+    ENAME = '&SMITH' 
+;
 
+SELECT '&뭐라도입력' FROM DUAL;
+-- &는 문자형태(작은 따옴표) 안에 넣어줘야함 '&' - ESCAPE문자: 특별한 역할 - 대체문자입력창을 띄워줌
+-- WHERE , SELECT 등 여기저기 사용함.
+-- 검색을 '&_'로 검색하고 싶다면 
+--LIKE '%' / LIKE '_' - ESCAPE 문자 : 특별한 역할 - %:문자 0개 이상, _: 문자 1개
+--검색을 _%로 하려면 LIKE '$_$%' ESCAPE '$'
+SET DEFINE OFF;,
+--, =, !=, <>, ^=, >, <, >=, <= 비교연산자
+-- 비교연산자 값은 TRUE/FALSE
 
-
-
-
+--NULL은 비교연산자로 비교하지 못함
+--IS NULL / IS NOT NULL 로 사용
 
 
 

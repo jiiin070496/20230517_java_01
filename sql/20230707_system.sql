@@ -16,7 +16,9 @@ create user kh identified by kh;
 --권한을 묶어서 만들어둔 롤을 사용하여 권한을 부여함
 --connect - 접속관련 권한들이 있는 role
 --resource - 자원(table view등 객체)관련 권한들이 있는 role
---grant connect, resource to kh;
+grant connect, resource to kh;
+grant connect, resource, dba to SCOTT;
+
 
 alter user scott default tablespace USERS quota unlimited on users;
 grant unlimited tablespace to scott;
