@@ -172,3 +172,67 @@ BEGIN
 
 END;
 /
+
+
+-----------------------------------------------------------
+--0719 TRIGGER
+-----------------------------------------------------------
+
+--create or replace trigger TRG_02
+--AFTER INSERT ON PRO_DETAIL
+--    FOR EACH ROW
+--        BEGIN
+--            IF :NEW.STATUS = '입고'
+--            THEN
+--                UPDATE PRODUCT SET STOCK = STOCK+:NEW.AMOUNT
+--                WHERE PCODE = :NEW.PCODE;
+--            END IF;
+--            
+--            IF :NEW.STATUS = '출고'
+--            THEN
+--                UPDATE PRODUCT SET STOCK = STOCK-:NEW. AMOUNT
+--                WHERE PCODE = :NEW.PCODE;
+--            END IF;
+--END;
+--/
+
+SET SERVEROUTPUT on;
+create or replace trigger TRG_01
+AFTER INSERT
+ON EMPLOYEE
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('신입사원이 입사했습니다.');
+END;
+/
+
+CREATE OR REPLACE TRIGGER TRG_02
+AFTER INSERT ON PRO_DETAIL
+FOR EACH ROW
+BEGIN
+    IF :NEW.STATUS = '입고' THEN
+        UPDATE PRODUCT SET STOCK = STOCK + :NEW.AMOUNT
+        WHERE PCODE = :NEW.PCODE;
+    END IF;
+    
+    IF :NEW.STATUS = '출고' THEN
+        UPDATE PRODUCT SET STOCK = STOCK - :NEW.AMOUNT
+        WHERE PCODE = :NEW.PCODE;
+    END IF;
+END;
+/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

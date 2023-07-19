@@ -1033,15 +1033,46 @@ SET DEFINE OFF;,
 --IS NULL / IS NOT NULL 로 사용
 
 
+-----------------------------------------------------------
+--0719 TRIGGER
+-----------------------------------------------------------
+CREATE TABLE PRODUCT(
+    pcode number primary key,
+    pname varchar2(30),
+    brand varchar2(30),
+    price number,
+    stock number default 0
+);
+
+create table pro_detail(
+    dcode number primary key,
+    pcode number,
+    pdate date,
+    amount number,
+    status varchar2(10) check(status in('입고','출고')),
+    foreign key (pcode) references product(pcode)
+);
+
+create sequence seq_pcode;
+create sequence seq_dcode;
+
+insert into product
+values (seq_pcode.nextval, '갤럭시노트8','삼성',900000, default);
+insert into product
+values (seq_pcode.nextval, '아이폰8','애플',1000000, default);
+insert into product
+values (seq_pcode.nextval, '대륙폰','샤오미',600000, default);
 
 
+INSERT INTO PRO_DETAIL VALUES (SEQ_DCODE.NEXTVAL, 1, SYSDATE, 120,'입고');
+INSERT INTO PRO_DETAIL VALUES (SEQ_DCODE.NEXTVAL, 2, SYSDATE, 95,'입고');
+INSERT INTO PRO_DETAIL VALUES (SEQ_DCODE.NEXTVAL, 3, SYSDATE, 4,'입고');
+INSERT INTO PRO_DETAIL VALUES (SEQ_DCODE.NEXTVAL, 1, SYSDATE, 32,'출고');
+INSERT INTO PRO_DETAIL VALUES (SEQ_DCODE.NEXTVAL, 2, SYSDATE, 98,'출고');
+INSERT INTO PRO_DETAIL VALUES (SEQ_DCODE.NEXTVAL, 3, SYSDATE, 11,'출고');
 
-
-
-
-
-
-
+SELECT * FROM PRODUCT;
+SELECT SEQ_DCODE.NEXTVAL FROM DUAL ;
 
 
 
