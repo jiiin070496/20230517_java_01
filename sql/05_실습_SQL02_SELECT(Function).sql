@@ -4,7 +4,7 @@ select student_no as "학번", student_name as "이름", entrance_date as "입�
     from tb_student
         join tb_department using (department_no)
         where department_no = '002'
-    order by entrance_date;
+    order by 3;
     
 -- 2. 춘 기술대학교의 교수 중 이름이 세글자가 아닌 교수가 한 명 있다고 한다.
 -- 그 교수의 이름과 주민번호를 화면에 출력하는 SQL문장을 작성해보자.
@@ -74,9 +74,10 @@ select substr(term_no,1, 4) as "년도", round(avg(point),1) as "년도 별 평�
 -- 13. 학과별 휴항생 수를 파악하고자 한다. 학과 번호와 휴학생 수를 표시하는 SQL 문장을 작성하시오
 SELECT DEPARTMENT_NO as"학과코드명", COUNT(*)as"휴학생 수"
     FROM tb_student
-    where absence_yn = 'Y'
-    group by department_no
-    order by department_no;
+        where absence_yn = 'Y'
+        group by department_no
+    order by 1
+;
 
 
 -- 14. 춘 대학교에 다니는 동명이인 학생들의 이름을 찾고자 한다. 어떤 SQL문장을 사용하면 가능하겠는가?
