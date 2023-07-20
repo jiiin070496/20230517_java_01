@@ -95,21 +95,19 @@ SELECT student_name, term_no
         order by 2;
 
 -- 13. 예체능 계열 과목 중 담당 교수를 한 명도 배정받지 못한 과목을 찾아 그 과목 이름과 학과이름을 출력하는 SQL 문장을 작성하시오.
-select class_name, department_name
 
-;
-
-
-
+-- 14. 춘 기술대학교 서반아어학과 학생들의 지도교수를 게시하고자한다.학생이름과 지도교수 이름을 찾고 만일 지도교수가 없는 학생인 경우
+--"지도교수 미지정"으로 표시하도록하는 SQL문을 작성하시오. 학생이름, 지도교수, 
 
 -- 15. 휴학생이 아닌 학생 중 평점이 4.0 이상인 학생을 찾아 그학생의 학번, 이름, 평점을 출력하는 SQL문을 작성하시오
-select * from (
+select * from 
+(
 SELECT student_no, round(avg(point),1) avgPoint
     FROM (select * from tb_student where absence_yn <> 'Y')S
         JOIN TB_DEPARTMENT D USING (DEPARTMENT_NO)
         JOIN TB_GRADE G using (student_no)
     group by student_no
-    ) tb1
+) tb1
 where tb1.avgPoint >= 4.0
 ;
 -- 혹은 
@@ -118,8 +116,9 @@ SELECT student_no, round(avg(point),1) avgPoint
         JOIN TB_DEPARTMENT D USING (DEPARTMENT_NO)
         JOIN TB_GRADE G using (student_no)
     group by student_no
-    having round(avg(point),1) >= 4
+    having round(avg(point),1) >= 4.0
 ;
+
 SELECT student_name, d.department_name, round(avg(point),1) avgPoint
     FROM (select * from tb_student where absence_yn <> 'Y')S
         JOIN TB_DEPARTMENT D USING (DEPARTMENT_NO)
@@ -138,6 +137,22 @@ SELECT student_name
         -- student_no, student_name, d.department_name는 join절과 같은 값으로 묶여지므로 select에서 사용하도록 group by에 포함.
     group by student_no, student_name -- d.department_name -- 같은 학과 동명이인 - student_no를 포함
     having avg(point) >= 4 -- round하지 않아야함. select로 화면에 나타낼때 round하여 나타냄.
+;
+
+-- 16. 환경조경학과 전공과목들의 과목 별 평점을 파악할 수 있는 SQL문을 작성하시오.
+select class_no, class_name, AVG(POINT)
+    FROM tb_class c
+        left join tb_grade g using (class_no)
+        left join tb_department d using (department_no)
+            where d.department_name = '환경조경학과'
+        group by class_no, class_name
+    order by 1 
+;        
+-- 17. 춘 기술대학교에 다니고있는 최경희 학생과 같은 과 학생들의 이름과 주소를 출력하는 SQL문을 작성하시오.
+select student_name, student_address
+    from tb_student s
+        join tb_department d using(department_no)
+        
 ;
 
 -- 18. 국어국문학과에서 총 병점이 가장 높은 학생의 이름과 학번을 표시하는 SQL문을 작성하시오
@@ -165,6 +180,7 @@ select student_name
         group by student_no , student_name
         having avg(point) = (select max(avg(point)) tb_grade g group by g.student_no)       
 ;
+
 select max(avg(point)) 
     from tb_grade g 
         where student_no in (select student_no from tb_student where department_no = 
@@ -175,8 +191,29 @@ select student_no from tb_student where department_no =
                             (select department_no from tb_department where department_name = '국어국문학과') 
 ;
 
-
+-- 19. 춘 기술대학교의 "환경조경학과"가 속한 같은 계열 학과들의 학과 별 전공과목 평점을 파악하기 위한 적절한 SQL문을 찾아내시오
+-- 단, 출력헤더는 "계열 학과명", "전공평점"으로 표시되도록하고, 평점은 소수점 한 자리까지만 반올림하여 표시되도록 한다.
 
 desc TB_STUDENT;
 desc TB_DEPARTMENT;
 desc TB_GRADE;
+desc TB_CLASS;
+desc TB_PROFESSOR;
+
+select * from TB_department;
+select * from TB_student;
+select * from TB_grade;
+select * from TB_CLASS;
+select * from TB_professor;
+
+
+
+
+
+
+
+
+
+
+
+

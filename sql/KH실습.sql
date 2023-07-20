@@ -124,7 +124,7 @@ select tb1.* from
 (
 select * from employee order by hire_date asc
 )tb1
-where rownum <= 3
+where rownum <= 5
 ;
 -----------------------------------------------------
 select * from
