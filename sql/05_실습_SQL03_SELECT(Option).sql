@@ -18,10 +18,12 @@ order by 2 desc;
 select student_name as"학생이름", student_no as "학번", student_address as "거주지주소"
     from tb_student
     where student_no not like 'A%' AND
-    (student_address like '강원도%' or student_address like '경기도%')
+        (student_address like '강원도%' or student_address like '경기도%')
+--     혹은 substr(STUDENT_ADDRESS, 1, 3) in ('강원도', '경기도') and
 order by 1;
 
--- 4. 현재 벖학과 교수 중 가장 나이가 많은 사람부터 이름을 확인할 수 있는 SQL 문장을 작성하시오
+
+-- 4. 현재 법학과 교수 중 가장 나이가 많은 사람부터 이름을 확인할 수 있는 SQL 문장을 작성하시오
 select professor_name, professor_ssn
     from tb_professor tp 
         join tb_department td using(department_no)
@@ -67,10 +69,14 @@ SELECT student_no as"학번", student_name as"학생 이름", round(avg(point),1
         join tb_grade tg using (student_no)
         join tb_department using (department_no)
             where department_name = '음악학과'
-                group by student_no, student_name -- 작성
+                group by student_no, student_name
 ;
 --ORA-00937: 단일 그룹의 그룹 함수가 아닙니다
-00937. 00000 -  "not a single-group group function"
+--00937. 00000 -  "not a single-group group function"
+--                group by student_no, student_name -- 작성
+
+
+
 
 -- 11. 학번이 A313047인 학생이 학교에 나오고 있지않다. 지도 교수에게 내용을 전달하기 위한 
 -- 학과이름, 학생 이름과 지도 교수 이름이 필요하다. 이때 사용할 SQL 문을 작성하시오
@@ -86,15 +92,91 @@ SELECT student_name, term_no
         join tb_class using (class_no)
         join tb_student using (student_no)
         where class_name = '인간관계론' and substr(term_no, 1, 4) = '2007'
-        order by 2;        ;
+        order by 2;
 
 -- 13. 예체능 계열 과목 중 담당 교수를 한 명도 배정받지 못한 과목을 찾아 그 과목 이름과 학과이름을 출력하는 SQL 문장을 작성하시오.
 select class_name, department_name
-    from 
 
-select * from tb_class;
-select * from tb_department;
-select * from tb_professor;
-select * from tb_class_professor;
-select * from tb_student;
-select * from tb_grade;
+;
+
+
+
+
+-- 15. 휴학생이 아닌 학생 중 평점이 4.0 이상인 학생을 찾아 그학생의 학번, 이름, 평점을 출력하는 SQL문을 작성하시오
+select * from (
+SELECT student_no, round(avg(point),1) avgPoint
+    FROM (select * from tb_student where absence_yn <> 'Y')S
+        JOIN TB_DEPARTMENT D USING (DEPARTMENT_NO)
+        JOIN TB_GRADE G using (student_no)
+    group by student_no
+    ) tb1
+where tb1.avgPoint >= 4.0
+;
+-- 혹은 
+SELECT student_no, round(avg(point),1) avgPoint
+    FROM (select * from tb_student where absence_yn <> 'Y')S
+        JOIN TB_DEPARTMENT D USING (DEPARTMENT_NO)
+        JOIN TB_GRADE G using (student_no)
+    group by student_no
+    having round(avg(point),1) >= 4
+;
+SELECT student_name, d.department_name, round(avg(point),1) avgPoint
+    FROM (select * from tb_student where absence_yn <> 'Y')S
+        JOIN TB_DEPARTMENT D USING (DEPARTMENT_NO)
+        JOIN TB_GRADE G using (student_no)
+        -- student_no, student_name, d.department_name는 join절과 같은 값으로 묶여지므로 select에서 사용하도록 group by에 포함.
+    group by student_no, student_name, d.department_name -- 같은 학과 동명이인 - student_no를 포함
+    having avg(point) >= 4 -- round하지 않아야함. select로 화면에 나타낼때 round하여 나타냄.
+;
+SELECT student_name
+-- group by 사용시 group by에 사용한 컬럼명만 select에 사용할 수 있음. + 그리고 그룹함수 사용가능
+-- 스칼라 subquery라도 불가능함.
+        , (select department_name from tb_department t where t.department_no = s.department_no) department_name
+        , round(avg(point),1) avgPoint
+    FROM (select * from tb_student where absence_yn <> 'Y')S
+        JOIN TB_GRADE G using (student_no)
+        -- student_no, student_name, d.department_name는 join절과 같은 값으로 묶여지므로 select에서 사용하도록 group by에 포함.
+    group by student_no, student_name -- d.department_name -- 같은 학과 동명이인 - student_no를 포함
+    having avg(point) >= 4 -- round하지 않아야함. select로 화면에 나타낼때 round하여 나타냄.
+;
+
+-- 18. 국어국문학과에서 총 병점이 가장 높은 학생의 이름과 학번을 표시하는 SQL문을 작성하시오
+select rownum rn, tb1.* from 
+(
+select student_no, student_name, avg(point) avgPoint
+    from (
+        -- 국어국문학과 학생 추출
+        select * from tb_student where department_no = 
+                                        (select department_no from tb_department where department_name = '국어국문학과')
+        )s
+            join tb_grade g using (student_no)
+        group by student_no , student_name
+        order by avgpoint desc
+) tb1
+where rownum = 1 
+;
+select student_name
+    from (
+        -- 국어국문학과 학생 추출
+        select * from tb_student where department_no = 
+                                        (select department_no from tb_department where department_name = '국어국문학과')
+        )s
+            join tb_grade g using (student_no)
+        group by student_no , student_name
+        having avg(point) = (select max(avg(point)) tb_grade g group by g.student_no)       
+;
+select max(avg(point)) 
+    from tb_grade g 
+        where student_no in (select student_no from tb_student where department_no = 
+                            (select department_no from tb_department where department_name = '국어국문학과') 
+        group by g.student_no;
+
+select student_no from tb_student where department_no = 
+                            (select department_no from tb_department where department_name = '국어국문학과') 
+;
+
+
+
+desc TB_STUDENT;
+desc TB_DEPARTMENT;
+desc TB_GRADE;

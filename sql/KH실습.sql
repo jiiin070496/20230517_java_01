@@ -96,11 +96,55 @@ from employee
 --;
 ------------------------------------------------------
 
-select * from employee;
-select * from salgrade;
+-- KH 4
+--10. 보너스 포함한 연봉이 높은 5명의 사번, 이름, 부서명, 직급, 입사일, 순위조회
+select tb2.* from
+(
+select tb1.*, rownum rn from
+(
+SELECT emp_no, emp_name,(select dept_title from department d where dept_id=e.dept_code) as "부서명", job_code, ent_date, salary*12 + (salary*12*NVL(BONUS,0)) sal_rank
+    from employee e
+    order by sal_rank desc
+)tb1
+)tb2
+where rn <= 5
+;
+--NVL(BONUS,0) = decode(bonus, null, 0, bonus)
+select emp_id, salary*12 + (salary*12*NVL(BONUS,0)) sal_rank FROM EMPLOYEE order by sal_rank desc;
+
+-----------------------------------------------------
+-- 0721 test
+-- 04 kh join 11번 join과 having(그룹함수 사용가능.)
+-- 춘 02 - 14번
+-- 춘 03 - 15번 2번째풀이
+-- 16번 풀어보기
+-----------------------------------------------------
+-- 입사일 순서가 빠른 사람 3명을 조회해주세요.
+select tb1.* from
+(
+select * from employee order by hire_date asc
+)tb1
+where rownum <= 3
+;
+-----------------------------------------------------
+select * from
+(
+select rownum rn, tb1.* from
+(
+select * from employee order by hire_date asc
+)tb1
+)
+where rn <= 3
+;
 
 
 
+SELECT * FROM EMPLOYEE;
+SELECT * FROM DEPARTMENT;
+SELECT * FROM JOB;
+SELECT * FROM LOCATION;
+SELECT * FROM NATIONAL;
+SELECT * FROM SAL_GRADE;
 
 
 

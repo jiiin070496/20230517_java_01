@@ -84,7 +84,7 @@ SELECT DEPARTMENT_NO as"학과코드명", COUNT(*)as"휴학생 수"
 SELECT student_name as "동일이름", count(*) as"동명인 수"
     from tb_student
     group by student_name
-        having count(*)>1
+        having count(*)>=2
     order by 1;
 
 
