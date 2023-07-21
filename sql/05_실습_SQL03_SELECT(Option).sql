@@ -140,12 +140,12 @@ SELECT student_name
 ;
 
 -- 16. 환경조경학과 전공과목들의 과목 별 평점을 파악할 수 있는 SQL문을 작성하시오.
-select class_no, class_name, AVG(POINT)
+select c.class_no, c.class_name, round(AVG(POINT), 1)
     FROM tb_class c
-        left join tb_grade g using (class_no)
-        left join tb_department d using (department_no)
+        left join tb_grade g on c.class_no = g.class_no
+        left join tb_department d on c.department_no = d.department_no
             where d.department_name = '환경조경학과'
-        group by class_no, class_name
+        group by c.class_no, c.class_name
     order by 1 
 ;        
 -- 17. 춘 기술대학교에 다니고있는 최경희 학생과 같은 과 학생들의 이름과 주소를 출력하는 SQL문을 작성하시오.
