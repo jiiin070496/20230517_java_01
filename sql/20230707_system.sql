@@ -8,7 +8,11 @@ create user scott identified by tiger;
 alter session set "_ORACLE_SCRIPT"=true;
 
 create user kh identified by kh;
+create user khl identified by khl;
 
+create user semi identified by semi;
+
+DROP USER KHL;
 
 --상태: 실패 -테스트 실패: ORA-01045: 사용자 SCOTT는 CREATE SESSION 권한을 가지고있지 않음; 로그온이 거절되었습니다
 --해결방법 -> grant 권한명, 롤명 to scott;
@@ -18,6 +22,8 @@ create user kh identified by kh;
 --resource - 자원(table view등 객체)관련 권한들이 있는 role
 grant connect, resource to kh;
 grant connect, resource, dba to SCOTT;
+grant connect, resource, dba to khl;
+grant connect, resource, dba to semi;
 
 
 alter user scott default tablespace USERS quota unlimited on users;
