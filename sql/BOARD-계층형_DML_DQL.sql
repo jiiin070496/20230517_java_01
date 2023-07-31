@@ -51,7 +51,7 @@ insert into BOARD values (SEQ_BOARD_BNO.nextval, '&n글 제목', '&n글 내용',
 -- n 글의 답글
 --update board set BRE_STEP = BRE_STEP + 1 where BRE_STEP > (select bre_step from board where bno=?)  and BREF = (select bref from board where bno=?)
 --insert into BOARD values (SEQ_BOARD_BNO.nextval, ?, ?, default, ?    , (select bref from board where bno=?)    , (select bre_level+1 from board where bno=?)    , (select bre_step+1 from board where bno=?)    )
-    
+
     
 desc board;
 ------ UI설계서 UI007 게시글 목록 
