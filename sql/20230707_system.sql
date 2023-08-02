@@ -3,13 +3,13 @@ select * from user_tables;
 -- 주석
 -- ctrl + / 토글링
 --create 명령어 - DDL 데이터 정의어
-create user scott identified by tiger;
+
 
 alter session set "_ORACLE_SCRIPT"=true;
 
+create user scott identified by tiger;
 create user kh identified by kh;
 create user khl identified by khl;
-
 create user semi identified by semi;
 
 DROP USER semi CASCADE;
