@@ -11,13 +11,14 @@ DELETE FROM member;
 
 
 --원본글
-insert into BOARD values (SEQ_BOARD_IDX.nextval, 'title1', 'content1', default, 'jiin0960', SEQ_BOARD_IDX.nextval, 0,0) ;
-insert into BOARD values (SEQ_BOARD_IDX.nextval, '제목2', 'content2', default, 'sony0316', SEQ_BOARD_IDX.nextval, 0,0) ;
-insert into BOARD values (SEQ_BOARD_IDX.nextval, '어렵3', 'content3', default, 'onue0608', SEQ_BOARD_IDX.nextval, 0,0) ;
+insert into BOARD values (SEQ_BOARD_BNO.nextval, 'title1', 'content1', default, 'jiin0960', SEQ_BOARD_BNO.nextval, 0,0) ;
+insert into BOARD values (SEQ_BOARD_BNO.nextval, '제목2', 'content2', default, 'sony0316', SEQ_BOARD_BNO.nextval, 0,0) ;
+insert into BOARD values (SEQ_BOARD_BNO.nextval, '어렵3', 'content3', default, 'onue0608', SEQ_BOARD_BNO.nextval, 0,0) ;
 
 
 
 
 
 --원본글
-insert into BOARD values (SEQ_BOARD_IDX.nextval, '첫글', '이랍니다.', default, 'jiin0191', SEQ_BOARD_IDX.nextval, 0,0) ;
+insert into BOARD values (SEQ_BOARD_BNO.nextval, '첫글', '이랍니다.', default, 'jiin0960', SEQ_BOARD_BNO.nextval, 0,0) ;
+
