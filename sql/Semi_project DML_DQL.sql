@@ -1,7 +1,7 @@
 desc member;'
 select * from member;
-
 select * from board;
+
 insert into MEMBER values ('jiin0960', '0960','jin', 'a1@gmail.com');
 insert into MEMBER values ('sony0316', '0316','soni', 'a2@gmail.com');
 insert into MEMBER values ('onue0608', '0608','nue', 'a3@gmail.com');
