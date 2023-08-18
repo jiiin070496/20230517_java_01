@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="memberMapper1">
+<resultMap type="MemberDto2" id="MemberResultMap1">
+	<id property="mid" column="mid"/>
+	<result property="mpwd" column="mpwd"/>
+	<result property="mname" column="mname"/>
+	<result property="memail" column="memail"/>
+	<result property="mphoneno" column="mphoneno"/>
+</resultMap>
+	<insert id="insert1" parameterType="MemberDto2">
+		insert into member (mid, mpwd, mname, memail, mphoneno)
+				values(#{mid}, #{mpwd}, #{mname}, #{memail}, #{mphoneno})
+	</insert>
+	
+</mapper>

@@ -6,9 +6,6 @@ import semi_project.board.model.dto.BoardDto;
 import semi_project.common.jdbc.MyBatisTemplate;
 import semi_project.member.model.dao.MemberDao;
 
-import static semi_project.common.jdbc.jdbcTemplate.*;
-
-import java.sql.Connection;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -31,7 +28,7 @@ public class BoardService {
 		result = dao.selectOne(session, bno);
 		if(result != null) {
 			// 첨부파일들 읽어서 result에 넣기
-			List<AttachFileDto> fileList = dao.selectAttachFileList(session, bno);
+			List<AttachFileDto> fileList = dao.selectAttachList(session, bno);
 			result.setAttachFileList(fileList);
 		}
 		session.close();

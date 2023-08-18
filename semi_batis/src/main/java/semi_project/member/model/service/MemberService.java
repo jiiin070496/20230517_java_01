@@ -1,50 +1,54 @@
 package semi_project.member.model.service;
 
-import static semi_project.common.jdbc.jdbcTemplate.*;
 
 import java.sql.Connection;
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
+
+import semi_project.board.model.dao.BoardDao;
+import semi_project.common.jdbc.MyBatisTemplate;
 import semi_project.member.model.dao.MemberDao;
 import semi_project.member.model.dto.Member;
 
 
 public class MemberService {
-	private MemberDao dao = new MemberDao();
+	private BoardDao dao = new BoardDao();
+	private MemberDao mdao = new MemberDao();
 	
 	public List<Member> selectList(){
 		List<Member> result = null;
-		Connection conn = getConnectionSemi();
-		result = dao.selectList(conn);
-		close(conn);
+		SqlSession session = MyBatisTemplate.getSqlSession(true);
+		result = dao.selectList(session);
+		session.close();
 		return result;
 	}
 	public Member selectOne(int bno){
 		Member result = null;
-		Connection conn = getConnectionSemi();
-		result = dao.selectOne(conn, bno);
-		close(conn);
+		SqlSession session = MyBatisTemplate.getSqlSession(true);
+		result = dao.selectOne(session, bno);
+		session.close();
 		return result;
 	}
 	public int insert(Member vo){
 		int result = 0;
-		Connection conn = getConnectionSemi();
-		result = dao.insert(conn, vo);
-		close(conn);
+		SqlSession session = MyBatisTemplate.getSqlSession(true);
+		result = dao.insert(session, vo);
+		session.close();
 		return result;
 	}
 	public int update(Member dto){
 		int result = 0;
-		Connection conn = getConnectionSemi();
-		result = dao.update(conn, dto);
-		close(conn);
+		SqlSession session = MyBatisTemplate.getSqlSession(true);
+		result = dao.update(session, dto);
+		session.close();
 		return result;
 	}
 	public int delete(int bno){
 		int result = 0;
-		Connection conn = getConnectionSemi();
-		result = dao.delete(conn, bno);
-		close(conn);
+		SqlSession session = MyBatisTemplate.getSqlSession(true);
+		result = dao.delete(session, bno);
+		session.close();
 		return result;
 	}
 	
@@ -52,18 +56,18 @@ public class MemberService {
 	// login 
 	public int login(Member vo) {
 		int result = 0;
-		Connection conn = getConnectionSemi();
-		result = dao.login(conn, vo);
-		close(conn);
+		SqlSession session = MyBatisTemplate.getSqlSession(true);
+		result = dao.login(session, vo);
+		session.close();
 		return result;
 	}
 	
 	// login 
 	public String login(String mid) {
 		String result = null;
-		Connection conn = getConnectionSemi();
-		result = dao.login(conn, mid);
-		close(conn);
+		SqlSession session = MyBatisTemplate.getSqlSession(true);
+		result = dao.login(session, mid);
+		session.close();
 		return result;
 	}
 }

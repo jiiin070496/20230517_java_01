@@ -1,6 +1,5 @@
 package semi_project.member.model.dao;
 
-import static semi_project.common.jdbc.jdbcTemplate.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,66 +8,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
+import semi_project.board.model.dto.AttachFileDto;
 import semi_project.member.model.dto.Member;
 
 public class MemberDao {
-	public List<Member> selectList(Connection conn) {
-		System.out.println("[Member Dao selectList]");
-		List<Member> result = new ArrayList<Member>();
-		// TODO
-		String query = "select * from member"; 
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			pstmt = conn.prepareStatement(query);
-			rs = pstmt.executeQuery();
-
-			while (rs.next() == true) {
-				Member dto = new Member(
-							rs.getString("MID"),
-							rs.getString("MNAME"),
-							rs.getString("MEMAIL")
-						);
-				result.add(dto);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(rs);
-			close(pstmt);
-		}
-		System.out.println("[Member Dao selectList] return:" + result);
-		return result;
-	}
-
-	public Member selectOne(Connection conn, int bno) {
-		System.out.println("[Member Dao selectOne] bno:" + bno);
-		Member result = null;
-		// TODO
-		System.out.println("[Member Dao selectOne] return:" + result);
-		return result;
-	}
 
 	public int insert(Connection conn, Member dto) {
-		System.out.println("[Member Dao insert] dto:" + dto);
-		int result = 0;
-		String query = "insert into member "
-				+ " (mid, mpwd, mname, memail, mphoneno)"
-				+ " values(?, ?, ?, ?, ?)";
-		PreparedStatement pstmt = null;
-		try {
-			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, dto.getMid());
-			pstmt.setString(2, dto.getMpwd());
-			pstmt.setString(3, dto.getMname());
-			pstmt.setString(4, dto.getMemail());
-			pstmt.setString(5, dto.getMphoneno());
-			result = pstmt.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			close(pstmt);
-		}
+		System.out.println("[Member Dao insert]");
+		int result = session.insert("memberMapper1, insert1", dto);
 		System.out.println("[Member Dao insert] return:" + result);
 		return result;
 	}

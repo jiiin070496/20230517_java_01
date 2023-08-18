@@ -1,6 +1,5 @@
 package semi_project.board.model.dao;
 
-import static semi_project.common.jdbc.jdbcTemplate.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -51,6 +50,7 @@ public class BoardDao {
 		System.out.println("[Board Dao insert] return:" + result);
 		return result;
 	}
+	
 	//답글
 	public int insertReply(SqlSession session, BoardDto dto, int nextVal) {
 		System.out.println("[Board Dao insertReply]");
@@ -84,60 +84,51 @@ public class BoardDao {
 	}	
 	
 	// 첨부파일들 저장
-	public int insertAttachFileList(Connection conn, List<AttachFileDto> dtoList, int bno) {
-		System.out.println("[Board Dao insertAttachFileList] dto:" + dtoList+", bno:"+bno);
-		int result = 0;
-		String query = "";
-		query = "insert all ";
-		for(int i=0; i<dtoList.size(); i++) {
-			query += " into ATTACH_FILE (FILEPATH, BNO) values (?, ?) ";
-		}
-		query += " select * from dual ";
-		PreparedStatement pstmt = null;
-		try {
-			pstmt = conn.prepareStatement(query);
-			for(int i=0; i<dtoList.size(); i++) {
-				pstmt.setString((2*i)+1, dtoList.get(i).getFilepath());
-				pstmt.setInt((2*i)+2, bno);
-			}
-			result = pstmt.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			close(pstmt);
-		}
-		System.out.println("[Board Dao insertAttachFileList] return:" + result);
-		return result;
-	}
-	
-	public int getSeqBoardBnoNexVal(Connection conn) {
-		System.out.println("[Board Dao getSeqBoardBnoNexVal] ");
-		int result = 0;
-		String query ="select SEQ_BOARD_BNO.nextval bnonextval from dual";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			pstmt = conn.prepareStatement(query);
-			rs = pstmt.executeQuery();
-			if(rs.next()) {
-				result = rs.getInt("bnonextval");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			close(rs);
-			close(pstmt);
-		}
-		System.out.println("[Board Dao getSeqBoardBnoNexVal] return:" + result);
-		return result;
-	}
-	
-	// 첨부파일들 읽기
-	public List<AttachFileDto> selectAttachFileList(SqlSession session, int bno) {
-		System.out.println("[Board Dao selectAttachFileList]");
-		List<AttachFileDto> result = session.selectList("boardMapper1.selectAttachFile1", bno);
-		System.out.println("[Board Dao selectAttachFileList] return: " + result);
-		return result;
-	}
-
+//	public int insertAttachFileList(Connection conn, List<AttachFileDto> dtoList, int bno) {
+//		System.out.println("[Board Dao insertAttachFileList] dto:" + dtoList+", bno:"+bno);
+//		int result = 0;
+//		String query = "";
+//		query = "insert all ";
+//		for(int i=0; i<dtoList.size(); i++) {
+//			query += " into ATTACH_FILE (FILEPATH, BNO) values (?, ?) ";
+//		}
+//		query += " select * from dual ";
+//		PreparedStatement pstmt = null;
+//		try {
+//			pstmt = conn.prepareStatement(query);
+//			for(int i=0; i<dtoList.size(); i++) {
+//				pstmt.setString((2*i)+1, dtoList.get(i).getFilepath());
+//				pstmt.setInt((2*i)+2, bno);
+//			}
+//			result = pstmt.executeUpdate();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		} finally {
+//			close(pstmt);
+//		}
+//		System.out.println("[Board Dao insertAttachFileList] return:" + result);
+//		return result;
+//	}
+//	
+//	public int getSeqBoardBnoNexVal(Connection conn) {
+//		System.out.println("[Board Dao getSeqBoardBnoNexVal] ");
+//		int result = 0;
+//		String query ="select SEQ_BOARD_BNO.nextval bnonextval from dual";
+//		PreparedStatement pstmt = null;
+//		ResultSet rs = null;
+//		try {
+//			pstmt = conn.prepareStatement(query);
+//			rs = pstmt.executeQuery();
+//			if(rs.next()) {
+//				result = rs.getInt("bnonextval");
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		} finally {
+//			close(rs);
+//			close(pstmt);
+//		}
+//		System.out.println("[Board Dao getSeqBoardBnoNexVal] return:" + result);
+//		return result;
+//	}
 }
