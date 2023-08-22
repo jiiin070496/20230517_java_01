@@ -87,6 +87,49 @@ public class BoardService {
 		return result;
 	}
 
+	public List<BoardDto> selectList2(){
+		List<BoardDto> result = null;
+		SqlSession session = MyBatisTemplate.getSqlSessionSemi();
+		result = dao.selectList2(session);
+		session.close();
+		return result;
+	}
+	
+	public BoardDto selectOne2(int bno) {
+		BoardDto result = null;
+		SqlSession session = MyBatisTemplate.getSqlSessionSemi();
+		result = dao.selectOne(session, bno);
+		session.close();
+		return result;
+	}
+	
+	public int insert2(BoardDto dto, int nextVal) {
+		int result = 0;
+		SqlSession session = MyBatisTemplate.getSqlSessionSemi();
+		result = dao.insert2(session, dto, nextVal);
+		session.close();
+		return result;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 	
 	
 	

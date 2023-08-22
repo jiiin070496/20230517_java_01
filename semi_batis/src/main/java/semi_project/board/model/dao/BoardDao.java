@@ -83,52 +83,49 @@ public class BoardDao {
 		return result;
 	}	
 	
-	// 첨부파일들 저장
-//	public int insertAttachFileList(Connection conn, List<AttachFileDto> dtoList, int bno) {
-//		System.out.println("[Board Dao insertAttachFileList] dto:" + dtoList+", bno:"+bno);
-//		int result = 0;
-//		String query = "";
-//		query = "insert all ";
-//		for(int i=0; i<dtoList.size(); i++) {
-//			query += " into ATTACH_FILE (FILEPATH, BNO) values (?, ?) ";
-//		}
-//		query += " select * from dual ";
-//		PreparedStatement pstmt = null;
-//		try {
-//			pstmt = conn.prepareStatement(query);
-//			for(int i=0; i<dtoList.size(); i++) {
-//				pstmt.setString((2*i)+1, dtoList.get(i).getFilepath());
-//				pstmt.setInt((2*i)+2, bno);
-//			}
-//			result = pstmt.executeUpdate();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		} finally {
-//			close(pstmt);
-//		}
-//		System.out.println("[Board Dao insertAttachFileList] return:" + result);
-//		return result;
-//	}
-//	
-//	public int getSeqBoardBnoNexVal(Connection conn) {
-//		System.out.println("[Board Dao getSeqBoardBnoNexVal] ");
-//		int result = 0;
-//		String query ="select SEQ_BOARD_BNO.nextval bnonextval from dual";
-//		PreparedStatement pstmt = null;
-//		ResultSet rs = null;
-//		try {
-//			pstmt = conn.prepareStatement(query);
-//			rs = pstmt.executeQuery();
-//			if(rs.next()) {
-//				result = rs.getInt("bnonextval");
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		} finally {
-//			close(rs);
-//			close(pstmt);
-//		}
-//		System.out.println("[Board Dao getSeqBoardBnoNexVal] return:" + result);
-//		return result;
-//	}
+	public List<BoardDto> selectList2(SqlSession session){
+		List<BoardDto> result = session.selectList("BoardMapper1.selectList1");
+		return result;
+	}
+	
+	public BoardDto selectOne2(SqlSession session, int bno) {
+		BoardDto result = session.selectOne("BoardMapper1.selectOne1", bno);
+		return result;
+	}
+	
+	public int insert2(SqlSession session, BoardDto dto, int nextVal) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("dto", dto);
+		map.put("nextVal", nextVal);
+		int result = session.insert("BoardMapper1.insert1", dto);
+		return result;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

@@ -13,4 +13,8 @@
 				values(#{mid}, #{mpwd}, #{mname}, #{memail}, #{mphoneno})
 	</insert>
 	
+	<select id="login1" resultMap="MemberResultMap1" parameterType="MemberDto2">
+		select mpwd from member where mid=#{mid}
+	</select>
+
 </mapper>

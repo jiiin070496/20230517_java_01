@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="boardMapper1">
-<resultMap type="BoardDto2" id="BoardResultMap1">
+<resultMap type="boardDto2" id="BoardResultMap1">
 	<id property="bno" column="bno"/>
 	<result property="btitle" column="btitle"/>
 	<result property="bcontent" column="bcontent"/>
@@ -44,5 +44,41 @@
  	<delete id="delete1" parameterType="_int">
 		delete from board where bno=#{bno}
 	</delete>
+
+	<resultMap type="BoardDto2" id="BoardResultMap1">
+		<id property="bno" column="bno"/>
+		<result property="btitle" column="btitle"/>
+	</resultMap>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </mapper>

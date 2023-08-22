@@ -7,8 +7,8 @@
 	</settings>
 	<typeAliases>
 		<typeAlias type="semi_project.board.model.dto.AttachFileDto" alias="AttachFileDto"/>
-		<typeAlias type="semi_project.board.model.dto.BoardDto" alias="BoardDto"/>
-		<typeAlias type="semi_project.member.model.dto.member" alias="member"/>
+		<typeAlias type="semi_project.board.model.dto.BoardDto" alias="BoardDto2"/>
+		<typeAlias type="semi_project.member.model.dto.Member" alias="MemberDto2"/>
 	</typeAliases>
 	<environments default="aaa">
 		<environment id="aaa">
@@ -22,7 +22,37 @@
 		</environment>
 	</environments>
 	<mappers>
-		<mapper resource="mappers/board-mapper.xml"/>
-		<mapper resource="mappers/member-mapper.xml"/>
+		<mapper resource="mybatis/mappers/board-mapper.xml"/>
+		<mapper resource="mybatis/mappers/member-mapper.xml"/>
 	</mappers>
+	
+</configuration>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </configuration>
