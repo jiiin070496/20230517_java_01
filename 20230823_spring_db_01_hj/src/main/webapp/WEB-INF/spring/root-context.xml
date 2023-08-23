@@ -31,7 +31,7 @@
 	</bean>	
 	<!-- Transaction Manager(commit/rollback의 기반) -->
 	<bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager">
-		<constructor-arg ref="dateSource" />
+		<constructor-arg ref="dataSource" />
 	</bean>
 	<!-- @Transactional 사용되는 코드를 AOP를 통해서 설정함 //TODO -->
 	<tx:annotation-driven/>
