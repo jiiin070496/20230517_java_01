@@ -2,6 +2,8 @@
 select * from member;
 select * from board;
 
+desc board;
+
 commit;
 
 insert into MEMBER values ('jiin0960', '0960','jin', 'a1@gmail.com', '01011111111');

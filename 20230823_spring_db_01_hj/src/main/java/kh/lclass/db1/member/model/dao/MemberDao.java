@@ -11,7 +11,7 @@ import kh.lclass.db1.member.model.vo.MemberVo;
 @Repository("memberDao")
 public class MemberDao {
 	
-	//AutoWired 사용시 Spring에서 이미 만들어진 빈객체를 가져다 씀.
+	//AutoWired 사용시 Spring에서 이미 만들어진 bean객체를 가져다 씀.
 	//따라서 = NULL 또는 = new Xxx()대입하면 안됌.
 	@Autowired
 	private SqlSession sqlSession; //root-context.xml에 bean SqlSession객체에 적혀있는 아이디

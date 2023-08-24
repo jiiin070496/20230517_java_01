@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>memberList</title>
+<title>Board</title>
 <style>
 body {
     background-color: #f9f9f9;
@@ -84,31 +84,37 @@ body {
 </head>
 <body>
 <div class="title">
-	<h2> 쿵's 회원정보 </h2>
+	<h2> 쿵's 게시판 </h2>
 </div>
-<c:if test="${not empty memberList }">
-    <p>총 <c:out value="${fn:length(memberList)}" /> 명의 회원이 있습니다</p>
+<c:if test="${not empty boardList }">
+    <p>총 <c:out value="${fn:length(boardList)}" />개의 게시물이 있습니다</p>
     <table class="styled-board">
         <tr>
-            <th>아이디</th>
-            <th>비밀번호</th>
-            <th>이름</th>
-            <th>이메일</th>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>작성일</th>
         </tr>
-        <c:forEach items="${memberList }" var="vo">
+        <c:forEach items="${boardList }" var="vo">
             <tr>
+                <td>${vo.bno }</td>
+                <td>
+                    <a href="<c:url value='/board/read'/>?bno=${vo.bno }">
+                        <c:forEach begin="1" end="${vo.breLevel }">&#8618; </c:forEach>
+                        ${vo.btitle }
+                    </a>
+                </td>
                 <td>${vo.mid }</td>
-                <td>${vo.mpwd }</td>
-                <td>${vo.mname }</td>
-                <td>${vo.memail }</td>
+                <td>${vo.bwriteDate }</td>
             </tr>
         </c:forEach>
     </table>
 </c:if>
 <hr>
 [[
-${memberList }
+${boardList }
 ]] 
 <hr>
+
 </body>
 </html>

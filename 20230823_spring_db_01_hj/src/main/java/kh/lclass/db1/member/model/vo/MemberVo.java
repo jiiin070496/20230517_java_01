@@ -2,6 +2,9 @@ package kh.lclass.db1.member.model.vo;
 
 import org.springframework.stereotype.Component;
 
+import lombok.Data;
+
+
 @Component
 public class MemberVo {
 	

@@ -12,9 +12,11 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
-	
 	@GetMapping("/member/list")
 	public String list(Model model) {
+		//Model ui로 보낼때. 
+		//Model 대신 HttpServletRequest request, HttpServletResponse response 를 적으면 getParameter, setAtt가능
+		//request.setAttribute("memberList", volist);
 		model.addAttribute("memberList", memberService.selectList());
 		return "member/list";
 	}
