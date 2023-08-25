@@ -83,6 +83,18 @@ body {
 </style>
 </head>
 <body>
+    <script>
+        var msg = '${msg}';
+        if (msg) {
+            alert(msg);
+        }
+    </script>    
+    <script>
+        var msg = '${msg2}';
+        if (msg) {
+            alert(msg);
+        }
+    </script>
 <div class="title">
 	<h2> 쿵's 회원정보 </h2>
 </div>

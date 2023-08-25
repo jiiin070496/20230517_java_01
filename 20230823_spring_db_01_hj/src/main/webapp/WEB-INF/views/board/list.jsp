@@ -83,6 +83,14 @@ body {
 </style>
 </head>
 <body>
+<script>
+// step 3
+	var msg = '${msg}';
+	if(msg){
+		alert(msg);
+	}
+</script>
+
 <div class="title">
 	<h2> 쿵's 게시판 </h2>
 </div>
@@ -110,6 +118,11 @@ body {
         </c:forEach>
     </table>
 </c:if>
+ <div class="btn-container">
+	<a href="<c:url value='/board/insert'/>">
+	    <button>글 등록</button>
+	</a>
+</div> 
 <hr>
 [[
 ${boardList }

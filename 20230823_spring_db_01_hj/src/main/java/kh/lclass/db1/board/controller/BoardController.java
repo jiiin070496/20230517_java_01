@@ -1,12 +1,17 @@
 package kh.lclass.db1.board.controller;
 
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kh.lclass.db1.board.model.service.BoardService;
 import kh.lclass.db1.board.model.vo.BoardVo;
@@ -19,34 +24,94 @@ public class BoardController {
 	private BoardService boardService;
 	
 	@GetMapping("/list")
-	public String list(Model model) {
-		model.addAttribute("boardList", boardService.selectList());
-		return "board/list";
+	public ModelAndView list(
+			//Model model - Controller --> jsp(view)선택 + 데이터 전달
+//			RedirectAttributes rttr 
+			String msg2,
+			String m3,
+			String n1,
+			ModelAndView mv
+			) throws Exception{
+//		model.addAttribute("boardList", boardService.selectList());
+//		return "board/list";
+		// 안보임. 의미 없음. jsp에서 데이터 꺼내짐
+//		System.out.println(rttr.getAttribute("msg2"));
+//		Map<String, Object> map = (Map<String, Object>)rttr.getFlashAttributes();
+//		System.out.println(map);
+		
+		mv.addObject("boardList", boardService.selectList());
+		mv.setViewName("board/list");
+		return mv;
 	}
-//	@GetMapping("/board/get")
-//	public String get(Model model, HttpServletRequest request) {
-//		int bno = Integer.parseInt(request.getParameter("bno"));
-//		model.addAttribute("boardVo", boardService.selectOne(bno));
-//		return "board/get";
-//	} 
-//	대신 아래 spring IoC를 사용
 	@GetMapping("/get")
-	public String get(Model model, int bno, String a) {
+	public String get(Model model, int bno, String a) throws Exception{ //jsp에서 controller로 데이터 전달
 		System.out.println(bno);
 		System.out.println(a);
-		model.addAttribute("boardOne", boardService.selectOne(bno));
+		
+		// Controller --> jsp(view)에 데이터 전달
+		model.addAttribute("boardVo", boardService.selectOne(bno));
+		//Controller --> jsp(view) 선택 (forward)
 		return "board/get";
 	}
 	@GetMapping("/insert")
 	public String insert() {
-		return "board/insert";
+		//FlashAttribute를 위해 여기에 작성할것이 없음
+//		return "board/insert"; 이렇게해도 되지만 코드의 일관성을 위해
+		String viewPage = "board/insert";
+		return viewPage; // 이렇게 작성
 	}
 	@PostMapping("/insert")
-	public String insertDo(BoardVo vo) {
+	public String insertDo(
+			RedirectAttributes redirectAttr // redirect:/url 상황에서 url--> jsp 데이터를 전달하기 위해 추가된 자료형 
+			, BoardVo vo
+			, String btitle) { //ExceptHandler로 가지않고 메소드 내부에서 처리함.
+		String viewPage = "redirect:/";
 		System.out.println(vo);
+		System.out.println(btitle);
 		
-		//절대위치 작성하면 됌.
-		return "redirect:/board/list";
+		//login한 mid
+		vo.setMid("jiin0960");
+		
+		int result; //1: 글 등록 성공, 0: 글 등록 실패
+		try {
+			result = boardService.insert(vo);
+			if(result < 1) {
+				redirectAttr.addAttribute("msg2", "msg2"); //url에 뿌려짐 ?msg2=msg2&n1=n1
+				redirectAttr.addFlashAttribute("msg", "글 등록에 실패했습니다. 다시 입력해세요."); // 1회성으로 뿌려짐
+				viewPage = "redirect:/board/insert";
+			}else {
+				redirectAttr.addAttribute("msg2", "msg2");
+				redirectAttr.addAttribute("msg3", "msg3");
+				redirectAttr.addFlashAttribute("msg", "글 등록되었습니다.");
+				viewPage = "redirect:/board/list?n1=v1&n2=v2";
+			}
+		}catch(Exception e) {
+			//오류 발생시
+			redirectAttr.addAttribute("msg2", "msg2");
+			redirectAttr.addFlashAttribute("msg", "예기치 못한 오류로 글등록에 실패했습니다. 다시 시도해주세요.");
+			viewPage = "redirect:/board/list";
+		}
+		return "viewPage";
 	}
-
+	@ExceptionHandler
+	public void e() {}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
