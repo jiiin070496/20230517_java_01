@@ -45,10 +45,10 @@
 	
 	<!-- 로그인 방법 2.Interceptor -->
 	<!-- Interceptor 로그인 객체 생성 -->
-	<beans:bean class="" id="loginInterceptor"/>
+<!-- 	<beans:bean class="kh.lclass.db1.common.LoginInterceptor" id="loginInterceptor"/>
 	
 	<interceptors>
-		<!-- Intercepter 로그인 설정 exclude -> 로그인 필요 X -->
+		Intercepter 로그인 설정 exclude -> 로그인 필요 X
 		<interceptor>
 			<mapping path="/**"/>
 			<exclude-mapping path="/resources/**"/>
@@ -59,7 +59,7 @@
 			<exclude-mapping path="/shop/**"/>
 			<beans:ref bean="loginInterceptor"/>
 		</interceptor>
-	</interceptors>
+	</interceptors> -->
 	
 	
 	
