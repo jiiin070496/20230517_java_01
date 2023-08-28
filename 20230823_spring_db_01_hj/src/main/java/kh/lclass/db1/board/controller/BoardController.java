@@ -1,6 +1,7 @@
 package kh.lclass.db1.board.controller;
 
 
+import java.security.Principal;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,12 +65,15 @@ public class BoardController {
 	public String insertDo(
 			RedirectAttributes redirectAttr // redirect:/url 상황에서 url--> jsp 데이터를 전달하기 위해 추가된 자료형 
 			, BoardVo vo
-			, String btitle) { //ExceptHandler로 가지않고 메소드 내부에서 처리함.
+			, String btitle
+			//, Principal principal 
+			) { //ExceptHandler로 가지않고 메소드 내부에서 처리함.
 		String viewPage = "redirect:/";
 		System.out.println(vo);
 		System.out.println(btitle);
 		
 		//login한 mid
+		//String mid = principal.getName();
 		vo.setMid("jiin0960");
 		
 		int result; //1: 글 등록 성공, 0: 글 등록 실패
@@ -93,10 +97,8 @@ public class BoardController {
 		}
 		return "viewPage";
 	}
-	@ExceptionHandler
-	public void e() {}
-	
-	
+//	@ExceptionHandler
+//	public void e() {}
 	
 	
 	

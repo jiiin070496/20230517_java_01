@@ -12,7 +12,6 @@ import kh.lclass.db1.board.model.vo.BoardVo;
 public class BoardDao {
 	@Autowired
 	private SqlSession sqlSession; //root-context.xml에 bean SqlSession객체에 적혀있는 아이디
-	
 	public List<BoardVo> selectList() throws Exception{ 
 		return sqlSession.selectList("board.selectList");
 	}
