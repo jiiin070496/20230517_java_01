@@ -6,6 +6,32 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-5.7.xsd">
-<!-- 로그인 방법 1 -->
+
+	<security:http>
+		<security:intercept-url pattern="/resources/**" access="permitAll" />
+		<security:intercept-url pattern="/error/**" access="permitAll" />
+		
+		<security:intercept-url pattern="/board/**" access="permitAll" />
+		<security:intercept-url pattern="/member/**" access="hasRole( 'R_M' )" />
+		<security:intercept-url pattern="/admin/**" access="hasRole( 'R_A' )" />
+		<security:form-login login-page="/login"
+							authentication-success-forward-url="/member/list"
+							authentication-failure-url="/login"
+		/>
+		<security:logout logout-url="/user/logout"
+							logout-success-url="/board/list"
+							invalidate-session="true"
+							delete-cookies="remember-me,JSESSION_ID"
+		/>		
+	</security:http>
+
+
+
+	<security:authentication-manager>
+		<security:authentication-provider>
+			<security:jdbc-user-service data-source-ref="dataSource"/>
+			<security:password-encoder/>
+		</security:authentication-provider>
+	</security:authentication-manager>
 
 </beans>

@@ -53,8 +53,7 @@ insert into BOARD values (SEQ_BOARD_BNO.nextval, '&n글 제목', '&n글 내용',
 --insert into BOARD values (SEQ_BOARD_BNO.nextval, ?, ?, default, ?    , (select bref from board where bno=?)    , (select bre_level+1 from board where bno=?)    , (select bre_step+1 from board where bno=?)    )
 
     
-desc board;
------- UI설계서 UI007 게시글 목록 
+3------ UI설계서 UI007 게시글 목록 
 select BNO, BTITLE, to_char(BWRITE_DATE, 'yyyy-mm-dd hh24:mi:ss') BWRITE_DATE, MID, BREF, BRE_LEVEL, BRE_STEP
     from board order by bref desc, bre_step asc;
     
