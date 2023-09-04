@@ -1,7 +1,6 @@
 package semi_project.member.model.service;
 
 
-import java.sql.Connection;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -18,7 +17,7 @@ public class MemberService {
 	//회원가입
 	public int insert(Member dto){
 		int result = 0;
-		SqlSession session = MyBatisTemplate.getSqlSession(true);
+		SqlSession session = MyBatisTemplate.getSqlSession();
 		result = dao.insert(session, dto);
 		session.close();
 		return result;
@@ -27,7 +26,7 @@ public class MemberService {
 	// login 
 	public int login(Member dto) {
 		int result = 0;
-		SqlSession session = MyBatisTemplate.getSqlSession(true);
+		SqlSession session = MyBatisTemplate.getSqlSession();
 		result = dao.login(session, dto);
 		session.close();
 		return result;

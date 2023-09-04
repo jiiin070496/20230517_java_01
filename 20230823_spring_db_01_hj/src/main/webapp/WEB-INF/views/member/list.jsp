@@ -98,6 +98,7 @@ body {
 <div class="title">
 	<h2> 쿵's 회원정보 </h2>
 </div>
+<a href="/board/get/${bno }"></a>
 <c:if test="${not empty memberList }">
     <p>총 <c:out value="${fn:length(memberList)}" /> 명의 회원이 있습니다</p>
     <table class="styled-board">

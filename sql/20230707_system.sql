@@ -12,8 +12,10 @@ create user kh identified by kh;
 create user khl identified by khl;
 create user semi identified by semi;
 
-DROP USER semi CASCADE;
+create user jjapkorea identified by jjapkorea;
 
+DROP USER semi CASCADE;
+DROP USER jjapkorea CASCADE;
 
 --상태: 실패 -테스트 실패: ORA-01045: 사용자 SCOTT는 CREATE SESSION 권한을 가지고있지 않음; 로그온이 거절되었습니다
 --해결방법 -> grant 권한명, 롤명 to scott;
@@ -24,7 +26,7 @@ DROP USER semi CASCADE;
 grant connect, resource to kh;
 grant connect, resource, dba to SCOTT;
 grant connect, resource, dba to khl;
-grant connect, resource, dba to semi;
+grant connect, resource, dba to jjapkorea;
 
 
 alter user scott default tablespace USERS quota unlimited on users;

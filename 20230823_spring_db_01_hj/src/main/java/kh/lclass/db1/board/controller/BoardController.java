@@ -11,8 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartRequest;
@@ -32,7 +34,7 @@ public class BoardController {
 	@Autowired
 	private FileUpload fileUpload;
 	
-	
+	//@RequestMapping(value = "/board", method = RequestMethod.GET)의 줄임
 	@GetMapping("/list")
 	public ModelAndView list(
 			//Model model - Controller --> jsp(view)선택 + 데이터 전달
@@ -53,11 +55,11 @@ public class BoardController {
 		mv.setViewName("board/list");
 		return mv;
 	}
-	@GetMapping("/get")
-	public String get(Model model, int bno, String a) throws Exception{ //jsp에서 controller로 데이터 전달
-		System.out.println(bno);
-		System.out.println(a);
-		
+	@GetMapping("/get/{bno}") //{bno} - 지은이름
+	public String get(Model model
+			//, int bno
+			, @PathVariable("v\bno") int bno
+			) throws Exception{ //jsp에서 controller로 데이터 전달
 		// Controller --> jsp(view)에 데이터 전달
 		model.addAttribute("boardVo", boardService.selectOne(bno));
 		//Controller --> jsp(view) 선택 (forward)
@@ -86,12 +88,7 @@ public class BoardController {
 			) { //ExceptHandler로 가지않고 메소드 내부에서 처리함.
 		String viewPage = "redirect:/";
 		Map<String, String> filename = fileUpload.saveFile(file1, file2);
-		
-		
-		
-		System.out.println(vo);
-		System.out.println(btitle);
-		
+
 		//login한 mid
 		//String mid = principal.getName();
 		vo.setMid("jiin0960");
