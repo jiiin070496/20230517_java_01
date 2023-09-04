@@ -1,0 +1,30 @@
+Spring 설정 -> google drive -> _전달사항
+
+spring 특징 
+
+	DI (Dependency Injection) - 의존성 주입
+		설정 파일이나 어노테이션을 통해 객체간의 의존 관계를 설정.
+		개발자가 직접 의존하는 객체를 생성할 필요 없음
+
+	Spring AOP (Aspect Oriented Programming) - 관점 지향 프로그래밍
+		트랜잭션, 로깅, 보안 등 공통으로 필요로하는 기능들을 분리하여 관리
+
+	POJO (Plain Old Java Object) 
+		특정 라이브러리를 사용할 필요없이 개발 쉬움.
+		기존 라이브러리의 지원 용이
+
+	IoC (Inversion of control) - 제어 반전
+		컨트롤의 제어권이 프레임워크에 있음.
+		객체 생성부터 생명주기의 관리까지 프레임워크가 주도.
+		만들어둔 자원을 호출하여 사용.
+		DI가 전제가 되어야 IoC사용 가능		
+		
+
+
+
+
+
+개발환경
+	spring : sts-3.9.18.RELEASE
+
+다운 후 압축해제 후 c:\tools로 이동

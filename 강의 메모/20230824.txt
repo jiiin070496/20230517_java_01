@@ -1,0 +1,3 @@
+tomcat 시작포인트 - web.xml
+
+root-context.xml 빈객체 생성시 기본생성자 없으면 ref사용해야함

@@ -1,0 +1,65 @@
+request.getSession().invalidate(); 로그인
+
+Spring AOP(ppt. 5_Spring AOP4)
+
+Aspect는 
+
+advice - 메소드(부가기능)
+리턴되기 직전 after advice
+
+point cut - 조인 포인트의 부분 집합, 실제 어드바이스 적용되는 부분
+Weaving - Advice(공통 코드)를 핵심 로직코드에 삽입
+proxy - 대상 객체에 advice가 적용된 후 생성되는 객체(어드바이스 밖에 프록시)
+Target Object - Advice를 삽입할 대상 객체
+
+Spring AOP의 특징 
+proxy는 대상 객체의 호출을 가로챈다(intercept)
+
+구현방식
+@Aspect클래스 작성
+
+AdviceLog에 AOP 사용시 servlet-context,xml에 <aop:aspectj-autoproxy/> 작성(없으면 동작안함)
+
+
+
+
+
+프로젝트!!
+
+controller - 메소드이름 ModelAndView or String으로 정해야함
+
+web.xml 
+	- encoding filter
+
+serlvlet-context - 방법 1 채택!
+	- logger에 대한 aop (AdviceLog.java)
+
+root-context - 방법 1채택
+	- transaction에 대한 aop 
+
+pom.xml
+	- log4jdbc - https://mvnrepository.com/artifact/org.bgee.log4jdbc-log4j2/log4jdbc-log4j2-jdbc4.1/1.16 
+		<--  lombok --> 위에 작성
+	- AspectJ Weaver - https://mvnrepository.com/artifact/org.aspectj/aspectjweaver/1.9.19
+		<-- AspectJ --> 밑에 작성(42줄)
+	- 로그인 관련 spring-security-core, web, config 5.7.5	
+		<--  lombok --> 밑에 작성
+
+properties
+	kh.properties 설정 - https://charliecharlie.tistory.com/321
+	log4jdbc.log4j2.properties도 설정 (src/main/resources 밑에)
+
+
+log4j.xml 
+	<logger name="jdbc.sqlonly" additivity="false">
+		<level value="info"/>
+	</logger> 
+
+
+파일 관리 시스템
+google cloud platform
+cloudinary
+
+이미지 관리
+WYSIWYG
+CKEDITOR

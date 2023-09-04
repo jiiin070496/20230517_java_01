@@ -1,0 +1,17 @@
+pom.xml
+	12번째줄
+	<org.springframework-version>5.3.19</org.springframework-version>
+	release 붙일지 안 붙일지는 maven에서 확인.
+ 
+
+[2_spring기초4.pdf - Spring project 구조 중요!!]
+
+Spring의 동작 구조
+	@Annotation - xml파일에는 구동 시킬 필수 요소만 작성하고 소스코드에 Annotation으로 표시하여 구동 (<tx:annotation-driven/>)
+
+git pull후 -> Project refresh -> updateMavenProject  -> clean -> (server) clean
+pom.xml 수정 후
+Project->maven->updateMavenProject
+
+bean 빈 = 인스턴스instance = 객체 aaa a1 = new aaa();  a1.method1();
+bean 빈에 등록해두면 Spring이 필요한 순간 생성-관리하게됨.

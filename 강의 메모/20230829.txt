@@ -1,0 +1,43 @@
+화면설계서 + url표기 + 버튼 클릭시 이동할 url + ajax로 구현할 부분 - 유림님
+기본페이지 
+
+
+
+ERD 1명~2명
+
+ClassDiagram(메소드) - 요구사항을 기준으로 업무분담 별 pakage명, 클래스명 규칙, url 정하기
+	+ ROLE별로 페이지 관리 - 상훈님
+
+면접 
+사용해본 AOP
+	AROUND사용해서 DAO, CONTROLLER 로그찍어봄
+	TRANSACTION MANAGER를 이용해서 SERVICE에 걸어봄
+	INTERCEPTOR 를 통해 로그인기능 구현해봄	
+
+Security(2, 3, 4교시)
+1. pom.xml에 jar추가
+2. web.xml context-param
+3. security-context.xml생성 후 namespace에 security 체크
+
+파일첨부(3교시 ~ ) commons-fileupload, commons-io  세트, web.xml, servlet.xml
+<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
+<dependency>
+    <groupId>commons-fileupload</groupId>
+    <artifactId>commons-fileupload</artifactId>
+    <version>1.4</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+<dependency>
+    <groupId>commons-io</groupId>
+    <artifactId>commons-io</artifactId>
+    <version>2.6</version>
+</dependency>
+
+root.context.xml - db
+servlet.context.xml - web
+
+
+
+내일 시험 google drive _UML
+

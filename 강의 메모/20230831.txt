@@ -1,0 +1,18 @@
+5교시 (Controller Annotation)
+
+ckeditor - 5교시 35분
+
+------------ Project-Board 오류 ------------
+1.
+org.apache.jasper.JasperException: 행 [67]에서 [/WEB-INF/views/board/update.jsp]을(를) 처리하는 중 예외 발생
+
+64: </script>
+65: <h2>글 수정</h2>
+66: <form action="${pageContext.request.contextPath }/board/update" method="post">
+67:     <input type="hidden" name="bno" value="${dto.bno}">
+68:     제목: <input type="text" name="btitle" value="${dto.btitle}">
+69:     <br>
+70:     내용: <textarea rows="10" cols="50" name="bcontent">${dto.bcontent}</textarea>
+
+2.
+javax.el.PropertyNotFoundException: [btitle] 특성이 [java.lang.Integer] 유형에 없습니다.
