@@ -16,7 +16,7 @@ public class BoardService {
 	
 	public List<BoardDto> selectList(){
 		List<BoardDto> result = null;
-		SqlSession session = MyBatisTemplate.getSqlSession(true);
+		SqlSession session = MyBatisTemplate.getSqlSession();
 		result = dao.selectList(session);
 		session.close();
 		return result;
@@ -24,7 +24,7 @@ public class BoardService {
 	// 한 행 읽기 - PK로where조건
 	public BoardDto selectOne(int bno){
 		BoardDto result = null;
-		SqlSession session = MyBatisTemplate.getSqlSession(true);
+		SqlSession session = MyBatisTemplate.getSqlSession();
 		result = dao.selectOne(session, bno);
 		if(result != null) {
 			// 첨부파일들 읽어서 result에 넣기
@@ -37,7 +37,7 @@ public class BoardService {
 	// 한 행 삽입 - BoardDto 자료형을 받아와야 함.
 	public int insert(BoardDto dto, List<AttachFileDto> fileList){
 		int result = 0;
-		SqlSession session = MyBatisTemplate.getSqlSession(false);
+		SqlSession session = MyBatisTemplate.getSqlSession();
 		if(dto.getBno() == 0) { // 원본글작성
 //			result = dao.insert(session, dto, nextVal);
 			if(fileList!=null && fileList.size()>0) {
@@ -64,7 +64,7 @@ public class BoardService {
 	// 한 행 수정 - BoardDto 또는 경우에 따라서 특정 컬럼값만 받아오기도 함.
 	public int update(BoardDto dto){
 		int result = 0;
-		SqlSession session = MyBatisTemplate.getSqlSession(true);
+		SqlSession session = MyBatisTemplate.getSqlSession();
 		result = dao.update(session, dto);
 		session.close();
 		return result;
@@ -72,7 +72,7 @@ public class BoardService {
 	
 	public int updateContent(BoardDto dto) {
 		int result = 0;
-		SqlSession session = MyBatisTemplate.getSqlSession(true);
+		SqlSession session = MyBatisTemplate.getSqlSession();
 		result = dao.updateContent(session, dto);
 		session.close();
 		return result;
@@ -81,7 +81,7 @@ public class BoardService {
 	// 한 행 삭제 - 주로 PK로 where조건
 	public int delete(int bno){
 		int result = 0;
-		SqlSession session = MyBatisTemplate.getSqlSession(true);
+		SqlSession session = MyBatisTemplate.getSqlSession();
 		result = dao.delete(session, bno);
 		session.close();
 		return result;
