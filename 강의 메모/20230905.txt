@@ -1,0 +1,32 @@
+immutable -> 자료형 변경을 불가하게 함.
+
+F12 - source - [top] 다운로드해주는 tool 있음
+
+PS C:\workspace\github\20230517_html> CD CLIENT // 경로지정
+PS C:\workspace\github\20230517_html\CLIENT> npm start // 터미널로 실행
+
+class라는 단어는 키워드로 인식
+APP.js (ImportComponent)
+import logo from './logo.svg';
+import './App.css';
+import R003_ImportComponent from './R003_ImportComponent'; // 클래스명
+
+function App() {
+  return (
+    <div className="App">
+        <h1>안녕 리엑트</h1>
+        <R003_ImportComponent></R003_ImportComponent> //<import 후 자동작성
+    </div>
+  );
+}
+export default App;
+
+
+R005_LifecycleEx
+ constructor(props){
+        super(props); // 컨스트럭터 첫줄에 반드시 넣어줘야함.
+        this.state = {};
+        console.log('1. Constructor Call');
+    }
+
+31, 32, 34 ~ 55(BootStrap)
