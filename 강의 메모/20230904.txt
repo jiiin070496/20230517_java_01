@@ -16,12 +16,33 @@ js에서 [ ] -> array, { } ->object
 
 호출시 이름만 적어줌 -> ( ) X -> document.getElementById("btn-2").onclick = dtn2clickHandler;
 
-js언어의 특징
+JavaScript의 특징
 1.이벤트 발생시 콜백함수를 등록 (호출은 자바스크립트가 해줌) -> 등록시  ( ) 없음.  ex) export defaut App;
 2. 등록한 함수 안에서 가장 많이 하는 행동 -> ajax ( DB에서 정보를 읽어와 화면에 Display를 다시 해주기 위해 )
 
+---- 20230703_js_checkAll.html ----
+
 
 --- REACT ---
-궁극적으로 div태그로 
-
 nodejs.org -> 18.17.1 LTS 다운로드 -> 설치 (programfiles\node~~~) -> auto x -> 설치 완료후 VS Code 실행
+
+
+Map이란?
+: 데이터와 키를 같이 저장할 수 있는 자료구조이다. 
+  순서 x, key & 값
+
+Set이란?
+: 중복이 존재할 수 없는 자료구조이다. 어떤 값이라도 그 Set 콜렉션 내에서 유일하다. 
+  순서 x, 값, 중복 x
+
+list
+: 순서 o, 값, 중복 o
+
+
+
+
+
+
+
+
+
