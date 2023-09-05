@@ -1,6 +1,7 @@
 
 select * from member;
 select * from board;
+DESC BOARD_REPLY;
 
 desc board;
 
