@@ -1,0 +1,8 @@
+React Debug
+	Source -> static/js -> C:/workspace/폴더경로 -> src -> app.js
+	
+59, 60, 61, 62, 63, 64, 65
+
+! 3교시 !
+
+66, 67, event부분
