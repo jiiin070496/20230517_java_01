@@ -7,33 +7,10 @@
 	</settings>
 	
 	<typeAliases>
-		<typeAlias type="kh.lclass.jjapkorea.member.model.vo.MemberVo" alias="memberVo"/>
-		<typeAlias type="kh.lclass.jjapkorea.member.model.vo.BusinessVo" alias="businessVo"/>
-		<typeAlias type="kh.lclass.jjapkorea.member.model.vo.PersonVo" alias="personVo"/>
-		<typeAlias type="kh.lclass.jjapkorea.Jobposting.model.dto.JobpostingDto" alias="jobpostingDto"/>
-		<typeAlias type="kh.lclass.jjapkorea.scrap.model.dto.ScrapDto" alias="scrapDto"/>
-		<typeAlias type="kh.lclass.jjapkorea.board.model.dto.BoardDto" alias="BoardDto"/>
+		<typeAlias type="talktalk_final.lclass.talk.board.dto.BoardDto" alias="BoardDto"/>
 	</typeAliases>
-	
-<!-- root-context.xml -->
-	<environments default="development1">
-		<environment id="development1">
-			<transactionManager type="JDBC"></transactionManager>
-			<dataSource type="POOLED">
-				<property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
-				<property name="url" value="jdbc:oracle:thin:@1.221.120.195:1521:xe"/>
-				<property name="username" value="jjapkorea"/>
-				<property name="password" value="jjapkorea"/>
-			</dataSource>
-		</environment>
-	</environments>
-	
+		
 	<mappers>
-		<mapper resource="mappers/business-mapper.xml"/>
-		<mapper resource="mappers/jobposting-mapper.xml"/>
-		<mapper resource="mappers/member-mapper.xml"/>
-		<mapper resource="mappers/person-mapper.xml"/>
-		<mapper resource="mappers/scrap-mapper.xml"/>
 		<mapper resource="mappers/board-mapper.xml"/>
 	</mappers>
 	
