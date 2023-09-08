@@ -78,6 +78,8 @@
 </div>
 <script>
 $("#btn-board-insert").click(function() {
+    var btitle = $("input[name='btitle']").val();
+    var bcontent = $("textarea[name='bcontent']").val();
     if (confirm("글을 등록하시겠습니까?")) {
         $.ajax({
             type: "POST",

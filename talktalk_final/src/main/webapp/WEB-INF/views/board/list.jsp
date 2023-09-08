@@ -83,14 +83,6 @@ body {
 </style>
 </head>
 <body>
-<script>
-// step 3
-	var msg = '${msg}';
-	if(msg){
-		alert(msg);
-	}
-</script>
-
 <div class="title">
 	<h2> 쿵's 게시판 </h2>
 </div>

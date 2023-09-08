@@ -11,7 +11,7 @@
 	</appender>
 	
 	<!-- Application Loggers -->
-	<logger name="kh.lclass.jjapkorea">
+	<logger name="talktalk_final.lclass.talk">
 		<level value="debug" />
 	</logger>
 	

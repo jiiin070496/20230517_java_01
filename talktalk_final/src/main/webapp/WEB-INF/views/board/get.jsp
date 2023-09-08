@@ -83,7 +83,7 @@ button:hover {
 				</form>
 			</div>
 			
-			<ul>
+<%-- 			<ul>
 				<c:forEach items="${bct }" var="commentList">
 					<li>
 						<div>
@@ -93,6 +93,7 @@ button:hover {
 					</li>
 				</c:forEach>
 			</ul>
+ --%>
 			
 		<!-- Comments Form -->
 			<div class="card my-4">
@@ -100,7 +101,7 @@ button:hover {
 				<div class="card-body">
 					<form action="${pageContext.request.contextPath}/board/insertReply" method="post" >
 						<div class="form-group">
-							<input type="hidden" name="bno" value="${bvo.bno}"/>
+							<input type="hidden" name="${bvo.bno}" />
 							<textarea name="content" class="form-control" rows="3"></textarea>
 						</div>
 						<button type="submit" class="btn-board-comment">댓글 등록</button>
@@ -129,7 +130,7 @@ button:hover {
 			});
 		}
 	});
-
+/* 
     $("#btn-board-comment").click(function() {
     	var btitle = '${bvo.btitle}';
     	var bcontent = '${bvo.bcontent}';
@@ -155,6 +156,7 @@ button:hover {
             });
         }
     });
+*/
 </script>
 </body>
 </html>

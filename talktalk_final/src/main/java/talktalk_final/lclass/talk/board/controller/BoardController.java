@@ -19,14 +19,16 @@ import org.springframework.ui.Model;
 public class BoardController {
 	@Autowired
 	private BoardService boardService;
-	
+
+// --LIST--
 	@GetMapping("/list")
 	public ModelAndView list(ModelAndView mv) throws Exception{
 		mv.addObject("boardList", boardService.selectList());
 		mv.setViewName("board/list");
 		return mv;
 	}
-	
+
+// --GET--	
 	@GetMapping("/get")
 	public ModelAndView get(ModelAndView mv, int bno) throws Exception{ //jsp에서 controller로 데이터 전달
 		mv.addObject("bvo", boardService.selectOne(bno));
@@ -34,7 +36,7 @@ public class BoardController {
 		return mv;
 	}
 
-	
+// --DELETE--	
 	@PostMapping("/delete")
 	@ResponseBody
 	public Integer delete(int bno) {
@@ -48,6 +50,7 @@ public class BoardController {
 		return result;
 	}
 	
+// --INSERT--
 	@GetMapping("/insert")
 	public String insert() {
 		return "board/insert";
@@ -61,10 +64,12 @@ public class BoardController {
 	        result = boardService.insert(dto);
 	    } catch (Exception e) {
 	    	e.printStackTrace();
+	    	result = -1;
 	    }
 	    return result;
 	}
-	
+
+// --UPDATE--
 	@GetMapping("/update")
 	public String update(Model model, int bno) throws Exception{
 		BoardDto dto = boardService.selectOne(bno); // 글 정보를 가져옴
