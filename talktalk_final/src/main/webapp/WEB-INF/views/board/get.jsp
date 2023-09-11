@@ -93,7 +93,7 @@ button:hover {
 					</li>
 				</c:forEach>
 			</ul>
- --%>
+--%>
 			
 		<!-- Comments Form -->
 			<div class="card my-4">

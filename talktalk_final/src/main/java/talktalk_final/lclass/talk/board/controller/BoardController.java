@@ -1,6 +1,9 @@
 package talktalk_final.lclass.talk.board.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,12 +21,17 @@ import org.springframework.ui.Model;
 @RequestMapping("/board")
 public class BoardController {
 	@Autowired
-	private BoardService boardService;
+	private BoardService boardService;	
+	 @Value("${api.Key}")
+    private String apiKey;
 
 // --LIST--
 	@GetMapping("/list")
 	public ModelAndView list(ModelAndView mv) throws Exception{
-		mv.addObject("boardList", boardService.selectList());
+	    mv.addAllObjects(Map.of(
+	            "apiKey", apiKey,
+	            "boardList", boardService.selectList()
+	        ));
 		mv.setViewName("board/list");
 		return mv;
 	}

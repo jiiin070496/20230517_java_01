@@ -8,10 +8,12 @@
 	
 	<typeAliases>
 		<typeAlias type="talktalk_final.lclass.talk.board.dto.BoardDto" alias="BoardDto"/>
+		<typeAlias type="talktalk_final.lclass.talk.board.dto.ReplyDto" alias="ReplyDto"/>
 	</typeAliases>
 		
 	<mappers>
 		<mapper resource="mappers/board-mapper.xml"/>
+		<mapper resource="mappers/reply-mapper.xml"/>
 	</mappers>
 	
 </configuration>

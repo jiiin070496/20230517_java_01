@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="reply">
+<!-- 전체 답글 -->
+	<select id="selectlist" resultType="ReplyDto">
+		select * from board_reply
+	</select>
+
+<!-- 답글 등록 -->	
+	<insert id="insert" parameterType="ReplyDto">
+		<selectKey keyProperty="rno" resultType="_int" order="BEFORE">
+		select SEQ_BOARD_RNO.nextval nextval from dual
+		</selectKey>
+		insert into board_reply values (#{rno}, #{bno}, #{rcontent}, default, #{bno}, 0, 0, #{mid})
+	</insert>
+</mapper>

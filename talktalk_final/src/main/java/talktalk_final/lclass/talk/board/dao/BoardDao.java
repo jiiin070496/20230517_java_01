@@ -25,8 +25,6 @@ public class BoardDao {
 		int result = sqlSession.insert("board.insert", dto);
 		return dto;
 	}
-	//답글
-
 	public int update(BoardDto dto) throws Exception{
 		return sqlSession.update("board.update", dto);
 	}

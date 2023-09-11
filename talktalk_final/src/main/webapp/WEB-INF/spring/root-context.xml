@@ -12,6 +12,7 @@
 		
 	<!-- properties 이용 -->
 	<context:property-placeholder location="classpath:properties/talk.properties"/>
+	<context:property-placeholder location="classpath:properties/api.properties"/>
 	
 <!-- DB관련 -->
 	<!-- DBCP 생성 -->
