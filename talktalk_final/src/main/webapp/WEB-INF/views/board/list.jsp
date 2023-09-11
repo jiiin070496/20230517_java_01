@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=?"></script>
 <title>boardList</title>
 <style>
 body {
@@ -117,8 +118,7 @@ body {
 </div> 
 <!-- 이미지 지도를 표시할 div 입니다 -->
 <hr>
-<div id="staticMap" style="width:820px;height:350px;"></div>
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<%= apiKey %>"></script>
+<div id="staticMap" style="width:820; height:350px;"></div>
 	<script>
 // 이미지 지도에 표시할 마커입니다
 	var marker = {
@@ -136,5 +136,8 @@ body {
 	// 이미지 지도를 생성합니다
 	var staticMap = new kakao.maps.StaticMap(staticMapContainer, staticMapOption);
 </script>
+	<div>
+		<p>주소: 서울 강남구 테헤란로14길 6 남도빌딩 2층, 3층</p>
+	</div>
 </body>
 </html>
