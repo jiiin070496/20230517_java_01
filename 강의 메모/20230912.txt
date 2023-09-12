@@ -1,0 +1,66 @@
+SPRING 용어 정리
+
+DI -> 의존성 주입, 설정파일 혹은 어노테이션을 통해 객체 간의 의존 관계를 설정하여 개발자가
+	직접 의존하는 객체를 생성할 필요 없음
+<bean id=“객체 이름” class=“클래스 풀 네임“>
+	<property name=“name” value=“OOO”/>
+	<property name=“name” ref=“OOO”/>
+</bean>
+
+IOC -> 제어반전, 컨트롤러의 제어권이 프레임워크에 있음, 만들어둔 어노테이션 호출하여 사용
+	BEAN -> 스프링의 IoC를 담당하는 핵심 컨테이너
+
+AOP -> 여러 모듈, 여러 계층에서 공통으로 필요로하는 기능의 경우 분리하여 관리
+	ASPECT -> 여러 객체에 공통으로 적용되는 기능을 분리하여 작성한 클래스
+		POINTCUT ->객체(인스턴스) 생성시점, 메소드호출시점, 예외발생지점등특정작업이시작되는시점, 			     METHOD위에 작성, (" 메소드 문법을 따라 패터닝 ")
+		ADVICE
+			AROUND -> JoinPoint 앞뒤에서 실행
+			BEFORE -> JoinPoint 앞에서 실행
+			AFTER  -> JoinPoint 호출이 리턴되기 직전에 실행
+
+Controller 어노테이션 종류
+	@Controller, @RequestMapping @GetMapping @PostMapping @PutMapping @DeleteMapping 	@RequestParam @ModelAttribute
+ 
+STS
+
+MAVEN -> Project Object Model(POM) XML문서를 통해
+해당 프로젝트의 버전 정보 및 라이브러리 정보들을 통합하여
+관리하는 프레임워크
+	POM.xml -> POM(Project Object Model)은 하나의 프로젝트에서 사용하는 자바 버전,
+		    라이브러리, 플러그인 구성을 통합하여 관리할 수 있게
+	 	    각 설정 정보를 XML로 문서화한 것
+
+Spring 내부 폴더 중 target폴더란 메이븐으로 빌드를 하면 생기는 폴더로, jar파일을 저장
+
+WAS -> Web Application Server, 동적인 요청을 받아 처리해주는 서버
+           WAS는 DB 조회 및 다양한 로직을 처리하는 데 집중해야함
+
+500오류의 원인, 디버깅하는 법
+
+403 오류 원인, 디버깅하는 법
+
+Build란
+
+Mybatis -> 데이터의 입력, 조회, 수정, 삭제(CRUD)를 보다 편하게 하기 위해 xml로
+	   구조화한 Mapper설정파일을 통해 쉽게 구현할 수 있게함, 
+	   영속성, db연동과 쿼리문 작성 가능
+
+EL -> EL은 표현언어
+자바의 변수를 쓰기 위해 JSP에 <%= %> 작성하는 게 상당히 번거로움
+변수를 표현하기 위한 언어, ${변수명}
+
+JSTL -> jsp 내에 if문, for문 등 구문 처리가능
+
+resultType, map차이 -> resultType 은 반환타입으로 클래스 자체를 가져와 참조
+		      resultMap은 반환타입으로 개발자가 xml 내에서 임의로 정의한 형식으로 참조
+
+scope 4가지
+
+congif.xml 대표 3가지 역할
+	- Configuration, environments, mappers
+
+legacy 프로젝트 안 폴더의 특징, xml 3개
+
+Spring의 구조 7가지
+
+xml -> 환경설정, bean, Spring컨테이너 구동시 불러옴, aopm transaction 등 여러 사항을 모두 자성해 구동하는 방식
