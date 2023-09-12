@@ -22,20 +22,19 @@ import org.springframework.ui.Model;
 public class BoardController {
 	@Autowired
 	private BoardService boardService;	
-	 @Value("${api.Key}")
-    private String apiKey;
-
+	
+	@Value("${apikey}")
+    private String apikey;
+	
 // --LIST--
 	@GetMapping("/list")
 	public ModelAndView list(ModelAndView mv) throws Exception{
-	    mv.addAllObjects(Map.of(
-	            "apiKey", apiKey,
-	            "boardList", boardService.selectList()
-	        ));
+		 System.out.println("apikey: " + apikey);
+		mv.addObject("apikey", apikey); // 모델에 apikey 추가
+	    mv.addObject("boardList", boardService.selectList());
 		mv.setViewName("board/list");
 		return mv;
 	}
-
 // --GET--	
 	@GetMapping("/get")
 	public ModelAndView get(ModelAndView mv, int bno) throws Exception{ //jsp에서 controller로 데이터 전달
@@ -43,7 +42,6 @@ public class BoardController {
 		mv.setViewName("board/get"); // http://localhost:8090/jjap/board/get?bno=3
 		return mv;
 	}
-
 // --DELETE--	
 	@PostMapping("/delete")
 	@ResponseBody
@@ -56,8 +54,7 @@ public class BoardController {
 			result = -1;
 		}
 		return result;
-	}
-	
+	}	
 // --INSERT--
 	@GetMapping("/insert")
 	public String insert() {
@@ -76,7 +73,6 @@ public class BoardController {
 	    }
 	    return result;
 	}
-
 // --UPDATE--
 	@GetMapping("/update")
 	public String update(Model model, int bno) throws Exception{

@@ -14,6 +14,8 @@ create user semi identified by semi;
 
 create user jjapkorea identified by jjapkorea;
 
+create user jjaptest identified by jjaptest;
+
 DROP USER semi CASCADE;
 DROP USER jjapkorea CASCADE;
 
@@ -27,7 +29,7 @@ grant connect, resource to kh;
 grant connect, resource, dba to SCOTT;
 grant connect, resource, dba to khl;
 grant connect, resource, dba to jjapkorea;
-
+grant connect, resource, dba to jjaptest;
 
 alter user scott default tablespace USERS quota unlimited on users;
 grant unlimited tablespace to scott;
