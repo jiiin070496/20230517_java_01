@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,14 +24,14 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;	
 	
-	@Value("${apikey}")
-    private String apikey;
-	
+//	@Value("${apikey}")
+//    private String apikey;
+
 // --LIST--
 	@GetMapping("/list")
 	public ModelAndView list(ModelAndView mv) throws Exception{
-		 System.out.println("apikey: " + apikey);
-		mv.addObject("apikey", apikey); // 모델에 apikey 추가
+//		 System.out.println("apikey: " + apikey);
+//		mv.addObject("apikey", apikey); // 모델에 apikey 추가
 	    mv.addObject("boardList", boardService.selectList());
 		mv.setViewName("board/list");
 		return mv;

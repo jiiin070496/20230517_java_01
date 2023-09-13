@@ -1,14 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<spring:eval var="apikey" expression="@environment.getProperty('apikey')" />
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${apikey}"></script>
 <title>boardList</title>
+<spring:eval expression="@talk['api.key']" />
+
+<script type="text/javascript">
+    var apiKey = <spring:eval expression="@talk['api.key']" />;
+</script>
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<spring:eval expression="@talk['api.key']" />"></script>
+
 <style>
 body {
     background-color: #f9f9f9;
@@ -88,6 +94,7 @@ body {
 <body>
 <div class="title">
 	<h2> 쿵's 게시판 </h2>
+	<p>API Key: ${api.key}</p>
 </div>
 <c:if test="${not empty boardList }">
     <p>총 <c:out value="${fn:length(boardList)}" />개의 게시물이 있습니다</p>

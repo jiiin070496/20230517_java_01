@@ -1,5 +1,15 @@
 SPRING 용어 정리
 
+1. _spring
+2. 오류대처법
+	ORA-00000; java.sql.SQLException
+	 	1. mapper 확인
+		2. query문 확인
+		3. parameterType 확인
+		4. Dao arg 확인
+	
+----------------------------------------------------------------------------------------------------------------
+
 DI -> 의존성 주입, 설정파일 혹은 어노테이션을 통해 객체 간의 의존 관계를 설정하여 개발자가
 	직접 의존하는 객체를 생성할 필요 없음
 <bean id=“객체 이름” class=“클래스 풀 네임“>
@@ -22,18 +32,25 @@ Controller 어노테이션 종류
 	@Controller, @RequestMapping @GetMapping @PostMapping @PutMapping @DeleteMapping 	@RequestParam @ModelAttribute
  
 STS
+	- IDE(편집, 빌드, 실행) Spring Framework 비교대상 IntelliJ
 
-MAVEN -> Project Object Model(POM) XML문서를 통해
-해당 프로젝트의 버전 정보 및 라이브러리 정보들을 통합하여
-관리하는 프레임워크
-	POM.xml -> POM(Project Object Model)은 하나의 프로젝트에서 사용하는 자바 버전,
-		    라이브러리, 플러그인 구성을 통합하여 관리할 수 있게
-	 	    각 설정 정보를 XML로 문서화한 것
+MAVEN 
+	- Project Object Model(POM) XML문서를 통해
+  	해당 프로젝트의 버전 정보 및 라이브러리 정보들을 통합하여 관리하는 프레임워크
+	- 자바 프로젝트 관리 도구
 
-Spring 내부 폴더 중 target폴더란 메이븐으로 빌드를 하면 생기는 폴더로, jar파일을 저장
+POM.xml
+	 - POM(Project Object Model)은 하나의 프로젝트에서 사용하는 자바 버전,
+	 - 라이브러리, 플러그인 구성을 통합하여 관리할 수 있게 각 설정 정보를 XML로 문서화한 것
+	 - 프로젝트를 관리하는 도구(버전, 그룹, 이름, 형태, 빌드, 배포방법)
+	
 
-WAS -> Web Application Server, 동적인 요청을 받아 처리해주는 서버
-           WAS는 DB 조회 및 다양한 로직을 처리하는 데 집중해야함
+Spring 내부 폴더 중 target폴더란 
+	- 메이븐으로 빌드를 하면 생기는 폴더로 war, jar파일을 저장
+	- git 형상관리 하지 않음
+WAS 
+	- Web Application Server, 동적페이지/리소스를 제공
+              WAS는 DB 조회 및 다양한 로직을 처리하는 데 집중해야함
 
 500오류의 원인, 디버깅하는 법
 
@@ -41,9 +58,10 @@ WAS -> Web Application Server, 동적인 요청을 받아 처리해주는 서버
 
 Build란
 
-Mybatis -> 데이터의 입력, 조회, 수정, 삭제(CRUD)를 보다 편하게 하기 위해 xml로
-	   구조화한 Mapper설정파일을 통해 쉽게 구현할 수 있게함, 
-	   영속성, db연동과 쿼리문 작성 가능
+Mybatis 
+	- 데이터의 입력, 조회, 수정, 삭제(CRUD)를 보다 편하게 하기 위해 xml로
+	  구조화한 Mapper설정파일을 통해 쉽게 구현할 수 있게함, 
+	  영속성, db연동과 쿼리문 작성 가능
 
 EL -> EL은 표현언어
 자바의 변수를 쓰기 위해 JSP에 <%= %> 작성하는 게 상당히 번거로움
@@ -65,17 +83,18 @@ Spring의 구조 7가지
 
 xml -> 환경설정, bean, Spring컨테이너 구동시 불러옴, aopm transaction 등 여러 사항을 모두 자성해 구동하는 방식
 
-
 ----------------------------------------------------------------------------------------------------------------
 
 https://velog.io/@dailylifecoding/Spring-legacy-project-Value-annotation-not-resolving-property-file
 
 ----------------------------------------------------------------------------------------------------------------
+
 --spring 댓글기능 구현
 	https://cameldev.tistory.com/62
 	https://cameldev.tistory.com/63
 
 ----------------------------------------------------------------------------------------------------------------
+
 카카오 지도 API
 무료 api 하루에 300,000회 사용 가능
 카카오 지도 API를 사용할 경우 지도 위에 마커를 올려 특정 장소를 표시할 수 있다. 특정 장소를 표시하면서 장소 명칭, 간단한 소개 글도 함께 표시할 수 있어 자유로운 형태를 만들 수 있다. 
