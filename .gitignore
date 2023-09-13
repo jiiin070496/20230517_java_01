@@ -1,15 +1,13 @@
 # Compiled class file
 *.class
 bin/
-*.class
-bin/
 build/
-bin/
 .metadata/
-Servers/
 properties/
 *.properties
-
+Servers/
+target/
+.settings/
 
 # Log file
 *.log
