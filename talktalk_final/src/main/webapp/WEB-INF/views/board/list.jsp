@@ -7,15 +7,13 @@
 <head>
 <meta charset="UTF-8">
 <title>boardList</title>
-
-<spring:eval expression="@talk['api.key']" />
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<spring:eval expression="@talk['api.key']" />"></script>
-
 <!-- 
+<spring:eval expression="@talk['api.key']" />
 <script type="text/javascript">
     var apiKey = <spring:eval expression="@talk['api.key']" />;
 </script>
  -->
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<spring:eval expression="@talk['api.key']" />" ></script>
 
 <style>
 body {
