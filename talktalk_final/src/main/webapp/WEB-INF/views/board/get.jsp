@@ -83,18 +83,6 @@ button:hover {
 				</form>
 			</div>
 			
-<%-- 			<ul>
-				<c:forEach items="${bct }" var="commentList">
-					<li>
-						<div>
-							<p>${bct.mid } / ${bct.bwriteDate }</p> 
-							<p>${bct.bcontent }</p>
-						</div>
-					</li>
-				</c:forEach>
-			</ul>
---%>
-			
 		<!-- Comments Form -->
 			<div class="card my-4">
 				<h5 class="card-header">Leave a Comment:</h5>
