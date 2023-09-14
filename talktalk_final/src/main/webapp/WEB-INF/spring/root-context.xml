@@ -14,7 +14,7 @@
 		
 <!-- properties 이용 -->
 	<context:property-placeholder location="classpath:properties/talk.properties"/>
-	<util:properties id="talk" location="classpath:/properties/talk.properties" />
+	<util:properties id="api" location="classpath:/properties/api.properties" />
 	
 <!-- DB관련 -->
 	<!-- DBCP 생성 -->

@@ -11,8 +11,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import talktalk_final.lclass.talk.board.dto.BoardDto;
 import talktalk_final.lclass.talk.board.service.BoardService;
-import talktalk_final.lclass.talk.board.service.BoardServiceImpl;
-
 import org.springframework.ui.Model;
 
 @Controller
