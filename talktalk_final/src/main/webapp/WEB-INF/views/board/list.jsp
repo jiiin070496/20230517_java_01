@@ -7,8 +7,13 @@
 <head>
 <meta charset="UTF-8">
 <title>boardList</title>
-<!-- 
 <spring:eval expression="@talk['api.key']" />
+<spring:eval expression="@talk['db.driverClassName']" />
+<spring:eval expression="@talk['db.url']" />
+<spring:eval expression="@talk['db.username']" />
+<spring:eval expression="@talk['db.password']" />
+
+<!--
 <script type="text/javascript">
     var apiKey = <spring:eval expression="@talk['api.key']" />;
 </script>
@@ -94,7 +99,7 @@ body {
 <body>
 <div class="title">
 	<h2> 쿵's 게시판 </h2>
-	<p>API Key: ${api.key}</p>
+	<h4>API Key: <spring:eval expression="@talk['api.key']" /></h5>
 </div>
 <c:if test="${not empty boardList }">
     <p>총 <c:out value="${fn:length(boardList)}" />개의 게시물이 있습니다</p>

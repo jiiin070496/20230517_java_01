@@ -26,17 +26,6 @@
 		<property name="username" value="${db.username}" />
 		<property name="password" value="${db.password}" />
 	</bean> 
-
-
-<!--   	
-	<bean class="org.apache.commons.dbcp.BasicDataSource" id="dataSource" destroy-method="close"> 
-		<property name="driverClassName" value="#{talk['driverClassName']}" />
-		<property name="url" value="#{talk['url']}" />
-		<property name="username" value="#{talk['username']}" />
-		<property name="password" value="#{talk['password']}" />
-	</bean>
--->
-
 	
 <!-- myBatis Session -->
 	<bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">
