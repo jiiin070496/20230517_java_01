@@ -9,7 +9,7 @@
 	
 <!-- 상세 게시글 -->	
 	<select id="selectOne" resultType="BoardDto" parameterType="_int">
-		select * from board where bno=#{bno} order by BREF desc
+		select * from board where bno=#{bno} order by BREF desc, BRE_STEP asc
 	</select>
 	
 <!-- 게시글 등록 -->	
