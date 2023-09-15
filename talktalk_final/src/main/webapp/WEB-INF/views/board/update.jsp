@@ -57,45 +57,39 @@
 </head>
 <body>
 <h2>글 수정</h2>
-<%-- <form action="${pageContext.request.contextPath }/board/update" method="post">
+<!-- ajax가 있어서 action 안씀! -> id="frmBoard" 
+	ajax에 data: $("#frmBoard").serialize()
+ -->
+<form id="frmBoard">
 	<input type="hidden" name="bno" value="${dto.bno}">
     제목: <input type="text" name="btitle" value="${dto.btitle}">
     <br>
     내용: <textarea rows="10" cols="50" name="bcontent">${dto.bcontent}</textarea>
     <br>
-    <button type="submit" id="btn-board-update">수정</button>
+    <button type="button" id="btn-board-update">수정</button> <!-- submit -> button  -->
     <button type="button" id="btn-board-list">메인으로</button>
-</form> --%>
-<form action="${pageContext.request.contextPath }/board/update" method="post">
-	<input type="hidden" name="bno" value="${dto.bno}">
-    제목: <input type="text" name="btitle" value="${dto.btitle}">
-    <br>
-    내용: <textarea rows="10" cols="50" name="bcontent">${dto.bcontent}</textarea>
-    <br>
-    <button type="submit" id="btn-board-update">수정</button>
-    <button type="submit" id="btn-board-list">메인으로</button>
 </form>
 
 <script>   
 	$("#btn-board-list").click(function(){
-	    location.href="${pageContext.request.contextPath}/board/list";
+	    location.href = "${pageContext.request.contextPath}/board/list";
 	});
 	
 	$("#btn-board-update").click(function(){
-	    var bno = "${dto.bno}";
-	    var btitle = "${dto.btitle}";
-	    var bcontent = `${dto.bcontent}`;
-
+/* 		if(btitle === ''){
+			alert("제목을 입력해주세요");
+		}
+		if(bcontent === ''){
+			alert("내용을 입력해주세요");
+		}
+		console.log($("#frmBoard").serialize());
+*/
 	    if(confirm("글 수정하시겠습니까?")){
 	        $.ajax({
 	            type: "post",
 	            url: "${pageContext.request.contextPath}/board/update",
-	            dataType: "json",
-	            data: {
-	                bno: bno,
-	                btitle: btitle,
-	                bcontent: bcontent,
-	            },
+	            data: $("#frmBoard").serialize(),
+	            //dataType: "json",
 	            success: function(response){
 	            	console.log(response);
 	                if(response > 0){

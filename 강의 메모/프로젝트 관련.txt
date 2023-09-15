@@ -10,6 +10,8 @@ https://velog.io/@dailylifecoding/Spring-legacy-project-Value-annotation-not-res
 spring 댓글기능 구현
 	https://cameldev.tistory.com/62
 	https://cameldev.tistory.com/63
+Spring 좋아요 기능 구현	
+	https://devofroad.tistory.com/73
 
 ----------------------------------------------------------------------------------------------------------------
 
@@ -48,4 +50,3 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 <script type="text/javascript" 
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<spring:eval expression="@talk['api.key']" />">
 </script>
-

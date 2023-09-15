@@ -98,53 +98,26 @@ button:hover {
 			</div>
 		</div>
 	</div>
-	<script>
-    $("#btn-board-delete").click(function () {
-        var bno = '${bvo.bno}';
-        if (confirm("글 삭제하시겠습니까?")) {
-          $.ajax({
-            type: "post",
-            url: "${pageContext.request.contextPath}/board/delete",
-            data: { bno: bno },
-            success: function (response) {
-            	console.log(response);
-	            if(response > 0){
-	            	alert("삭제되었습니다.");
-	            }else {
-	            	alert("삭제 실패했습니다");
-	            }
-				location.href = "${pageContext.request.contextPath}/board/list";
-				}
-			});
-		}
-	});
-/* 
-    $("#btn-board-comment").click(function() {
-    	var btitle = '${bvo.btitle}';
-    	var bcontent = '${bvo.bcontent}';
-        if (confirm("댓글을 등록하시겠습니까?")) {
-            $.ajax({
-                type: "POST",
-                url: "${pageContext.request.contextPath}/board/insertReply",
-                dataType: "json",
-                data: { 
-                    btitle: btitle,
-                    bcontent: bcontent
-                },
-                success: function(response) {
-                    if (response > 0) {
-                        alert("댓글 등록되었습니다.");
-                        location.href = "${pageContext.request.contextPath}/board/list;
-                    } else {
-                        alert("댓글 등록에 실패했습니다.");
-        				location.href = "${pageContext.request.contextPath}/board/list";
-
-                    }
-                }
-            });
-        }
-    });
-*/
+<script>
+   $("#btn-board-delete").click(function () {
+       var bno = '${bvo.bno}';
+       if (confirm("글 삭제하시겠습니까?")==true) {
+         $.ajax({
+           type: "post",
+           url: "${pageContext.request.contextPath}/board/delete",
+           data: { bno: bno },
+           success: function (response) {
+           	console.log(response);
+            if(response > 0){
+            	alert("삭제되었습니다.");
+            }else {
+            	alert("삭제 실패했습니다");
+            }
+			location.href = "${pageContext.request.contextPath}/board/list";
+			}
+		});
+	}
+});
 </script>
 </body>
 </html>

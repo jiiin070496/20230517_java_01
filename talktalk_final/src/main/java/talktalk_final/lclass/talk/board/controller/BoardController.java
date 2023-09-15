@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import talktalk_final.lclass.talk.board.dto.BoardDto;
 import talktalk_final.lclass.talk.board.service.BoardService;
@@ -74,7 +73,7 @@ public class BoardController {
 	@PostMapping("/update")
 	@ResponseBody
 	public Integer updateDo(BoardDto dto){
-		Integer result = 0;
+		Integer result;
 	    try {
 	        result = boardService.update(dto);
 	    } catch (Exception e) {
