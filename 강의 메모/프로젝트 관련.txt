@@ -50,3 +50,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 <script type="text/javascript" 
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<spring:eval expression="@talk['api.key']" />">
 </script>
+
+
+
+BREF desc, BRE_STEP asc
