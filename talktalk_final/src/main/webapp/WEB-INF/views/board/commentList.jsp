@@ -1,10 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>댓글 목록</title>
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 </head>
 <body>
 	<div class="col-lg-12">
@@ -72,5 +74,35 @@
         </div>
     </div>
   </div>
+<script>
+//3번째 게시글
+var article_no = 3;
+
+// 댓글 목록 호출
+getReplies();
+
+// 댓글 목록 출력 함수
+function getReplies() {
+
+    $.getJSON("${path}/replies/all/" + article_no, function (data) {
+
+        console.log(data);
+
+        var str = "";
+
+        $(data).each(function () {
+            str += "<li data-reply_no='" + this.reply_no + "' class='replyLi'>"
+                +   "<p class='reply_text'>" + this.reply_text + "</p>"
+                +   "<p class='reply_writer'>" + this.reply_writer + "</p>"
+                +   "<button type='button' class='btn btn-xs btn-success' data-toggle='modal' data-target='#modifyModal'>댓글 수정</button>"
+                + "</li>"
+                + "<hr/>";
+
+        });
+
+        $("#replies").html(str);
+
+    });		  
+</script>
 </body>
 </html>
