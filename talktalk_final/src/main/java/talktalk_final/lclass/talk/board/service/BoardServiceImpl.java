@@ -36,7 +36,13 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int delete(int bno) throws Exception {
 		return boardDao.delete(bno);
-	} 
+	}
+	
+	public int reply_insert(BoardDto dto)throws Exception{
+		BoardDto returnVo = boardDao.reply_insert(dto);
+		int result = returnVo.getBno();
+		return result;
+	}
 }
 //	  public List<BoardDto> selectList() throws Exception{ return
 //	  boardDao.selectList(); } public BoardDto selectOne(int bno) throws Exception{

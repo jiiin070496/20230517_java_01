@@ -29,5 +29,15 @@
 	<delete id="delete" parameterType="_int">
 		delete from board where bno=#{bno}
 	</delete>
-	
+
+<!-- 답글달기 -->
+	<insert id="reply_insert" parameterType="BoardDto">
+			<!-- 원글의 step보다 더 큰 step을 가진 글이 있다면 그 글들의 step을 먼저 +1 한다. -->
+		<![CDATA[
+				UPDATE board SET rstep = rstep + 1
+				WHERE ref = #{ref} AND rstep > #{rstep };
+				
+				INSERT INTO notice VALUES (SEQ_BOARD_BNO.NEXTVAL, #{ref }, #{btitle}, #{bcontent}, #{mid}, #{rstep } + 1, #{rlevel} + 1, #{filename, jdbcType=VARCHAR }, #{filepath, jdbcType=VARCHAR });
+		]]>
+	</insert>
 </mapper>

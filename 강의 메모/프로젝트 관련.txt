@@ -8,6 +8,8 @@ https://velog.io/@dailylifecoding/Spring-legacy-project-Value-annotation-not-res
 ----------------------------------------------------------------------------------------------------------------
 
 spring 댓글기능 구현
+         -- https://upcake.tistory.com/358 --
+	https://qh5944.tistory.com/111
 	https://androphil.tistory.com/322
 	https://huskdoll.tistory.com/792
 	https://cameldev.tistory.com/62
