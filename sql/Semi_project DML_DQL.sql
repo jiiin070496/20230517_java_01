@@ -1,4 +1,5 @@
-
+UPDATE board SET BRE_STEP = BRE_STEP + 1
+WHERE BREF = 1 AND BRE_STEP > 0;
 select * from member;
 select * from board;
 DESC BOARD_REPLY;
@@ -22,7 +23,7 @@ insert into BOARD values (SEQ_BOARD_BNO.nextval, '고', '고기각', default, 's
 insert into BOARD values (SEQ_BOARD_BNO.nextval, '배', '배곺음', default, 'onue0608', SEQ_BOARD_BNO.nextval, 0,0) ;
 commit;
 
-
+SELECT n.*, (SELECT mname FROM member m WHERE m.mid = n.mid) name FROM board n WHERE bno=1;
 
 
 --원본글

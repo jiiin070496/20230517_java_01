@@ -85,11 +85,12 @@ public class BoardController {
 	
 // --REPLY INSERT--
 	@GetMapping("/rinsert")
-	public String reply_insert(Model model, int bno) throws Exception{
+	public String reply_insert(Model model, Integer bno) throws Exception{
 		model.addAttribute("dto", boardService.selectOne(bno));
-		return "board/list";
+		return "board/rinsert";
 	}
 	@PostMapping("/rinsertDo")
+	@ResponseBody
 	public Integer reply_insertDo(BoardDto dto) {
 		dto.setMid("jiin0960");
 	    Integer result;
@@ -101,17 +102,5 @@ public class BoardController {
 	    }
 	    return result;
 	}
-	
-		
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }

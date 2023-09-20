@@ -9,7 +9,8 @@
 	
 <!-- 상세 게시글 -->	
 	<select id="selectOne" resultType="BoardDto" parameterType="_int">
-		select * from board where bno=#{bno} order by BREF desc, BRE_STEP asc
+		<!-- select * from board where bno=#{bno} order by BREF desc, BRE_STEP asc -->
+		SELECT n.*, (SELECT mname FROM member m WHERE m.mid = n.mid) name FROM board n WHERE bno=#{bno }
 	</select>
 	
 <!-- 게시글 등록 -->	
@@ -34,10 +35,9 @@
 	<insert id="reply_insert" parameterType="BoardDto">
 			<!-- 원글의 step보다 더 큰 step을 가진 글이 있다면 그 글들의 step을 먼저 +1 한다. -->
 		<![CDATA[
-				UPDATE board SET rstep = rstep + 1
-				WHERE ref = #{ref} AND rstep > #{rstep };
-				
-				INSERT INTO notice VALUES (SEQ_BOARD_BNO.NEXTVAL, #{ref }, #{btitle}, #{bcontent}, #{mid}, #{rstep } + 1, #{rlevel} + 1, #{filename, jdbcType=VARCHAR }, #{filepath, jdbcType=VARCHAR });
+				UPDATE board SET bre_step = bre_step + 1
+				WHERE bref = #{bref} AND bre_step > #{bre_step };				
+				INSERT INTO board VALUES (SEQ_BOARD_BNO.NEXTVAL, #{bref }, #{btitle}, #{bcontent}, #{mid}, #{breStep } + 1, #{breLevel} + 1, #{fileName, jdbcType=VARCHAR }, #{filePath, jdbcType=VARCHAR });
 		]]>
 	</insert>
 </mapper>

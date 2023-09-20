@@ -9,11 +9,57 @@
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 </head>
 <body>
-<div>
 	<form id="repBoard">
-		<input type="hidden" name="ref" value />
-		
+		<input type="hidden" name="ref" value="${dto.bref }" />
+		<input type="hidden" name="breLevel" value="${dto.breLevel }" />
+		<input type="hidden" name="breStep" value="${dto.breStep }" />
+		<table>
+			<tr>
+				<th class="w-px160">제목</th>
+				<td><input type="text" name="btitle" class="need"/></td>
+			</tr>
+			<tr>
+				<th>작성자</th>
+				<td>${dto.mid }</td>
+			</tr>
+			<tr>
+				<th>내용</th>
+				<td><textarea name="bcontent" class="need"></textarea></td>
+			</tr>
+		</table>
+			<button type="button" id="btn-board-rinsert">글 등록</button>
 	</form>
-</div>
+<script>
+$("#btn-board-rinsert").click(function() {	
+    const btitle = $("input[name='btitle']").val().trim();
+    const bcontent = $("textarea[name='bcontent']").val().trim();
+    if(btitle ===''){
+    	alert("제목을 입력해주세요");
+    	return;
+    }
+    if(bcontent ===''){
+    	alert("내용을 입력해주세요");
+    	return;
+    }
+    if (confirm("글을 등록하시겠습니까?")) {
+    	/* $("#btn-board-insert").prop("disabled", true); */
+        $.ajax({
+            type: "POST",
+            url: "${pageContext.request.contextPath}/board/rinsert",
+            contentType: "application/json",
+            //dataType: "json",
+         	data: JSON.stringify(data),
+            success: function(response) {
+                if (response > 0) {
+                    alert("댓글 등록되었습니다.");
+                    location.href = "${pageContext.request.contextPath}/board/list";
+                } else {
+                    alert("댓글 등록에 실패했습니다.");
+                }
+            }
+        });
+    }
+});
+</script>
 </body>
 </html>
