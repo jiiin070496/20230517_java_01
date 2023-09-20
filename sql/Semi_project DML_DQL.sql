@@ -1,5 +1,5 @@
 UPDATE board SET BRE_STEP = BRE_STEP + 1
-WHERE BREF = 1;
+WHERE BREF = 1 AND BRE_STEP > 0;
 select * from member;
 select * from board;
 DESC BOARD_REPLY;
