@@ -1,0 +1,124 @@
+POM.XML
+commons-dbcp
+ojdbc8
+spring-jdbc (버전 같아야함)
+mybatis
+mybatis-spring
+
+
+WEB.XML
+	인코딩 필터 제공
+
+SERVLET-CONTEXT
+	<context:component-scan base-package="talktalk_final.lclass.talk" />
+
+ROOT-CONTEXT
+<!-- properties 이용 -->
+db.driverClassName=oracle.jdbc.driver.OracleDriver
+db.url=jdbc:oracle:thin:@127.0.0.1:1521:xe
+db.username=khl
+db.password=khl
+
+	<context:property-placeholder location="classpath:properties/talk.properties"/>
+
+  	<bean class="org.apache.commons.dbcp.BasicDataSource" id="dataSource" destroy-method="close"> 
+		<property name="driverClassName" value="${db.driverClassName}" />
+		<property name="url" value="${db.url}" />
+		<property name="username" value="${db.username}" />
+		<property name="password" value="${db.password}" />
+	</bean> 
+
+
+MYBATIS-CONFIG.XML
+<configuration>
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL"/> 
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+	</settings>
+	
+	<typeAliases>
+		<typeAlias type="talktalk_final.lclass.talk.board.dto.BoardDto" alias="BoardDto"/>
+	</typeAliases>
+		
+	<mappers>
+		<mapper resource="mappers/board-mapper.xml"/>
+	</mappers>
+	
+</configuration>
+
+-MAPPER.XML
+<mapper namespace="board">
+
+	<resultMap type="BoardDto" id="BoardResultMap1">
+		<id property="bno" column="bno"/>
+		<result property="btitle" column="btitle"/>
+		<result property="bcontent" column="bcontent"/>
+	</resultMap>
+	
+	<select id="selectList" resultType="BoardVo"> (resultMap="BoardResultMap1")
+		select * from board
+	</select>
+	<select id="selectOne" resultType="BoardVo" parameterType="_int">
+		select * from board where bno=#{bno}
+	</select>
+</mapper>
+
+--DTO--
+@Data
+@Component
+public class BoardVo{}
+
+
+--SERVICE--
+public interface BoardService{
+	public List<BoardVo> selectList() throws Exception;
+	public BoardVo selectOne(int bno) throws Exception;
+	public BoardVo insert(BoardVo vo) throws Exception;
+}
+
+--SERVICEIMPL--
+@Service
+public class BoardServiceImpl implements BoardService{
+	@Autowired
+	private BoardDao boardDao;
+
+	@Override
+	public List<BoardVo> selectList() throws Exception {
+		return boardDao.selectList();
+	}
+
+	@Override
+	public BoardVo selectOne(int bno) throws Exception {
+		return boardDao.selectOne(bno);
+	}
+
+	@Override
+	public BoardVo insert(BoardVo vo) throws Exception {
+		BoardVo returnVo = boardDao.insert(vo);
+		int result = returnVo.getBno();
+		return null;
+	}
+	
+}
+
+--CONTROLLER--
+@Controller
+@RequestMapping("/board")
+public class BoardController{
+	@Autowired
+	private BoardService boardService;
+	
+	@GetMapping("/list")
+	public ModelAndView list(ModelAndView mv) throws Exception{
+		mv.addObject("blist", boardService.selectList());
+		mv.setViewName("board/list");
+		return mv;
+	}
+	
+	@GetMapping("/get")
+	public ModelAndView get(ModelAndView mv, int bno) throws Exception{
+		mv.addObject("bget", boardService.selectOne(bno));
+		mv.setViewName("board/get");
+		return mv;
+	}
+}

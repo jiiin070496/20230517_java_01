@@ -11,8 +11,22 @@
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 		
-	<!-- properties 이용 -->
-	<context:property-placeholder location="classpath:properties/kh.properties"/>
+	<!-- properties 이용 
+	mvn common-dbcp, ojdbc8, spring-jdbc, mybatis , mybatis-spring
+	-->
+	<context:property-placeholder location="classpath:properties/kh.properties" />
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- <context:property-placeholder location="classpath:properties/kh.properties"/> -->
 	
 	<!-- DB관련 -->
 	<!-- DBCP 생성 -->

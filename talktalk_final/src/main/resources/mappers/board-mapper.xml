@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="board">
-
+	<!-- 
+	<resultMap type="BoardDto" id="boardMap">
+		<id property="bno" column="bno"/>
+		<result property="btitle" column="btitle"/>
+	</resultMap> 
+	-->
 <!-- 전체 게시글 -->
 	<select id="selectList" resultType="BoardDto">
 		select * from board

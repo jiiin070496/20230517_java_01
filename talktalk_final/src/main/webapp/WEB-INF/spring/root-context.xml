@@ -15,7 +15,6 @@
 <!-- properties 이용 -->
 	<context:property-placeholder location="classpath:properties/talk.properties"/>
 	<util:properties id="api" location="classpath:/properties/api.properties" />
-	
 <!-- DB관련 -->
 	<!-- DBCP 생성 -->
 	<!-- 빈에 등록. 필요한 순간 spring이 만들어서 운용해줌 -->
