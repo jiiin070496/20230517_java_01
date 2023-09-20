@@ -10,9 +10,9 @@
 </head>
 <body>
 	<form id="repBoard">
-		<input type="hidden" name="ref" value="${dto.bref }" />
-		<input type="hidden" name="breLevel" value="${dto.breLevel }" />
-		<input type="hidden" name="breStep" value="${dto.breStep }" />
+		<input type="hidden" name="ref" value="${dto.ref }" />
+		<input type="hidden" name="breLevel" value="${dto.rlevel }" />
+		<input type="hidden" name="breStep" value="${dto.rstep }" />
 		<table>
 			<tr>
 				<th class="w-px160">제목</th>
@@ -27,7 +27,7 @@
 				<td><textarea name="bcontent" class="need"></textarea></td>
 			</tr>
 		</table>
-			<button type="button" id="btn-board-rinsert">글 등록</button>
+			<button type="button" id="btn-board-rinsert">댓글 등록</button>
 	</form>
 <script>
 $("#btn-board-rinsert").click(function() {	
@@ -45,10 +45,12 @@ $("#btn-board-rinsert").click(function() {
     	/* $("#btn-board-insert").prop("disabled", true); */
         $.ajax({
             type: "POST",
-            url: "${pageContext.request.contextPath}/board/rinsert",
-            contentType: "application/json",
+            url: "${pageContext.request.contextPath}/board/rinsert?bno=${dto.bno}",
             //dataType: "json",
-         	data: JSON.stringify(data),
+         	 data: { 
+                btitle: btitle,
+                bcontent: bcontent
+            },
             success: function(response) {
                 if (response > 0) {
                     alert("댓글 등록되었습니다.");

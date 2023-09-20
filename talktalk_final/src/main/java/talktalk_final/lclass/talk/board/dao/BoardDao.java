@@ -39,6 +39,8 @@ public class BoardDao {
 	public int delete(int bno) throws Exception{
 		return sqlSession.delete("board.delete", bno);
 	}
+	
+// 답글 작성
 	public  BoardDto reply_insert(BoardDto dto) throws Exception{
 		int result =  sqlSession.insert("board.reply_insert", dto);
 		return dto;

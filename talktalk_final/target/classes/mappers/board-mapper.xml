@@ -18,8 +18,12 @@
 		<selectKey keyProperty="bno" resultType="_int" order="BEFORE">
 		select SEQ_BOARD_BNO.nextval nextval from dual
 		</selectKey>
-		insert into BOARD values (#{bno}, #{btitle}, #{bcontent}, default, #{mid},#{bno}, 0,0)
-	</insert>
+		INSERT INTO board VALUES (#{bno}, #{btitle }, #{bcontent }, #{mid }, default, default, #{filename, jdbcType=VARCHAR }, #{filepath, jdbcType=VARCHAR }, #{bno }, 0, 0)
+		
+<!-- 		
+insert into BOARD values (#{bno}, #{btitle}, #{bcontent}, default, #{mid},#{bno}, 0,0)
+ -->	
+ 	</insert>
 
 <!-- 글 수정 -->	
 	<update id="update" parameterType="BoardDto">
@@ -32,12 +36,22 @@
 	</delete>
 
 <!-- 답글달기 -->
+<!--
 	<insert id="reply_insert" parameterType="BoardDto">
-			<!-- 원글의 step보다 더 큰 step을 가진 글이 있다면 그 글들의 step을 먼저 +1 한다. -->
+		원글의 step보다 더 큰 step을 가진 글이 있다면 그 글들의 step을 먼저 +1 한다.
 		<![CDATA[
-				UPDATE board SET bre_step = bre_step + 1
-				WHERE bref = #{bref} AND bre_step > #{bre_step };				
-				INSERT INTO board VALUES (SEQ_BOARD_BNO.NEXTVAL, #{bref }, #{btitle}, #{bcontent}, #{mid}, #{breStep } + 1, #{breLevel} + 1, #{fileName, jdbcType=VARCHAR }, #{filePath, jdbcType=VARCHAR });
+			{CALL DECLARE BEGIN
+				UPDATE board SET rstep = rstep + 1
+				WHERE ref = #{ref } AND rstep > #{rstep };				
+				INSERT INTO board VALUES (#{bno}, #{btitle }, #{bcontent }, #{mid }, default, default, #{filename, jdbcType=VARCHAR }, #{filepath, jdbcType=VARCHAR }, #{bno }, 0, 0)
+			END}
 		]]>
+	</insert> 
+-->
+	<insert id="reply_insert" parameterType="BoardDto">
+		insert into BOARD values (#{bno}, #{btitle}, #{bcontent}, #{mid}, default, default,  #{filename, jdbcType=VARCHAR }, #{filepath, jdbcType=VARCHAR }    
+		, (select ref from board where bno=#{bno})    
+		, (select rlevel +1 from board where bno=#{bno})    
+		, (select rstep +1 from board where bno=#{bno}))
 	</insert>
 </mapper>

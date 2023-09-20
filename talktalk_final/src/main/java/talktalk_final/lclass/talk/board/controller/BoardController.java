@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -86,8 +87,9 @@ public class BoardController {
 // --REPLY INSERT--
 	@GetMapping("/rinsert")
 	public String reply_insert(Model model, Integer bno) throws Exception{
-		model.addAttribute("dto", boardService.selectOne(bno));
-		return "board/rinsert";
+		BoardDto dto = boardService.selectOne(bno);
+	    model.addAttribute("dto", dto);
+	    return "board/replyInsert";
 	}
 	@PostMapping("/rinsertDo")
 	@ResponseBody

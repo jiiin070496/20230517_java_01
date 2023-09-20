@@ -37,18 +37,11 @@ public class BoardServiceImpl implements BoardService {
 	public int delete(int bno) throws Exception {
 		return boardDao.delete(bno);
 	}
-	
-	public int reply_insert(BoardDto dto){
-		BoardDto returnVo;
-		int result;
-		try {
-			returnVo = boardDao.reply_insert(dto);
-			result = returnVo.getBno();
-			return result;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return -1;
-		}
+	@Override
+	public int reply_insert(BoardDto dto) throws Exception {
+		 BoardDto returnVo = boardDao.insert(dto); 
+		 int result = returnVo.getBno();
+		 return result;
 	}
 }
 //	  public List<BoardDto> selectList() throws Exception{ return
