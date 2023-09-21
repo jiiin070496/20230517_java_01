@@ -8,24 +8,27 @@ https://velog.io/@dailylifecoding/Spring-legacy-project-Value-annotation-not-res
 ----------------------------------------------------------------------------------------------------------------
 
 spring 댓글기능 구현
-         -- https://upcake.tistory.com/358 --
+         --  https://upcake.tistory.com/358  --
 	https://qh5944.tistory.com/111
 	https://androphil.tistory.com/322
 	https://huskdoll.tistory.com/792
 	https://cameldev.tistory.com/62
 	https://cameldev.tistory.com/63
-        https://zi2eon.tistory.com/20 -- 다른
+        	https://zi2eon.tistory.com/20 -- 다른
 Spring 좋아요 기능 구현	
 	https://devofroad.tistory.com/73
 
 Spring 조회수 기능 구현
 	https://melonpeach.tistory.com/55
 
+카카오맵 api
+	https://well-made-codestory.tistory.com/36 -- KakaoRestApi
+	https://well-made-codestory.tistory.com/35 -- KakaoMapApi(위도 경도 받아오기)
+
 ----------------------------------------------------------------------------------------------------------------
 
 MultiPartFileUpload
 	https://umanking.github.io/2020/01/02/spring-fileupload/
-
 
 ----------------------------------------------------------------------------------------------------------------
 
