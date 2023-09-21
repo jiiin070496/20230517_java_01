@@ -24,10 +24,6 @@
 		select SEQ_BOARD_BNO.nextval nextval from dual
 		</selectKey>
 		INSERT INTO board VALUES (#{bno}, #{btitle }, #{bcontent }, #{mid }, default, default, #{filename, jdbcType=VARCHAR }, #{filepath, jdbcType=VARCHAR }, #{bno }, 0, 0)
-		
-<!-- 		
-insert into BOARD values (#{bno}, #{btitle}, #{bcontent}, default, #{mid},#{bno}, 0,0)
- -->	
  	</insert>
 
 <!-- 글 수정 -->	
@@ -54,9 +50,14 @@ insert into BOARD values (#{bno}, #{btitle}, #{bcontent}, default, #{mid},#{bno}
 	</insert> 
 -->
 	<insert id="reply_insert" parameterType="BoardDto">
-		insert into BOARD values (#{bno}, #{btitle}, #{bcontent}, #{mid}, default, default,  #{filename, jdbcType=VARCHAR }, #{filepath, jdbcType=VARCHAR }    
-		, (select ref from board where bno=#{bno})    
-		, (select rlevel +1 from board where bno=#{bno})    
-		, (select rstep +1 from board where bno=#{bno}))
+   	<!-- BoardDto에서 원본 글의 번호 가져오기 -->
+	    <selectKey keyProperty="bno" resultType="_int" order="BEFORE">
+	        SELECT SEQ_BOARD_BNO.nextval nextval FROM dual
+	    </selectKey>
+    <!-- 댓글 삽입 -->
+			insert into BOARD values (#{bno}, #{btitle}, #{bcontent}, #{mid}, default, 0, #{filename, jdbcType=VARCHAR }, #{filepath, jdbcType=VARCHAR }    
+			, (select ref from board where bno=#{bno})    
+			, (select rlevel +1 from board where bno=#{bno})    
+			, (select rstep +1 from board where bno=#{bno}))
 	</insert>
 </mapper>
