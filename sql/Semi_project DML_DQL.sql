@@ -22,29 +22,7 @@ insert into BOARD values (SEQ_BOARD_BNO.nextval, '파', '파닭각', 'jiin0960',
 insert into BOARD values (SEQ_BOARD_BNO.nextval, '고', '고기각', 'sony0316', default,  DEFAULT, NULL, NULL, SEQ_BOARD_BNO.nextval, 0, 0) ;
 insert into BOARD values (SEQ_BOARD_BNO.nextval, '배', '배곺음', 'onue0608', default,  DEFAULT, NULL, NULL, SEQ_BOARD_BNO.nextval, 0, 0) ;
 commit;
-insert into BOARD (
-    "BNO", "BTITLE", "BCONTENT", "MID", "BWRITE_DATE", "READCNT", "FILENAME", "FILEPATH", "REF", "RSTEP", "RLEVEL"
-) values (
-    SEQ_BOARD_BNO.nextval, '족', '발각이네?ㅋㅋ', 'sony0316', systimestamp, 0, NULL, NULL,
-    (select ref from board where bno=5),
-    (select rstep + 1 from board where bno=5),
-    (select rlevel + 1 from board where bno=5)
-);
-DECLARE
-  ref_param NUMBER := :ref;
-  rstep_param NUMBER := :rstep;
-BEGIN
-  UPDATE board SET rstep = rstep + 1
-  WHERE ref = ref_param AND rstep > rstep_param;
 
-  INSERT INTO board ("BNO", "BTITLE", "BCONTENT", "MID", "BWRITE_DATE", "READCNT", "FILENAME", "FILEPATH", "REF", "RSTEP", "RLEVEL")
-  VALUES (SEQ_BOARD_BNO.nextval, '족', '발각이네?ㅋㅋ', 'sony0316', systimestamp, 0, NULL, NULL,
-          ref_param, rstep_param + 1, :rlevel + 1);
-  
-  COMMIT;
-END;
-
-select ref from board where bno=3;
 SELECT n.*, (SELECT mname FROM member m WHERE m.mid = n.mid) name FROM board n WHERE bno=1;
 
 
