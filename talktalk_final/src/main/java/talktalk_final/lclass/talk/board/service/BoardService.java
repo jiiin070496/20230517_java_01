@@ -12,6 +12,7 @@ public interface BoardService {
 	public int update(BoardDto dto)throws Exception;
 	public int delete(int bno)throws Exception;	
 	public int reply_insert(BoardDto dto)throws Exception;
+	
 }
 
 //@Autowired

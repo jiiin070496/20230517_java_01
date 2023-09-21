@@ -29,4 +29,5 @@ public class BoardDto {
 	private int rstep;
 	private int rlevel;
 
+	
 }

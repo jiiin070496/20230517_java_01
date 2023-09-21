@@ -37,18 +37,6 @@
 	</delete>
 
 <!-- 답글달기 -->
-<!--
-	<insert id="reply_insert" parameterType="BoardDto">
-		원글의 step보다 더 큰 step을 가진 글이 있다면 그 글들의 step을 먼저 +1 한다.
-		<![CDATA[
-			{CALL DECLARE BEGIN
-				UPDATE board SET rstep = rstep + 1
-				WHERE ref = #{ref } AND rstep > #{rstep };				
-				INSERT INTO board VALUES (#{bno}, #{btitle }, #{bcontent }, #{mid }, default, default, #{filename, jdbcType=VARCHAR }, #{filepath, jdbcType=VARCHAR }, #{bno }, 0, 0)
-			END}
-		]]>
-	</insert> 
--->
 	<insert id="reply_insert" parameterType="BoardDto">
    	<!-- BoardDto에서 원본 글의 번호 가져오기 -->
 	    <selectKey keyProperty="bno" resultType="_int" order="BEFORE">

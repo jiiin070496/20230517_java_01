@@ -43,6 +43,7 @@ public class BoardServiceImpl implements BoardService {
 		 int result = returnVo.getBno();
 		 return result;
 	}
+	
 }
 //	  public List<BoardDto> selectList() throws Exception{ return
 //	  boardDao.selectList(); } public BoardDto selectOne(int bno) throws Exception{
