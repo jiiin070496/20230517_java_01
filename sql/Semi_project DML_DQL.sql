@@ -21,16 +21,16 @@ update board set btitle = '몽', bcontent = '총이' where bno = 23;
 insert into BOARD values (SEQ_BOARD_BNO.nextval, '파', '파닭각', 'jiin0960', default,  DEFAULT, NULL, NULL, SEQ_BOARD_BNO.nextval, 0, 0) ;
 insert into BOARD values (SEQ_BOARD_BNO.nextval, '고', '고기각', 'sony0316', default,  DEFAULT, NULL, NULL, SEQ_BOARD_BNO.nextval, 0, 0) ;
 insert into BOARD values (SEQ_BOARD_BNO.nextval, '배', '배곺음', 'onue0608', default,  DEFAULT, NULL, NULL, SEQ_BOARD_BNO.nextval, 0, 0) ;
-commit;
+
 insert into BOARD (
     "BNO", "BTITLE", "BCONTENT", "MID", "BWRITE_DATE", "READCNT", "FILENAME", "FILEPATH", "REF", "RSTEP", "RLEVEL"
 ) values (
-    SEQ_BOARD_BNO.nextval, '족', '발각이네?ㅋㅋ', 'sony0316', systimestamp, 0, NULL, NULL,
-    (select ref from board where bno=5),
-    (select rstep + 1 from board where bno=5),
-    (select rlevel + 1 from board where bno=5)
+    SEQ_BOARD_BNO.nextval, '등갈비?', '굿ㅋㅋ', 'sony0316', systimestamp, 0, NULL, NULL,
+    (select ref from board where bno=1),
+    (select rstep + 1 from board where bno=1),
+    (select rlevel + 1 from board where bno=1)
 );
-
+commit;
 
 
 -- DECLARE
@@ -48,7 +48,7 @@ insert into BOARD (
 -- END;
 
 select ref from board where bno=3;
-SELECT n.*, (SELECT mname FROM member m WHERE m.mid = n.mid) name FROM board n WHERE bno=1;
+SELECT n.*, (SELECT mid FROM member m WHERE m.mid = n.mid) name FROM board n WHERE bno=1;
 
 
 --원본글
