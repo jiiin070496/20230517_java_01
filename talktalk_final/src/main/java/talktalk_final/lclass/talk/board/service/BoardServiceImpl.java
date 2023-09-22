@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import talktalk_final.lclass.talk.board.dao.BoardDao;
 import talktalk_final.lclass.talk.board.dto.BoardDto;
+import talktalk_final.lclass.talk.board.dto.BoardPage;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -37,6 +38,12 @@ public class BoardServiceImpl implements BoardService {
 	public int delete(int bno) throws Exception {
 		return boardDao.delete(bno);
 	}
+	
+	@Override
+	public BoardPage selectOne(BoardPage page) throws Exception {
+		return boardDao.selectOne(page);
+	}
+	
 	@Override
 	public int reply_insert(BoardDto dto) throws Exception {
 		 BoardDto returnVo = boardDao.insert(dto); 

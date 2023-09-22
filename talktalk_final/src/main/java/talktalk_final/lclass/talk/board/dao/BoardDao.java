@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import talktalk_final.lclass.talk.board.dto.BoardDto;
+import talktalk_final.lclass.talk.board.dto.BoardPage;
 
 
 @Repository
@@ -16,6 +17,11 @@ public class BoardDao {
 // 게시글 목록
 	public List<BoardDto> selectList() throws Exception{ 
 		return sqlSession.selectList("board.selectList");
+	}
+	public BoardPage selectOne(BoardPage page) throws Exception{
+		page.setTotalList((Integer) sqlSession.selectOne("board.totalList", page));
+		page.setList(sqlSession.selectList("board.totalList", page));
+		return page;
 	}
 	
 // 게시글 상세	

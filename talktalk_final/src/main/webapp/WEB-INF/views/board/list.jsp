@@ -116,6 +116,9 @@ body {
         </c:forEach>
     </table>
 </c:if>
+<div class="btnSet">
+	<jsp:include page="/WEB-INF/views/board/page.jsp"/>
+</div>
 <div class="btn-container">
 	<a href="<c:url value='/board/insert'/>">
 	    <button>글 등록</button>
@@ -124,7 +127,10 @@ body {
 <!-- 이미지 지도를 표시할 div 입니다 -->
 <hr>
 <div id="staticMap" style="width:820; height:350px;"></div>
-	<script>
+
+
+
+<script>
 // 이미지 지도에 표시할 마커입니다
 	var marker = {
 	    position: new kakao.maps.LatLng(37.4989968, 127.032821), 

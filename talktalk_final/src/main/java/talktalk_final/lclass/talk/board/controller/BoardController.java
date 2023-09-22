@@ -5,23 +5,26 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import talktalk_final.lclass.talk.board.dto.BoardDto;
+import talktalk_final.lclass.talk.board.dto.BoardPage;
 import talktalk_final.lclass.talk.board.service.BoardService;
 import org.springframework.ui.Model;
 
 @Controller
 @RequestMapping("/board")
 public class BoardController {
-	@Autowired
-	private BoardService boardService;	
-
+	@Autowired private BoardService boardService;	
+	@Autowired private BoardPage page; 
 // --LIST--
 	@GetMapping("/list")
-	public ModelAndView list(ModelAndView mv) throws Exception{
+	public ModelAndView list(ModelAndView mv, @RequestParam(defaultValue = "1") int curPage) throws Exception{
+		page.setCurPage(curPage);
 	    mv.addObject("boardList", boardService.selectList());
+		mv.addObject("page", boardService.selectOne(page));
 		mv.setViewName("board/list");
 		return mv;
 	}
