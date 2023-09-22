@@ -25,18 +25,7 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="kh.lclass.db1" />
-	
-	
-	
-	
-	
-	
-	
-	
-	<!-- <context:component-scan base-package="talktalk_final.lclass.talk" /> -->
-	
-	
+	<context:component-scan base-package="talktalk_final.lclass.talk" />		
 	
 <!-- @Aspect AOP Annotation Scan (logger)-->
 	<aop:aspectj-autoproxy/>

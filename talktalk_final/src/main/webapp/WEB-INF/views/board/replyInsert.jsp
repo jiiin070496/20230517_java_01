@@ -42,11 +42,9 @@ $("#btn-board-rinsert").click(function() {
     	return;
     }
     if (confirm("글을 등록하시겠습니까?")) {
-    	/* $("#btn-board-insert").prop("disabled", true); */
         $.ajax({
             type: "POST",
             url: "${pageContext.request.contextPath}/board/rinsert?bno=${dto.bno}",
-            //dataType: "json",
          	 data: { 
                 btitle: btitle,
                 bcontent: bcontent

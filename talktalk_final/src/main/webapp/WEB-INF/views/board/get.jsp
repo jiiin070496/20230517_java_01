@@ -87,10 +87,10 @@ button:hover {
 			<div class="card my-4">
 				<h5 class="card-header">Leave a Comment:</h5>
 				<div class="card-body">
-					<form action="${pageContext.request.contextPath}/board/insertReply" method="post" >
+					<form>
 						<div class="form-group">
 							<input type="hidden" name="${bvo.bno}" />
-							<textarea name="content" class="form-control" rows="3"></textarea>
+							<textarea name="bcontent" class="form-control" rows="3"></textarea>
 						</div>
 						<button type="submit" class="btn-board-comment">댓글 등록</button>
 					</form>
@@ -118,6 +118,33 @@ button:hover {
 		});
 	}
 });
+   $("#btn-board-rinsert").click(function() {	
+	    const bcontent = $("textarea[name='bcontent']").val().trim();
+
+	    if(bcontent ===''){
+	    	alert("내용을 입력해주세요");
+	    	return;
+	    }
+	    if (confirm("글을 등록하시겠습니까?")) {
+	        $.ajax({
+	            type: "POST",
+	            url: "${pageContext.request.contextPath}/board/rinsert?bno=${dto.bno}",
+	         	 data: { 
+	                btitle: btitle,
+	                bcontent: bcontent
+	            },
+	            success: function(response) {
+	                if (response > 0) {
+	                    alert("댓글 등록되었습니다.");
+	                    location.href = "${pageContext.request.contextPath}/board/list";
+	                } else {
+	                    alert("댓글 등록에 실패했습니다.");
+	                }
+	            }
+	        });
+	    }
+	});   
+   
 </script>
 </body>
 </html>

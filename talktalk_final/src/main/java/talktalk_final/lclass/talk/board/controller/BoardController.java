@@ -86,8 +86,8 @@ public class BoardController {
 // --REPLY INSERT--
 	@GetMapping("/rinsert")
 	public String reply_insert(Model model, Integer bno) throws Exception{
-		BoardDto dto = boardService.selectOne(bno);
-	    model.addAttribute("dto", dto);
+//		BoardDto dto = boardService.selectOne(bno);
+//	    model.addAttribute("dto", dto);
 	    return "board/replyInsert";
 	}
 	@PostMapping("/rinsertDo")
