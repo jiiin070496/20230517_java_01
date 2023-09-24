@@ -45,6 +45,11 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
+	public List<BoardDto> reply_list()throws Exception {
+		return boardDao.reply_list();
+	}
+	
+	@Override
 	public int reply_insert(BoardDto dto) throws Exception {
 		 BoardDto returnVo = boardDao.insert(dto); 
 		 int result = returnVo.getBno();

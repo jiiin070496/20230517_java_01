@@ -46,6 +46,11 @@ public class BoardDao {
 		return sqlSession.delete("board.delete", bno);
 	}
 	
+// 답글 목록
+	public List<BoardDto> reply_list()throws Exception{
+		return sqlSession.selectList("board.selectReply");
+	}
+	
 // 답글 작성
 	public  BoardDto reply_insert(BoardDto dto) throws Exception{
 		int result =  sqlSession.insert("board.reply_insert", dto);

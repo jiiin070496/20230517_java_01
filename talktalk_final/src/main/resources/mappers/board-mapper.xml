@@ -22,12 +22,14 @@
 	
 <!-- 전체 게시글 -->
 	<select id="selectList" resultType="BoardDto">
-		<!-- SELECT * FROM board<include refid="search_where" /> ORDER BY ref, rstep DESC -->
- 		SELECT * 
+		SELECT * FROM board ORDER BY ref, rstep DESC
+<!--
+  		SELECT * 
 		FROM (SELECT ROWNUM no, n.*, (SELECT mid FROM member WHERE mid = #{mid}) name
 				FROM (SELECT * FROM board<include refid="search_where" /> ORDER BY ref, rstep DESC) n
 				ORDER BY bno DESC) n 
 		WHERE bno BETWEEN #{beginList} and #{endList}
+ -->
 	</select>
 	<select id="totalList" resultType="integer">
 		select count(*) from board <include refid="search_where" />
@@ -57,6 +59,12 @@
 	<delete id="delete" parameterType="_int">
 		delete from board where bno=#{bno}
 	</delete>
+
+<!-- 답글 목록 -->
+	<select id="selectReply" resultType="BoardDto">
+	    select * from board where ref = #{bno} order by rstep ASC, rlevel ASC
+	</select>
+
 
 <!-- 답글달기 -->
 	<insert id="reply_insert" parameterType="BoardDto">

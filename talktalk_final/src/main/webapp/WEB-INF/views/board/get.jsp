@@ -83,16 +83,26 @@ button:hover {
 				</form>
 			</div>
 			
-		<!-- Comments Form -->
+	<!-- Comments Section -->
+			<div class="card my-4">
+			    <h5 class="card-header">댓글 목록</h5>
+			    <div class="card-body">
+			        <!-- 댓글 목록을 표시할 곳 -->
+			        <div id="reply-list">
+			            <!-- 댓글이 표시될 영역 -->
+			        </div>
+			    </div>
+			</div>
+	<!-- Comments Form -->
 			<div class="card my-4">
 				<h5 class="card-header">Leave a Comment:</h5>
 				<div class="card-body">
-					<form>
+					<form id="reply-form">
 						<div class="form-group">
 							<input type="hidden" name="${bvo.bno}" />
 							<textarea name="bcontent" class="form-control" rows="3"></textarea>
 						</div>
-						<button type="submit" class="btn-board-comment">댓글 등록</button>
+						<button type="submit" class="btn-board-reply">댓글 등록</button>
 					</form>
 				</div>
 			</div>
@@ -118,7 +128,57 @@ button:hover {
 		});
 	}
 });
-   $("#btn-board-rinsert").click(function() {	
+   
+   // 댓글 목록을 가져오고 표시하는 함수
+	 function loadReply() {
+	    $.ajax({
+	        type: "GET",
+	        url: "${pageContext.request.contextPath}/board/get?bno=${bvo.bno}",
+	        success: function (replys) { // 변수명 수정
+	            var replyList = $("#reply-list");
+	            replyList.empty();
+	
+	            $.each(replys, function (index, reply) { // 변수명 수정
+	                var replyDiv = $("<div class='replys'></div>");
+	                replyDiv.append("<p>" + reply.bcontent + "</p>"); // 변수명 수정
+	                replyList.append(replyDiv);
+	            });
+	        }
+	    });
+	}
+
+   // 페이지 로드 시 댓글 목록 로드
+   loadReply();
+   
+   // 댓글 등록 폼 제출 처리
+   $("#reply-form").submit(function (event) {
+       event.preventDefault();
+       var bcontent = $("textarea[name='bcontent']").val().trim();
+
+       if (bcontent === '') {
+           alert("내용을 입력해주세요");
+           return;
+       }
+       $.ajax({
+           type: "POST",
+           url: "${pageContext.request.contextPath}/board/rinsertDo",
+           data: {
+               bno: "${bvo.bno}",
+               bcontent: bcontent
+           },
+           success: function (response) {
+               if (response > 0) {
+                   alert("댓글 등록되었습니다.");
+                   $("textarea[name='bcontent']").val(''); // 댓글 입력 칸 비우기
+                   loadReply(); // 댓글 목록 다시 로드
+               } else {
+                   alert("댓글 등록에 실패했습니다.");
+               }
+           }
+       });
+   });
+   
+  /*  $("#btn-board-rinsert").click(function() {	
 	    const bcontent = $("textarea[name='bcontent']").val().trim();
 
 	    if(bcontent ===''){
@@ -143,7 +203,7 @@ button:hover {
 	            }
 	        });
 	    }
-	});   
+	});    */
    
 </script>
 </body>
