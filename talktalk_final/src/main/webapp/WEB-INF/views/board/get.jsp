@@ -73,13 +73,18 @@ button:hover {
 					<textarea id="bcontent" rows="10" cols="50" name="bcontent"
 						readonly>${bvo.bcontent}</textarea>
 					<br>
+					<div class="col">
+		   				<label for="exampleFormControlInput1" class="form-label">Like</label>
+            			<input type="text" class="form-control" id="exampleFormControlInput1" value="${getLike}" readonly>
+		  			</div>
 					<a href="${pageContext.request.contextPath}/board/list">
 					<button type="submit" id="btn-board-update">글 수정</button>
 					</a>
 					<button type="button" id="btn-board-delete">글 삭제</button>
 					<a href="${pageContext.request.contextPath}/board/list">
 					  <button type="button">글 목록으로 이동</button>
-					</a>				
+					</a>
+					 <button type="button" id="btn-board-like">좋아요</button>				
 				</form>
 			</div>
 			
@@ -178,33 +183,53 @@ button:hover {
        });
    });
    
-  /*  $("#btn-board-rinsert").click(function() {	
-	    const bcontent = $("textarea[name='bcontent']").val().trim();
-
-	    if(bcontent ===''){
-	    	alert("내용을 입력해주세요");
-	    	return;
-	    }
-	    if (confirm("글을 등록하시겠습니까?")) {
-	        $.ajax({
-	            type: "POST",
-	            url: "${pageContext.request.contextPath}/board/rinsert?bno=${dto.bno}",
-	         	 data: { 
-	                btitle: btitle,
-	                bcontent: bcontent
-	            },
-	            success: function(response) {
-	                if (response > 0) {
-	                    alert("댓글 등록되었습니다.");
-	                    location.href = "${pageContext.request.contextPath}/board/list";
-	                } else {
-	                    alert("댓글 등록에 실패했습니다.");
-	                }
-	            }
-	        });
-	    }
-	});    */
-   
+   $(function() { // 스크립트 시작문
+       var likeval = ${like};
+       var bno = ${bvo.bno};
+       var like_type = 1;
+       
+       if(likeval > 0){
+           console.log(likeval + "좋아요 누름");
+           $('#btn-board-like').html("좋아요 취소");
+           $('#btn-board-like').click(function() {
+               $.ajax({
+                   type: "post",
+                   url: "${pageContext.request.contextPath}/board/likeDown",
+                   contentType: 'application/json',
+                   data: JSON.stringify(
+                       {
+                           "bno": bno,
+                           "mid": "${bvo.mid}", // mid를 문자열로 감싸야 합니다.
+                           "like_type": like_type
+                       }
+                   ),
+                   success: function(data) {
+                       alert('취소 성공');
+                   }
+               });
+           });
+       } else {
+           console.log(likeval + "좋아요 안누름");
+           console.log("${bvo.mid}"); // mid를 문자열로 출력합니다.
+           $('#btn-board-like').click(function() {
+               $.ajax({
+                   type: "post",
+                   url: "${pageContext.request.contextPath}/board/likeUp",
+                   contentType: "application/json",
+                   data: JSON.stringify(
+                       {
+                           "bno": bno,
+                           "mid": "${bvo.mid}", // mid를 문자열로 감싸야 합니다.
+                           "like_type": like_type
+                       }
+                   ),
+                   success: function(data) {
+                       alert('성공');
+                   }
+               });
+           });
+       }
+   });
 </script>
 </body>
 </html>

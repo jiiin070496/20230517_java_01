@@ -1,7 +1,10 @@
 package talktalk_final.lclass.talk.board.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.binding.MapperMethod.ParamMap;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -49,6 +52,23 @@ public class BoardDao {
 	public int boardReadCnt(int bno) throws Exception{
 		return sqlSession.update("board.boardReadCnt", bno);
 	}
+	
+	public int findLike(Map<String, Object> map) throws Exception{
+		return sqlSession.selectOne("board.findLike", map);
+	}
+	
+	public void likeUp(Map<String, Object> map) throws Exception{
+		sqlSession.insert("board.likeUp", map);
+	}
+	
+	public void likeDown(Map<String, Object> map) throws Exception{
+		sqlSession.delete("board.likeDown", map);
+	}
+	
+	public int getLike(Map<String, Object> map) throws Exception{
+		return sqlSession.selectOne("board.getLike", map);
+	} 
+	
 	
 	
 /* ---------------답글 관련--------------- */	

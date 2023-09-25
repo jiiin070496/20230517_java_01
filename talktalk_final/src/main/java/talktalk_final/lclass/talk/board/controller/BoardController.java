@@ -4,11 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import talktalk_final.lclass.talk.board.dto.BoardDto;
+import talktalk_final.lclass.talk.board.dto.LikeDto;
 import talktalk_final.lclass.talk.board.service.BoardService;
 import org.springframework.ui.Model;
 
@@ -28,11 +30,35 @@ public class BoardController {
 	}
 // --GET--	
 	@GetMapping("/get")
-	public ModelAndView get(ModelAndView mv, int bno) throws Exception{ //jsp에서 controller로 데이터 전달
+	public ModelAndView get(ModelAndView mv, int bno, String mid) throws Exception{ //jsp에서 controller로 데이터 전달
 		mv.addObject("bvo", boardService.selectOne(bno));
+		
+		LikeDto like = new LikeDto();
+		
+		like.setBno(bno);
+		like.setMid(mid);
+		like.setLike_type(1);
+		mv.addObject("like", boardService.findLike(bno, mid));
+		mv.addObject("getlike", boardService.getLike(bno, 1));
+		
 		mv.setViewName("board/get"); // http://localhost:8090/jjap/board/get?bno=3
 		return mv;
 	}
+	// 좋아요
+	
+	@ResponseBody 
+	@PostMapping("/likeUp")
+	public void likeup(@RequestBody LikeDto dto) throws Exception {
+		boardService.likeUp(dto.getBno(), dto.getMid(), dto.getLike_type());
+	
+	}
+	
+	@ResponseBody
+	@PostMapping("/likeDown")
+	public void likeDown(@RequestBody LikeDto dto) throws Exception {
+		boardService.likeDown(dto.getBno(), dto.getMid(), dto.getLike_type());
+	}	
+	
 // --DELETE--	
 	@PostMapping("/delete")
 	@ResponseBody

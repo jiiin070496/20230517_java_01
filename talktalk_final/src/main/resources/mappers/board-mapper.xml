@@ -13,11 +13,6 @@
 		SELECT * FROM board ORDER BY ref desc, rstep asc
 	</select>
 
-<!-- 게시판 조회수 -->
-	<update id="boardReadCnt" parameterType="_int">
-		update board set readcnt = readcnt + 1 where bno = #{bno}
-	</update>
-	
 <!-- 상세 게시글 -->	
 	<select id="selectOne" resultType="BoardDto" parameterType="_int">
 		<!-- select * from board where bno=#{bno} order by BREF desc, BRE_STEP asc -->
@@ -42,13 +37,39 @@
 		delete from board where bno=#{bno}
 	</delete>
 
+<!-- 게시판 조회수 -->
+	<update id="boardReadCnt" parameterType="_int">
+		update board set readcnt = readcnt + 1 where bno = #{bno}
+	</update>
+
+<!-- 좋아요 기능! -->	 
+	<!-- 좋아요 눌럿는지 안눌럿는지 --> 
+	<select id="findLike" resultType="_int">
+		select count(*) from board_like where bno = #{bno} and mid = #{mid}
+	</select>
+	
+	<!-- 좋아요 -->
+	<insert id="likeUp">
+		insert into board_like (like_no , bno , mid, freeboard_like, like_type)
+		values((select * from (select max(like_no)+1 from board_like) next), #{bno},#{mid},1,#{like_type})
+	</insert>
+	
+    <!-- 좋아요 불러오기 -->  
+    <select id="getLike" resultType="_int">
+   		select count(*) from board_like where bno = #{bno} and like_type = #{like_type}
+    </select>
+	
+	<!-- 좋아요 취소 -->	
+    <delete id="likeDown">
+  		delete from board_like where bno = #{bno} and mid = #{mid}  and like_type = #{like_type}
+    </delete>
+
 <!-- 답글 목록 -->
 <!-- 	
 	<select id="selectReply" resultType="BoardDto">
 	    select * from board where ref = #{bno} order by rstep ASC, rlevel ASC
 	</select> 
 -->
-
 
 <!-- 답글달기 -->
 <!-- 댓글 삽입 -->
