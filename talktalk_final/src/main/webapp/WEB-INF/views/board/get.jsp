@@ -99,7 +99,7 @@ button:hover {
 				<div class="card-body">
 					<form id="reply-form">
 						<div class="form-group">
-							<input type="hidden" name="${bvo.bno}" />
+							<input type="hidden" name="bno" value="${bvo.bno}" />
 							<textarea name="bcontent" class="form-control" rows="3"></textarea>
 						</div>
 						<button type="submit" class="btn-board-reply">댓글 등록</button>

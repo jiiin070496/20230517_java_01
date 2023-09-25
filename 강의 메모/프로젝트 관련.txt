@@ -6,9 +6,15 @@
 https://velog.io/@dailylifecoding/Spring-legacy-project-Value-annotation-not-resolving-property-file
 
 ----------------------------------------------------------------------------------------------------------------
-
+페이징
+	https://kimvampa.tistory.com/m/293
 spring 댓글기능 구현
-         --  https://upcake.tistory.com/358  --
+	https://yjdawn.tistory.com/159
+
+	https://gimmesome.tistory.com/176
+	https://doublesprogramming.tistory.com/107
+	https://kimvampa.tistory.com/m/290
+         -- https://upcake.tistory.com/358  --
 	https://qh5944.tistory.com/111
 	https://androphil.tistory.com/322
 	https://huskdoll.tistory.com/792
@@ -17,6 +23,7 @@ spring 댓글기능 구현
         	https://zi2eon.tistory.com/20 -- 다른
 Spring 좋아요 기능 구현	
 	https://devofroad.tistory.com/73
+	https://kimfk567.tistory.com/66
 
 Spring 조회수 기능 구현
 	https://melonpeach.tistory.com/55
@@ -73,3 +80,26 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 
 BREF desc, BRE_STEP asc
+
+---------------------------------------------------
+
+모든 팀원 당일 오후 5시쯤 한 것들(일정표에 작성된것 기준) COMMIT / PUSH
+팀장이 5시 30~40분쯤 CHECK 
+
+일정표 - 일정 더 세밀하게 쪼개서 기능 구현하기(최대 이틀, 삼일은 넘기지 말것)
+
+조회수가 2씩증가? 어이없음.
+
+
+
+
+
+
+
+
+
+
+
+
+
+

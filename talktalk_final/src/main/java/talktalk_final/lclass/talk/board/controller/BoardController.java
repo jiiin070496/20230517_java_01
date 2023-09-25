@@ -5,12 +5,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import talktalk_final.lclass.talk.board.dto.BoardDto;
-import talktalk_final.lclass.talk.board.dto.BoardPage;
 import talktalk_final.lclass.talk.board.service.BoardService;
 import org.springframework.ui.Model;
 
@@ -18,13 +16,13 @@ import org.springframework.ui.Model;
 @RequestMapping("/board")
 public class BoardController {
 	@Autowired private BoardService boardService;	
-	@Autowired private BoardPage page; 
+//	@Autowired private BoardPage page; 
 // --LIST--
 	@GetMapping("/list")
-	public ModelAndView list(ModelAndView mv, @RequestParam(defaultValue = "1") int curPage) throws Exception{
-		page.setCurPage(curPage);
+	public ModelAndView list(ModelAndView mv) throws Exception{
+//		page.setCurPage(curPage);
+//		mv.addObject("page", boardService.selectOne(page));
 	    mv.addObject("boardList", boardService.selectList());
-		mv.addObject("page", boardService.selectOne(page));
 		mv.setViewName("board/list");
 		return mv;
 	}
@@ -87,33 +85,33 @@ public class BoardController {
 	}
 	
 // -- SELECT REPLY --	
-	@GetMapping("/rlist")
-	public ModelAndView rlist(ModelAndView mv) throws Exception{
-		mv.addObject("rList", boardService.reply_list());
-		mv.setViewName("board/get");
-		return mv;
-	}
+//	@GetMapping("/rlist")
+//	public ModelAndView rlist(ModelAndView mv) throws Exception{
+//		mv.addObject("rList", boardService.reply_list());
+//		mv.setViewName("board/get");
+//		return mv;
+//	}
 	
 // --REPLY INSERT--
-	@GetMapping("/rinsert")
-	public String reply_insert(Model model, Integer bno) throws Exception{
+//	@GetMapping("/rinsert")
+//	public String reply_insert(Model model, Integer bno) throws Exception{
 //		BoardDto dto = boardService.selectOne(bno);
 //	    model.addAttribute("dto", dto);
-	    return "board/rlist";
-	}
-	@PostMapping("/rinsertDo")
-	@ResponseBody
-	public Integer reply_insertDo(BoardDto dto) {
-		dto.setMid("jiin0960");
-	    Integer result;
-	    try {
-	        result = boardService.reply_insert(dto);
-	    } catch (Exception e) {
-	    	e.printStackTrace();
-	    	result = -1;
-	    }
-	    return result;
-	}
-	
+//	    return "board/rlist";
+//	}
+//	@PostMapping("/rinsertDo")
+//	@ResponseBody
+//	public Integer reply_insertDo(BoardDto dto) {
+//		dto.setMid("jiin0960");
+//	    Integer result;
+//	    try {
+//	        result = boardService.reply_insert(dto);
+//	    } catch (Exception e) {
+//	    	e.printStackTrace();
+//	    	result = -1;
+//	    }
+//	    return result;
+//	}
+//	
 	
 }

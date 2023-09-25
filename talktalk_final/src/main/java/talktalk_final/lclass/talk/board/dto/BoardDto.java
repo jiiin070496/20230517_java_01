@@ -23,8 +23,6 @@ public class BoardDto {
 	private String mid;
 	private String bwriteDate;
 	private int readcnt;
-	private String filename;
-	private String filepath;
 	private int ref;
 	private int rstep;
 	private int rlevel;

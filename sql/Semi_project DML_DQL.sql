@@ -18,7 +18,7 @@ DELETE FROM member where mid = 'admin12';
 update board set btitle = '몽', bcontent = '총이' where bno = 23;
 
 --원본글
-insert into BOARD values (SEQ_BOARD_BNO.nextval, '파', '파닭각', 'jiin0960', default,  DEFAULT, NULL, NULL, SEQ_BOARD_BNO.nextval, 0, 0) ;
+insert into BOARD values (SEQ_BOARD_BNO.nextval, '파', '파닭각', 'jiin0960', default, 0, SEQ_BOARD_BNO.nextval, 0, 0) ;
 insert into BOARD values (SEQ_BOARD_BNO.nextval, '고', '고기각', 'sony0316', default,  DEFAULT, NULL, NULL, SEQ_BOARD_BNO.nextval, 0, 0) ;
 insert into BOARD values (SEQ_BOARD_BNO.nextval, '배', '배곺음', 'onue0608', default,  DEFAULT, NULL, NULL, SEQ_BOARD_BNO.nextval, 0, 0) ;
 

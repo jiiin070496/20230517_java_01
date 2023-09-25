@@ -100,6 +100,7 @@ body {
             <th>제목</th>
             <th>작성자</th>
             <th>작성일</th>
+            <th>조회수</th>
         </tr>
         <c:forEach items="${boardList }" var="vo">
             <tr>
@@ -112,6 +113,7 @@ body {
                 </td>
                 <td>${vo.mid }</td>
                 <td>${vo.bwriteDate }</td>
+                <td>${vo.readcnt }</td>
             </tr>
         </c:forEach>
     </table>

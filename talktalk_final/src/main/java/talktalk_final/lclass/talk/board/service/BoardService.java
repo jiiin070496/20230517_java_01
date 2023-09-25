@@ -2,8 +2,8 @@ package talktalk_final.lclass.talk.board.service;
 
 import java.util.List;
 
+
 import talktalk_final.lclass.talk.board.dto.BoardDto;
-import talktalk_final.lclass.talk.board.dto.BoardPage;
 
 
 public interface BoardService {
@@ -12,9 +12,11 @@ public interface BoardService {
 	public int insert(BoardDto dto)throws Exception;
 	public int update(BoardDto dto)throws Exception;
 	public int delete(int bno)throws Exception;	
-	public BoardPage selectOne(BoardPage page) throws Exception;
-	public List<BoardDto> reply_list()throws Exception;
-	public int reply_insert(BoardDto dto)throws Exception;
+/* ---------------Paging--------------- */
+//	public BoardPage selectOne(BoardPage page) throws Exception;
+/* ---------------답글 관련--------------- */	
+//	public List<BoardDto> reply_list()throws Exception;
+//	public int reply_insert(BoardDto dto)throws Exception;
 	
 }
 

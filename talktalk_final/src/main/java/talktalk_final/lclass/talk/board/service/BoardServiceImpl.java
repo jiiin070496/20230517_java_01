@@ -3,9 +3,11 @@ package talktalk_final.lclass.talk.board.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
+
 import talktalk_final.lclass.talk.board.dao.BoardDao;
 import talktalk_final.lclass.talk.board.dto.BoardDto;
-import talktalk_final.lclass.talk.board.dto.BoardPage;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -16,10 +18,12 @@ public class BoardServiceImpl implements BoardService {
 	public List<BoardDto> selectList() throws Exception{
 		 return boardDao.selectList();
 	}
-
+	
+	@Transactional(isolation = Isolation.READ_COMMITTED)
 	@Override
 	public BoardDto selectOne(int bno) throws Exception{
-		 return boardDao.selectOne(bno);
+		boardDao.boardReadCnt(bno);
+		return boardDao.selectOne(bno);
 	}
 
 	@Override
@@ -39,22 +43,22 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.delete(bno);
 	}
 	
-	@Override
-	public BoardPage selectOne(BoardPage page) throws Exception {
-		return boardDao.selectOne(page);
-	}
-	
-	@Override
-	public List<BoardDto> reply_list()throws Exception {
-		return boardDao.reply_list();
-	}
-	
-	@Override
-	public int reply_insert(BoardDto dto) throws Exception {
-		 BoardDto returnVo = boardDao.insert(dto); 
-		 int result = returnVo.getBno();
-		 return result;
-	}
+//	@Override
+//	public BoardPage selectOne(BoardPage page) throws Exception {
+//		return boardDao.selectOne(page);
+//	}
+//	
+//	@Override
+//	public List<BoardDto> reply_list()throws Exception {
+//		return boardDao.reply_list();
+//	}
+//	
+//	@Override
+//	public int reply_insert(BoardDto dto) throws Exception {
+//		 BoardDto returnVo = boardDao.insert(dto); 
+//		 int result = returnVo.getBno();
+//		 return result;
+//	}
 	
 }
 //	  public List<BoardDto> selectList() throws Exception{ return

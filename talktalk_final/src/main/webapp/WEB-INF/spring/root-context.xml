@@ -42,5 +42,5 @@
 	</bean>
 	
 <!-- @Transactional 사용되는 코드를 AOP를 통해서 설정함 //TODO -->
-	<tx:annotation-driven/>	
+	<tx:annotation-driven transaction-manager="transactionManager" />	
 </beans>
