@@ -49,7 +49,7 @@
 	</select>
 	
 	<!-- 좋아요 -->
-	<insert id="likeUp">
+	<insert id="likeUp" useGeneratedKeys="true" keyProperty="like_no" resultType="java.util.Map">
 		insert into board_like (like_no , bno , mid, freeboard_like, like_type)
 		values((select * from (select max(like_no)+1 from board_like) next), #{bno},#{mid},1,#{like_type})
 	</insert>
