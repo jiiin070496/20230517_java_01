@@ -86,12 +86,20 @@ public class BoardController {
 	    return result;
 	}
 	
+// -- SELECT REPLY --	
+	@GetMapping("/rlist")
+	public ModelAndView rlist(ModelAndView mv) throws Exception{
+		mv.addObject("rList", boardService.reply_list());
+		mv.setViewName("board/get");
+		return mv;
+	}
+	
 // --REPLY INSERT--
 	@GetMapping("/rinsert")
 	public String reply_insert(Model model, Integer bno) throws Exception{
 //		BoardDto dto = boardService.selectOne(bno);
 //	    model.addAttribute("dto", dto);
-	    return "board/replyInsert";
+	    return "board/rlist";
 	}
 	@PostMapping("/rinsertDo")
 	@ResponseBody

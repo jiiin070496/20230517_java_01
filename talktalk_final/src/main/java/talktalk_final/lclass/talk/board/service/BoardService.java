@@ -13,6 +13,7 @@ public interface BoardService {
 	public int update(BoardDto dto)throws Exception;
 	public int delete(int bno)throws Exception;	
 	public BoardPage selectOne(BoardPage page) throws Exception;
+	public List<BoardDto> reply_list()throws Exception;
 	public int reply_insert(BoardDto dto)throws Exception;
 	
 }
