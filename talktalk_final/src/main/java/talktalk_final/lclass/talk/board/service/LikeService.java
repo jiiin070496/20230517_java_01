@@ -8,3 +8,5 @@ public interface LikeService {
 	public void likeInsert(LikeDto dto) throws Exception;
 	public void likeUpdate(LikeDto dto) throws Exception;
 }
+//public void cancelLike(LikeDto dto) throws Exception;
+//public void addLike(LikeDto dto) throws Exception;

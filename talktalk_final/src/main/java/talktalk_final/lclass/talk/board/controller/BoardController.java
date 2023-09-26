@@ -27,27 +27,33 @@ public class BoardController {
 	public ModelAndView list(ModelAndView mv) throws Exception{
 //		page.setCurPage(curPage);
 //		mv.addObject("page", boardService.selectOne(page));
+		LikeDto dto = new LikeDto();
+		mv.addObject("likeCount", likeService.likeCount(dto));
 	    mv.addObject("boardList", boardService.selectList());
 		mv.setViewName("board/list");
 		return mv;
 	}
 // --GET--	
 	@GetMapping("/get")
-	public ModelAndView get(ModelAndView mv, @RequestParam("bno") int bno, String mid) throws Exception{ //jsp에서 controller로 데이터 전달
+	public ModelAndView get(ModelAndView mv, @RequestParam("bno") int bno, String mid) { //jsp에서 controller로 데이터 전달
 		LikeDto dto = new LikeDto();
 		dto.setBno(bno);
-		dto.setMid("jiin0960"); // set이면 저장되어있는 아이디 가져와야함.
+		dto.setMid("jiin0960"); // DB에 저장되어있는 아이디.
 		
 		int like_no = 0;
-		int check = likeService.likeCount(dto);
-	
-		if(check == 0) {
-			likeService.likeInsert(dto);
-		}else if(check == 1) {
-			like_no = likeService.likeGet(dto);
+		int check;
+		try {
+			check = likeService.likeCount(dto);
+			mv.addObject("bvo", boardService.selectOne(bno));
+			if(check == 0) {
+				likeService.likeInsert(dto);
+			}else if(check == 1) {
+				like_no = likeService.likeGet(dto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		mv.addObject("like_no", like_no);	
-		mv.addObject("bvo", boardService.selectOne(bno));
 		mv.setViewName("board/get"); // http://localhost:8090/jjap/board/get?bno=3
 		return mv;
 	}

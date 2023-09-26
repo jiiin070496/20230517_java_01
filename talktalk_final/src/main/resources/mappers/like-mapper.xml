@@ -16,6 +16,21 @@
    		select like_no from board_like where bno = #{bno} and mid = #{mid}
     </select>
 	
+	<!-- 좋아요를 취소하는 업데이트 쿼리 -->
+	<update id="cancelLike" parameterType="LikeDto">
+	    update board_like
+	    set like_no = 0
+	    where mid = #{mid} and bno = #{bno}
+	</update>
+	
+	<!-- 좋아요를 추가하는 업데이트 쿼리 -->
+	<update id="addLike" parameterType="LikeDto">
+	    update board_like
+	    set like_no = like_no + 1
+	    where mid = #{mid} and bno = #{bno}
+	</update>
+	
+ 		
 	<update id="likeUpdate" parameterType="LikeDto">
 			update board_like
 			set <include refid="cal"></include>
@@ -23,12 +38,15 @@
 	</update>
 	
 	<sql id="cal">
-		<if test="count == 1">
-			like_no = 0
-		</if> 		
-		<if test="count == 0">
-			like_no = like_no + 1 
-		</if>
+	    <choose>
+	        <when test="count == 1">
+	            like_no = 0
+	        </when>
+	        <otherwise>
+	            like_no = like_no + 1
+	        </otherwise>
+	    </choose>
 	</sql>
+
 	
 </mapper>

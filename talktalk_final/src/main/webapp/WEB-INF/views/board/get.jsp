@@ -77,11 +77,11 @@ button:hover {
 					<c:choose>
 						<c:when test="${like_no == 0}">
 							<button type="button" class="btn btn-light" id="likebtn">좋아요</button>
-							<input type="hidden" id="likecheck" value="${like_no }">
+							<input type="hidden" id="likecheck" value="${like_no}">
 						</c:when>
 						<c:when test="${like_no == 1}">
-							<button type="button" class="btn btn-danger" id="likebtn">좋아요</button>
-							<input type="hidden" id="likecheck" value="${like_no }">
+							<button type="button" class="btn btn-danger" id="likebtn">좋아요취소</button>
+							<input type="hidden" id="likecheck" value="${like_no}">
 						</c:when>
 					</c:choose>	
 					
@@ -197,17 +197,17 @@ button:hover {
 	});
 	
  function likeUpdate() {
-	    var mid = $('#mid').val();
-	    var bno = $('#bno').val();
-	    var count = $('#likecheck').val();
-	    var data = {
+	     mid = $('#mid').val();
+	     bno = $('#bno').val();
+	     count = $('#likecheck').val();
+	     data = {
 	        "mid": mid,
 	        "bno": bno,
 	        "count": count
 	    };
 
 	    $.ajax({
-	        type: 'POST',
+	        type: 'PUT',
 	        url: "${pageContext.request.contextPath}/like/likeUpdate",
 	        contentType: 'application/json',
 	        data: JSON.stringify(data),
@@ -216,10 +216,12 @@ button:hover {
 	            if (count == 1) {
 	                console.log("좋아요 취소");
 	                $('#likecheck').val(0);
+	                $('#likebtn').text("좋아요"); // 버튼 텍스트 변경
 	                $('#likebtn').attr('class', 'btn btn-light');
 	            } else if (count == 0) {
 	                console.log("좋아요");
 	                $('#likecheck').val(1);
+	                $('#likebtn').text("좋아요취소"); // 버튼 텍스트 변경
 	                $('#likebtn').attr('class', 'btn btn-danger');
 	            }
 	        },
