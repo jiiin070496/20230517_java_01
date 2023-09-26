@@ -73,10 +73,18 @@ button:hover {
 					<textarea id="bcontent" rows="10" cols="50" name="bcontent"
 						readonly>${bvo.bcontent}</textarea>
 					<br>
-					<div class="col">
-		   				<label for="exampleFormControlInput1" class="form-label">Like</label>
-            			<input type="text" class="form-control" id="exampleFormControlInput1" value="${getLike}" readonly>
-		  			</div>
+					
+					<c:choose>
+						<c:when test="${like_no == 0}">
+							<button type="button" class="btn btn-light" id="likebtn">좋아요</button>
+							<input type="hidden" id="likecheck" value="${like_no }">
+						</c:when>
+						<c:when test="${like_no == 1}">
+							<button type="button" class="btn btn-danger" id="likebtn">좋아요</button>
+							<input type="hidden" id="likecheck" value="${like_no }">
+						</c:when>
+					</c:choose>	
+					
 					<a href="${pageContext.request.contextPath}/board/list">
 					<button type="submit" id="btn-board-update">글 수정</button>
 					</a>
@@ -84,9 +92,10 @@ button:hover {
 					<a href="${pageContext.request.contextPath}/board/list">
 					  <button type="button">글 목록으로 이동</button>
 					</a>
-					 <button type="button" id="btn-board-like">좋아요</button>				
 				</form>
 			</div>
+					
+				
 			
 	<!-- Comments Section -->
 			<div class="card my-4">
@@ -183,53 +192,42 @@ button:hover {
        });
    });
    
-   $(function() { // 스크립트 시작문
-       var likeval = ${like};
-       var bno = ${bvo.bno};
-       var like_type = 1;
-       
-       if(likeval > 0){
-           console.log(likeval + "좋아요 누름");
-           $('#btn-board-like').html("좋아요 취소");
-           $('#btn-board-like').click(function() {
-               $.ajax({
-                   type: "post",
-                   url: "${pageContext.request.contextPath}/board/likeDown",
-                   contentType: 'application/json',
-                   data: JSON.stringify(
-                       {
-                           "bno": bno,
-                           "mid": "${bvo.mid}", // mid를 문자열로 감싸야 합니다.
-                           "like_type": like_type
-                       }
-                   ),
-                   success: function(data) {
-                       alert('취소 성공');
-                   }
-               });
-           });
-       } else {
-           console.log(likeval + "좋아요 안누름");
-           console.log("${bvo.mid}"); // mid를 문자열로 출력합니다.
-           $('#btn-board-like').click(function() {
-               $.ajax({
-                   type: "post",
-                   url: "${pageContext.request.contextPath}/board/likeUp",
-                   contentType: "application/json",
-                   data: JSON.stringify(
-                       {
-                           "bno": bno,
-                           "mid": "${bvo.mid}", // mid를 문자열로 감싸야 합니다.
-                           "like_type": like_type
-                       }
-                   ),
-                   success: function(data) {
-                       alert('성공');
-                   }
-               });
-           });
-       }
-   });
+ $('#likebtn').click(function(){
+		likeUpdate();
+	});
+	
+ function likeUpdate() {
+	    var mid = $('#mid').val();
+	    var bno = $('#bno').val();
+	    var count = $('#likecheck').val();
+	    var data = {
+	        "mid": mid,
+	        "bno": bno,
+	        "count": count
+	    };
+
+	    $.ajax({
+	        type: 'POST',
+	        url: "${pageContext.request.contextPath}/like/likeUpdate",
+	        contentType: 'application/json',
+	        data: JSON.stringify(data),
+	        success: function (result) {
+	            console.log("수정: " + result.result);
+	            if (count == 1) {
+	                console.log("좋아요 취소");
+	                $('#likecheck').val(0);
+	                $('#likebtn').attr('class', 'btn btn-light');
+	            } else if (count == 0) {
+	                console.log("좋아요");
+	                $('#likecheck').val(1);
+	                $('#likebtn').attr('class', 'btn btn-danger');
+	            }
+	        },
+	        error: function (xhr, status, error) {
+	            console.error("에러: " + error);
+	        }
+	    });
+	};
 </script>
 </body>
 </html>

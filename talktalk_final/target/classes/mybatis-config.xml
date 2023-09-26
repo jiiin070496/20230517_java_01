@@ -8,10 +8,12 @@
 	
 	<typeAliases>
 		<typeAlias type="talktalk_final.lclass.talk.board.dto.BoardDto" alias="BoardDto"/>
+		<typeAlias type="talktalk_final.lclass.talk.board.dto.LikeDto" alias="LikeDto"/>
 	</typeAliases>
 		
 	<mappers>
 		<mapper resource="mappers/board-mapper.xml"/>
+		<mapper resource="mappers/like-mapper.xml"/>
 	</mappers>
 	
 </configuration>

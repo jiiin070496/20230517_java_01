@@ -12,6 +12,8 @@ insert into MEMBER values ('jiin0960', '0960','jin', 'a1@gmail.com');
 insert into MEMBER values ('sony0316', '0316','soni', 'a2@gmail.com');
 insert into MEMBER values ('onue0608', '0608','nue', 'a3@gmail.com');
 
+insert into board_like ("LIKE_NO", "BNO", "MID", "BOARD_LIKE", "LIKE_TYPE")
+values ((select nvl(max(like_no), 0) + 1 from board_like), 3, 'jiin0960', 1, 1);
 DELETE FROM board where btitle = '몽';
 DELETE FROM member where mid = 'admin12';
 
@@ -23,9 +25,9 @@ insert into BOARD values (SEQ_BOARD_BNO.nextval, '고', '고기각', 'sony0316',
 insert into BOARD values (SEQ_BOARD_BNO.nextval, '배', '배곺음', 'onue0608', default, 0, SEQ_BOARD_BNO.nextval, 0, 0) ;
 
 insert into BOARD (
-    "BNO", "BTITLE", "BCONTENT", "MID", "BWRITE_DATE", "READCNT", "FILENAME", "FILEPATH", "REF", "RSTEP", "RLEVEL"
+    "BNO", "BTITLE", "BCONTENT", "MID", "BWRITE_DATE", "READCNT", "REF", "RSTEP", "RLEVEL"
 ) values (
-    SEQ_BOARD_BNO.nextval, '등갈비?', '굿ㅋㅋ', 'sony0316', systimestamp, 0, NULL, NULL,
+    SEQ_BOARD_BNO.nextval, '등갈비?', '굿ㅋㅋ', 'sony0316', systimestamp, 0,
     (select ref from board where bno=1),
     (select rstep + 1 from board where bno=1),
     (select rlevel + 1 from board where bno=1)

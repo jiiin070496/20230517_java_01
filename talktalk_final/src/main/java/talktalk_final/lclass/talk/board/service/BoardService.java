@@ -11,10 +11,6 @@ public interface BoardService {
 	public int insert(BoardDto dto)throws Exception;
 	public int update(BoardDto dto)throws Exception;
 	public int delete(int bno)throws Exception;	
-	public int findLike(int bno , String mid)throws Exception;
-	public void likeUp(int bno , String mid, int like_type)throws Exception;
-	public void likeDown(int bno , String mid,int like_type)throws Exception;
-	public int getLike(int bno,int like_type)throws Exception;
 	
 	
 /* ---------------Paging--------------- */

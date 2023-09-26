@@ -1,8 +1,6 @@
 package talktalk_final.lclass.talk.board.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,38 +43,6 @@ public class BoardServiceImpl implements BoardService {
 	public int delete(int bno) throws Exception {
 		return boardDao.delete(bno);
 	}
-	
-	@Override
-	public int findLike(int bno, String mid) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("board_no", bno);
-		map.put("user_no", bno);
-		return boardDao.findLike(map);
-	}
-	
-	@Override
-	public void likeUp(int bno, String mid, int like_type) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("bno", bno);
-		map.put("mid", mid);
-		map.put("like_type", like_type);
-		boardDao.likeUp(map);
-	}
-	@Override
-	public void likeDown(int bno, String mid, int like_type) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("bno", bno);
-		map.put("mid", mid);
-		map.put("like_type", like_type);
-		boardDao.likeDown(map);
-	}
-	@Override
-	public int getLike(int bno, int like_type) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("bno", bno);
-		map.put("like_type", like_type);
-		return boardDao.getLike(map);
-	}	
 		
 //	@Override
 //	public BoardPage selectOne(BoardPage page) throws Exception {

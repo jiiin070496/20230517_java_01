@@ -25,7 +25,7 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public BoardVo insert(BoardVo vo) throws Exception {
+	public int insert(BoardVo vo) throws Exception {
 		BoardVo returnVo = boardDao.insert(vo);
 		int result = returnVo.getBno();
 		return result;

@@ -42,27 +42,7 @@
 		update board set readcnt = readcnt + 1 where bno = #{bno}
 	</update>
 
-<!-- 좋아요 기능! -->	 
-	<!-- 좋아요 눌럿는지 안눌럿는지 --> 
-	<select id="findLike" resultType="_int">
-		select count(*) from board_like where bno = #{bno} and mid = #{mid}
-	</select>
-	
-	<!-- 좋아요 -->
-	<insert id="likeUp" useGeneratedKeys="true" keyProperty="like_no" resultType="java.util.Map">
-		insert into board_like (like_no , bno , mid, freeboard_like, like_type)
-		values((select * from (select max(like_no)+1 from board_like) next), #{bno},#{mid},1,#{like_type})
-	</insert>
-	
-    <!-- 좋아요 불러오기 -->  
-    <select id="getLike" resultType="_int">
-   		select count(*) from board_like where bno = #{bno} and like_type = #{like_type}
-    </select>
-	
-	<!-- 좋아요 취소 -->	
-    <delete id="likeDown">
-  		delete from board_like where bno = #{bno} and mid = #{mid}  and like_type = #{like_type}
-    </delete>
+
 
 <!-- 답글 목록 -->
 <!-- 	

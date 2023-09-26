@@ -1,4 +1,4 @@
-package kh.lclass.db1.board.controller;
+package kh.lclass.db1.opendata.controller;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,12 +17,13 @@ public class APIController {
 			+ "htiiqkWXyGCVxm6xyZpakkO4hk%2FLs3w%3D%3D";
 	
 	@ResponseBody
-	@RequestMapping(value="air.do", produces="application/json; charset=UTF-8")
+	@RequestMapping(value="/air.do", produces="application/json; charset=UTF-8")
 	public String airPollution(String location) throws IOException{
 		String url = "http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getCtprvnRltmMesur eDnsty";
 		url += "?serviceKey=" + serviceKey;
 		url += "&sidoName=" + URLEncoder.encode(location, "UTF-8");
 		url += "&returnType=json";
+		url += "&numOfRows=15";
 		
 		URL requestUrl = new URL(url);
 		HttpURLConnection urlConnection =(HttpURLConnection)requestUrl.openConnection();

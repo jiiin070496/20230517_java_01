@@ -40,7 +40,7 @@
 				$.ajax({
 					url:"air.do",
 					data:{location:$("#location").val()},
-					success:function(){
+					success:function(data){
 						const itemArr = date.response.body.items;
 						
 						let value = "";

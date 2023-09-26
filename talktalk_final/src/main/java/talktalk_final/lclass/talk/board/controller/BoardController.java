@@ -4,20 +4,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import talktalk_final.lclass.talk.board.dto.BoardDto;
 import talktalk_final.lclass.talk.board.dto.LikeDto;
 import talktalk_final.lclass.talk.board.service.BoardService;
+import talktalk_final.lclass.talk.board.service.LikeService;
+
 import org.springframework.ui.Model;
 
 @Controller
 @RequestMapping("/board")
 public class BoardController {
 	@Autowired private BoardService boardService;	
+	@Autowired private LikeService likeService;
 //	@Autowired private BoardPage page; 
 // --LIST--
 	@GetMapping("/list")
@@ -30,34 +33,25 @@ public class BoardController {
 	}
 // --GET--	
 	@GetMapping("/get")
-	public ModelAndView get(ModelAndView mv, int bno, String mid) throws Exception{ //jsp에서 controller로 데이터 전달
+	public ModelAndView get(ModelAndView mv, @RequestParam("bno") int bno, String mid) throws Exception{ //jsp에서 controller로 데이터 전달
+		LikeDto dto = new LikeDto();
+		dto.setBno(bno);
+		dto.setMid("jiin0960"); // set이면 저장되어있는 아이디 가져와야함.
+		
+		int like_no = 0;
+		int check = likeService.likeCount(dto);
+	
+		if(check == 0) {
+			likeService.likeInsert(dto);
+		}else if(check == 1) {
+			like_no = likeService.likeGet(dto);
+		}
+		mv.addObject("like_no", like_no);	
 		mv.addObject("bvo", boardService.selectOne(bno));
-		
-		LikeDto like = new LikeDto();
-		
-		like.setBno(bno);
-		like.setMid(mid);
-		like.setLike_type(1);
-		mv.addObject("like", boardService.findLike(bno, mid));
-		mv.addObject("getlike", boardService.getLike(bno, 1));
-		
 		mv.setViewName("board/get"); // http://localhost:8090/jjap/board/get?bno=3
 		return mv;
 	}
-	// 좋아요
-	
-	@ResponseBody 
-	@PostMapping("/likeUp")
-	public void likeup(@RequestBody LikeDto dto) throws Exception {
-		boardService.likeUp(dto.getBno(), dto.getMid(), dto.getLike_type());
-	
-	}
-	
-	@ResponseBody
-	@PostMapping("/likeDown")
-	public void likeDown(@RequestBody LikeDto dto) throws Exception {
-		boardService.likeDown(dto.getBno(), dto.getMid(), dto.getLike_type());
-	}	
+
 	
 // --DELETE--	
 	@PostMapping("/delete")

@@ -18,6 +18,5 @@ public class LikeDto {
 	private int like_no;
 	private int bno;
 	private String mid;
-	private int freeboard_like;
-	private int like_type;
+	private int count;
 }
