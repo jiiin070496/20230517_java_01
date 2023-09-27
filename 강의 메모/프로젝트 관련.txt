@@ -10,7 +10,6 @@ https://velog.io/@dailylifecoding/Spring-legacy-project-Value-annotation-not-res
 	https://kimvampa.tistory.com/m/293
 spring 댓글기능 구현
 	https://yjdawn.tistory.com/159
-
 	https://gimmesome.tistory.com/176
 	https://doublesprogramming.tistory.com/107
 	https://kimvampa.tistory.com/m/290
