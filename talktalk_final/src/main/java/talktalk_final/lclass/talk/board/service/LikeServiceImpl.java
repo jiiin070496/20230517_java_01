@@ -32,16 +32,5 @@ public class LikeServiceImpl implements LikeService{
 		likeDao.likeUpdate(dto);
 	}
 
-//	@Override
-//	public void cancelLike(LikeDto dto) throws Exception {
-//		// TODO Auto-generated method stub
-//		
-//	}
-//
-//	@Override
-//	public void addLike(LikeDto dto) throws Exception {
-//		// TODO Auto-generated method stub
-//		
-//	}
 
 }

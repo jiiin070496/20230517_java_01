@@ -3,7 +3,7 @@ WHERE BREF = 1 AND BRE_STEP > 0;
 select * from member;
 select * from board;
 DESC BOARD_REPLY;
-
+select like_no from board_like where bno = 3 and mid = 'jiin0960';
 desc board;
 
 commit;
@@ -23,7 +23,7 @@ update board set btitle = '몽', bcontent = '총이' where bno = 23;
 insert into BOARD values (SEQ_BOARD_BNO.nextval, '파', '파닭각', 'jiin0960', default, 0, SEQ_BOARD_BNO.nextval, 0, 0) ;
 insert into BOARD values (SEQ_BOARD_BNO.nextval, '고', '고기각', 'sony0316', default, 0, SEQ_BOARD_BNO.nextval, 0, 0) ;
 insert into BOARD values (SEQ_BOARD_BNO.nextval, '배', '배곺음', 'onue0608', default, 0, SEQ_BOARD_BNO.nextval, 0, 0) ;
-
+COMMIT;
 insert into BOARD (
     "BNO", "BTITLE", "BCONTENT", "MID", "BWRITE_DATE", "READCNT", "REF", "RSTEP", "RLEVEL"
 ) values (

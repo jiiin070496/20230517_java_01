@@ -61,6 +61,7 @@ button:hover {
 </style>
 </head>
 <body>
+<c:out value="${like_no}" />
 	<div class="container">
 		<div class="content">
 			<div>
@@ -76,11 +77,11 @@ button:hover {
 					
 					<c:choose>
 						<c:when test="${like_no == 0}">
-							<button type="button" class="btn btn-light" id="likebtn">좋아요</button>
+							<button type="button" class="btn-like" id="likebtn">좋아요</button>
 							<input type="hidden" id="likecheck" value="${like_no}">
 						</c:when>
 						<c:when test="${like_no == 1}">
-							<button type="button" class="btn btn-danger" id="likebtn">좋아요취소</button>
+							<button type="button" class="btn-cancelLike" id="likebtn">좋아요취소</button>
 							<input type="hidden" id="likecheck" value="${like_no}">
 						</c:when>
 					</c:choose>	
@@ -143,7 +144,45 @@ button:hover {
 	}
 });
    
-   // 댓글 목록을 가져오고 표시하는 함수
+ $('#likebtn').click(function(){
+		likeUpdate();
+	});
+	
+ function likeUpdate() {
+	     mid = $('#mid').val();
+	     bno = $('#bno').val();
+	     count = $('#likecheck').val();
+	     data = {
+	        "mid": mid,
+	        "bno": bno,
+	        "count": count
+	    };
+
+	    $.ajax({
+	        type: 'POST',
+	        url: "${pageContext.request.contextPath}/like/likeUpdate",
+	        contentType: 'application/json',
+	        data: JSON.stringify(data),
+	        success: function (result) {
+	            console.log("수정: " + result.result);
+	            if (count == 1) {
+	                console.log("좋아요 취소");
+	                $('#likecheck').val(0);
+	                /* $('#likebtn').attr('class', 'btn-like'); */
+	            } else if (count == 0) {
+	                console.log("좋아요");
+	                $('#likecheck').val(1);
+	                $('#likebtn').text("좋아요취소"); // 버튼 텍스트 변경
+	                /* $('#likebtn').attr('class', 'btn-cancl'); */
+	            }
+	        },
+	        error: function (xhr, status, error) {
+	            console.error("에러: " + error);
+	        }
+	    });
+	};
+	
+	   // 댓글 목록을 가져오고 표시하는 함수
 	 function loadReply() {
 	    $.ajax({
 	        type: "GET",
@@ -161,75 +200,37 @@ button:hover {
 	    });
 	}
 
-   // 페이지 로드 시 댓글 목록 로드
-   loadReply();
-   
-   // 댓글 등록 폼 제출 처리
-   $("#reply-form").submit(function (event) {
-       event.preventDefault();
-       var bcontent = $("textarea[name='bcontent']").val().trim();
+  // 페이지 로드 시 댓글 목록 로드
+  loadReply();
+  
+  // 댓글 등록 폼 제출 처리
+  $("#reply-form").submit(function (event) {
+      event.preventDefault();
+      var bcontent = $("textarea[name='bcontent']").val().trim();
 
-       if (bcontent === '') {
-           alert("내용을 입력해주세요");
-           return;
-       }
-       $.ajax({
-           type: "POST",
-           url: "${pageContext.request.contextPath}/board/rinsertDo",
-           data: {
-               bno: "${bvo.bno}",
-               bcontent: bcontent
-           },
-           success: function (response) {
-               if (response > 0) {
-                   alert("댓글 등록되었습니다.");
-                   $("textarea[name='bcontent']").val(''); // 댓글 입력 칸 비우기
-                   loadReply(); // 댓글 목록 다시 로드
-               } else {
-                   alert("댓글 등록에 실패했습니다.");
-               }
-           }
-       });
-   });
-   
- $('#likebtn').click(function(){
-		likeUpdate();
-	});
-	
- function likeUpdate() {
-	     mid = $('#mid').val();
-	     bno = $('#bno').val();
-	     count = $('#likecheck').val();
-	     data = {
-	        "mid": mid,
-	        "bno": bno,
-	        "count": count
-	    };
-
-	    $.ajax({
-	        type: 'PUT',
-	        url: "${pageContext.request.contextPath}/like/likeUpdate",
-	        contentType: 'application/json',
-	        data: JSON.stringify(data),
-	        success: function (result) {
-	            console.log("수정: " + result.result);
-	            if (count == 1) {
-	                console.log("좋아요 취소");
-	                $('#likecheck').val(0);
-	                $('#likebtn').text("좋아요"); // 버튼 텍스트 변경
-	                $('#likebtn').attr('class', 'btn btn-light');
-	            } else if (count == 0) {
-	                console.log("좋아요");
-	                $('#likecheck').val(1);
-	                $('#likebtn').text("좋아요취소"); // 버튼 텍스트 변경
-	                $('#likebtn').attr('class', 'btn btn-danger');
-	            }
-	        },
-	        error: function (xhr, status, error) {
-	            console.error("에러: " + error);
-	        }
-	    });
-	};
+      if (bcontent === '') {
+          alert("내용을 입력해주세요");
+          return;
+      }
+      $.ajax({
+          type: "POST",
+          url: "${pageContext.request.contextPath}/board/rinsertDo",
+          data: {
+              bno: "${bvo.bno}",
+              bcontent: bcontent
+          },
+          success: function (response) {
+              if (response > 0) {
+                  alert("댓글 등록되었습니다.");
+                  $("textarea[name='bcontent']").val(''); // 댓글 입력 칸 비우기
+                  loadReply(); // 댓글 목록 다시 로드
+              } else {
+                  alert("댓글 등록에 실패했습니다.");
+              }
+          }
+      });
+  });
+  
 </script>
 </body>
 </html>

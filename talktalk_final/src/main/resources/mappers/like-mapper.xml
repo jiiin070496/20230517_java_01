@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="like">
-	<!-- 좋아요 눌렀는지 안눌렀는지 --> 
+	<!-- 유저의 좋아요 유무, 없으면 insert, 있으면 select --> 
 	<select id="likeCount" resultType="Integer" parameterType="LikeDto">
-		select count(like_no) from board_like where bno = #{bno} and mid = #{mid}
+		select count(* ) from board_like where bno = #{bno} and mid = #{mid}
 	</select>
 	
 	<!-- 좋아요 -->
@@ -15,28 +15,7 @@
     <select id="likeGet" resultType="Integer" parameterType="LikeDto">
    		select like_no from board_like where bno = #{bno} and mid = #{mid}
     </select>
-	
-	<!-- 좋아요를 취소하는 업데이트 쿼리 -->
-	<update id="cancelLike" parameterType="LikeDto">
-	    update board_like
-	    set like_no = 0
-	    where mid = #{mid} and bno = #{bno}
-	</update>
-	
-	<!-- 좋아요를 추가하는 업데이트 쿼리 -->
-	<update id="addLike" parameterType="LikeDto">
-	    update board_like
-	    set like_no = like_no + 1
-	    where mid = #{mid} and bno = #{bno}
-	</update>
-	
- 		
-	<update id="likeUpdate" parameterType="LikeDto">
-			update board_like
-			set <include refid="cal"></include>
-			where mid = #{mid} and bno = #{bno}
-	</update>
-	
+ 				
 	<sql id="cal">
 	    <choose>
 	        <when test="count == 1">
@@ -46,7 +25,12 @@
 	            like_no = like_no + 1
 	        </otherwise>
 	    </choose>
-	</sql>
+	</sql>		
+	<update id="likeUpdate" parameterType="LikeDto">
+			update board_like
+			set <include refid="cal"></include>
+			where mid = #{mid} and bno = #{bno}
+	</update>
 
 	
 </mapper>

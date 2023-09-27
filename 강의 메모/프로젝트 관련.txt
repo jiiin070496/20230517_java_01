@@ -22,6 +22,8 @@ spring 댓글기능 구현
 	https://cameldev.tistory.com/63
         	https://zi2eon.tistory.com/20 -- 다른
 Spring 좋아요 기능 구현	
+	https://edendev.tistory.com/36
+	https://onecutwook.tistory.com/23
 	https://coie117.tistory.com/67
 	https://devofroad.tistory.com/73
 	https://kimfk567.tistory.com/66

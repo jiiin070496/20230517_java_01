@@ -21,7 +21,7 @@ public class LikeDao {
 		sqlSession.insert("like.likeInsert", dto);
 	}
 	public void likeUpdate(LikeDto dto) throws Exception{
-		sqlSession.insert("like.likeUpdate", dto);
+		sqlSession.update("like.likeUpdate", dto);
 	}
 }
 //public void cancelLike(LikeDto dto) throws Exception{

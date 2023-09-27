@@ -53,7 +53,7 @@ public class BoardController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		mv.addObject("like_no", like_no);	
+		mv.addObject("like_no", like_no);
 		mv.setViewName("board/get"); // http://localhost:8090/jjap/board/get?bno=3
 		return mv;
 	}

@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,7 +19,7 @@ public class LikeController {
 
 	@Autowired LikeService likeService;
 	
-	@PutMapping("/likeUpdate")
+	@PostMapping("/likeUpdate")
 	@ResponseBody
 	public Map<String,String> likeUpdate(@RequestBody LikeDto dto){
 		Map<String,String> map = new HashMap<String, String>();
