@@ -14,7 +14,7 @@ import net.coobird.thumbnailator.Thumbnails;
 @Controller
 public class FileDownloadController {
 	   private static String CURR_IMAGE_REPO_PATH = 
-	               "D:\\A_TeachingMaterial\\6.JspSpring\\other\\images";
+			   "D:\\talktalk\\fileUpload\\images";
 	   @RequestMapping("/download")
 	   protected void download(@RequestParam("imageFileName") String imageFileName,
 	                           HttpServletResponse response) throws Exception{
@@ -27,7 +27,7 @@ public class FileDownloadController {
 	       File thumbnail = new File(CURR_IMAGE_REPO_PATH + 
 	                                   "\\" + "thumbnail" + "\\" + fileName + ".png");
 	       if(image.exists()) {
-	           Thumbnails.of(image).size(50, 50).outputFormat("png").toOutputStream(out);
+	           Thumbnails.of(image).size(300, 300).outputFormat("png").toOutputStream(out);
 	       }else {
 	           return;
 	       }
