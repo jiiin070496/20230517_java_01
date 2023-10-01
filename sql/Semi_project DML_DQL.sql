@@ -1,7 +1,7 @@
 UPDATE board SET BRE_STEP = BRE_STEP + 1
 WHERE BREF = 1 AND BRE_STEP > 0;
 select * from member;
-select * from board;
+select * from board_like;
 DESC BOARD_REPLY;
 select like_no from board_like where bno = 3 and mid = 'jiin0960';
 desc board;
@@ -11,6 +11,10 @@ commit;
 insert into MEMBER values ('jiin0960', '0960','jin', 'a1@gmail.com');
 insert into MEMBER values ('sony0316', '0316','soni', 'a2@gmail.com');
 insert into MEMBER values ('onue0608', '0608','nue', 'a3@gmail.com');
+insert into BOARD values (SEQ_BOARD_BNO.nextval, '파', '파닭각', 'jiin0960', default, 0, SEQ_BOARD_BNO.nextval, 0, 0) ;
+insert into BOARD values (SEQ_BOARD_BNO.nextval, '고', '고기각', 'sony0316', default, 0, SEQ_BOARD_BNO.nextval, 0, 0) ;
+insert into BOARD values (SEQ_BOARD_BNO.nextval, '배', '배곺음', 'onue0608', default, 0, SEQ_BOARD_BNO.nextval, 0, 0) ;
+COMMIT;
 
 insert into board_like ("LIKE_NO", "BNO", "MID", "BOARD_LIKE", "LIKE_TYPE")
 values ((select nvl(max(like_no), 0) + 1 from board_like), 3, 'jiin0960', 1, 1);
@@ -19,11 +23,11 @@ DELETE FROM member where mid = 'admin12';
 
 update board set btitle = '몽', bcontent = '총이' where bno = 23;
 
+
+INSERT INTO board_like VALUES (SEQ_BOARD_LIKE_LIKE_NO.nextval, 'jiin0960', 3);
+
 --원본글
-insert into BOARD values (SEQ_BOARD_BNO.nextval, '파', '파닭각', 'jiin0960', default, 0, SEQ_BOARD_BNO.nextval, 0, 0) ;
-insert into BOARD values (SEQ_BOARD_BNO.nextval, '고', '고기각', 'sony0316', default, 0, SEQ_BOARD_BNO.nextval, 0, 0) ;
-insert into BOARD values (SEQ_BOARD_BNO.nextval, '배', '배곺음', 'onue0608', default, 0, SEQ_BOARD_BNO.nextval, 0, 0) ;
-COMMIT;
+
 insert into BOARD (
     "BNO", "BTITLE", "BCONTENT", "MID", "BWRITE_DATE", "READCNT", "REF", "RSTEP", "RLEVEL"
 ) values (

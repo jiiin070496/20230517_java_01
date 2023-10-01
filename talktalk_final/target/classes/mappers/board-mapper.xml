@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="board">
-<!--
-  		SELECT * 
-		FROM (SELECT ROWNUM no, n.*, (SELECT mid FROM member WHERE mid = #{mid}) name
-				FROM (SELECT * FROM board<include refid="search_where" /> ORDER BY ref, rstep DESC) n
-				ORDER BY bno DESC) n 
-		WHERE bno BETWEEN #{beginList} and #{endList}
- -->
+
 <!-- 전체 게시글 -->
 	<select id="selectList" resultType="BoardDto">
 		SELECT * FROM board ORDER BY ref desc, rstep asc
@@ -42,30 +36,24 @@
 		update board set readcnt = readcnt + 1 where bno = #{bno}
 	</update>
 
-
-
-<!-- 답글 목록 -->
-<!-- 	
-	<select id="selectReply" resultType="BoardDto">
-	    select * from board where ref = #{bno} order by rstep ASC, rlevel ASC
-	</select> 
--->
-
-<!-- 답글달기 -->
-<!-- 댓글 삽입 -->
-<!-- 
-	<insert id="reply_insert" parameterType="BoardDto">
-    	BoardDto에서 원본 글의 번호 가져오기
-    <selectKey keyProperty="bno" resultType="java.lang.Integer" order="BEFORE">
-        SELECT SEQ_BOARD_BNO.nextval nextval FROM dual
-    </selectKey>
-    	댓글 삽입
-    INSERT INTO BOARD VALUES (
-        #{bno}, #{btitle}, #{bcontent}, #{mid},
-        SYSTIMESTAMP, 0, #{filename, jdbcType=VARCHAR}, #{filepath, jdbcType=VARCHAR},
-        #{bno}, (SELECT MAX(RSTEP) + 1 FROM BOARD WHERE REF = #{bno}),
-        (SELECT MAX(RLEVEL) + 1 FROM BOARD WHERE REF = #{bno})
-    )
-</insert> 
--->
+<!-- 좋아요 유무 1 : 좋아요 누른 상태 -->
+	<select id="getMyLikeCount" resultType="_int">
+		select count(*) from board_like where bno = #{bno} and mid = #{mid}
+	</select>
+	
+<!-- 좋아요 -->
+	<insert id="doLike">
+	    INSERT INTO board_like (like_no, bno, mid) 
+	    VALUES (SEQ_BOARD_LIKE_LIKE_NO.nextval, #{bno}, #{mid})
+	</insert>
+	
+<!-- 좋아요 총 갯수 -->
+	  <select id="getTotalLikeCount" resultType="_int">
+	  	select count(*) from board_like where bno = #{bno}
+	  </select>
+	  
+<!-- 좋아요 취소 -->	
+	  <delete id="deleteLike">
+	  	delete from board_like where bno = #{bno} and mid = #{mid}
+	  </delete>  		
 </mapper>

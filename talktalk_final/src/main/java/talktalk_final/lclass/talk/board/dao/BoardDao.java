@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import talktalk_final.lclass.talk.board.dto.BoardDto;
+import talktalk_final.lclass.talk.board.dto.LikeDto;
 
 
 @Repository
@@ -18,12 +19,6 @@ public class BoardDao {
 	public List<BoardDto> selectList() throws Exception{ 
 		return sqlSession.selectList("board.selectList");
 	}
-	//페이징
-//	public BoardPage selectOne(BoardPage page) throws Exception{
-//		page.setTotalList((Integer) sqlSession.selectOne("board.totalList", page));
-//		page.setList(sqlSession.selectList("board.totalList", page));
-//		return page;
-//	}
 	
 // 게시글 상세	
 	public BoardDto selectOne(int bno) throws Exception{
@@ -51,15 +46,37 @@ public class BoardDao {
 		return sqlSession.update("board.boardReadCnt", bno);
 	}
 	
-/* ---------------답글 관련--------------- */	
-//// 답글 목록
-//	public List<BoardDto> reply_list()throws Exception{
-//		return sqlSession.selectList("board.selectReply");
-//	}
-//	
-//// 답글 작성
-//	public  BoardDto reply_insert(BoardDto dto) throws Exception{
-//		int result =  sqlSession.insert("board.reply_insert", dto);
-//		return dto;
-//	}
+// 좋아요
+	public void doLike(LikeDto lDto) throws Exception{
+		sqlSession.insert("board.doLike", lDto);
+	}
+	
+// 좋아요 상태
+	public int getMyLikeCount(LikeDto lDto) throws Exception{
+		return sqlSession.selectOne("board.getMyLikeCount", lDto);
+	}
+	
+// 좋아요 취소
+	public void deleteLike(LikeDto lDto) throws Exception{
+		sqlSession.delete("board.deleteLike", lDto);
+	}
+	
+// 좋아요 갯수
+	public int getTotalLikeCount(int bno) throws Exception{
+		return sqlSession.selectOne("board.getTotalLikeCount", bno);
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

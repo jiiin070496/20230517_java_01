@@ -7,7 +7,9 @@ https://velog.io/@dailylifecoding/Spring-legacy-project-Value-annotation-not-res
 
 ----------------------------------------------------------------------------------------------------------------
 페이징
+	https://developer-jjun.tistory.com/27
 	https://kimvampa.tistory.com/m/293
+	-- https://kimvampa.tistory.com/m/173
 spring 댓글기능 구현
 	https://yjdawn.tistory.com/159
 	https://gimmesome.tistory.com/176

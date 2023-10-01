@@ -1,18 +1,19 @@
 package talktalk_final.lclass.talk.board.controller;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import talktalk_final.lclass.talk.board.dto.BoardDto;
 import talktalk_final.lclass.talk.board.dto.LikeDto;
 import talktalk_final.lclass.talk.board.service.BoardService;
-import talktalk_final.lclass.talk.board.service.LikeService;
 
 import org.springframework.ui.Model;
 
@@ -20,40 +21,20 @@ import org.springframework.ui.Model;
 @RequestMapping("/board")
 public class BoardController {
 	@Autowired private BoardService boardService;	
-	@Autowired private LikeService likeService;
 //	@Autowired private BoardPage page; 
 // --LIST--
 	@GetMapping("/list")
 	public ModelAndView list(ModelAndView mv) throws Exception{
 //		page.setCurPage(curPage);
 //		mv.addObject("page", boardService.selectOne(page));
-		LikeDto dto = new LikeDto();
-		mv.addObject("likeCount", likeService.likeCount(dto));
 	    mv.addObject("boardList", boardService.selectList());
 		mv.setViewName("board/list");
 		return mv;
 	}
 // --GET--	
 	@GetMapping("/get")
-	public ModelAndView get(ModelAndView mv, @RequestParam("bno") int bno, String mid) { //jsp에서 controller로 데이터 전달
-		LikeDto dto = new LikeDto();
-		dto.setBno(bno);
-		dto.setMid("jiin0960"); // DB에 저장되어있는 아이디.
-		
-		int like_no = 0;
-		int check;
-		try {
-			check = likeService.likeCount(dto);
-			mv.addObject("bvo", boardService.selectOne(bno));
-			if(check == 0) {
-				likeService.likeInsert(dto);
-			}else if(check == 1) {
-				like_no = likeService.likeGet(dto);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		mv.addObject("like_no", like_no);
+	public ModelAndView get(ModelAndView mv, int bno) throws Exception{ //jsp에서 controller로 데이터 전달
+		mv.addObject("bvo", boardService.selectOne(bno));
 		mv.setViewName("board/get"); // http://localhost:8090/jjap/board/get?bno=3
 		return mv;
 	}
@@ -110,34 +91,71 @@ public class BoardController {
 	    return result;
 	}
 	
-// -- SELECT REPLY --	
-//	@GetMapping("/rlist")
-//	public ModelAndView rlist(ModelAndView mv) throws Exception{
-//		mv.addObject("rList", boardService.reply_list());
-//		mv.setViewName("board/get");
-//		return mv;
-//	}
+// 게시글 좋아요 및 취소
+	@PostMapping("/doLike")
+	@ResponseBody
+	public HashMap<String, Object> doLike(@RequestBody LikeDto lDto) throws Exception{
+	    HashMap<String, Object> data = new HashMap<>();
+	    int myLikeCount = 0;
+	    try {
+	        myLikeCount = boardService.getMyLikeCount(lDto);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    if(myLikeCount > 0) {
+	        // 이미 좋아요를 눌렀으므로 좋아요를 취소합니다.
+	        boardService.deleteLike(lDto);
+	        data.put("status", "unlike");
+	    } else {
+	        // 좋아요를 누르지 않았으므로 좋아요를 추가합니다.
+	        boardService.doLike(lDto);
+	        data.put("status", "like");
+	    }
+	    
+	    // 좋아요 수 업데이트
+	    int totalLikeCount = boardService.getTotalLikeCount(lDto.getBno());
+	    data.put("totalLikeCount", totalLikeCount);
+	    
+	    data.put("result", "success");
+	    return data;
+	}
 	
-// --REPLY INSERT--
-//	@GetMapping("/rinsert")
-//	public String reply_insert(Model model, Integer bno) throws Exception{
-//		BoardDto dto = boardService.selectOne(bno);
-//	    model.addAttribute("dto", dto);
-//	    return "board/rlist";
-//	}
-//	@PostMapping("/rinsertDo")
-//	@ResponseBody
-//	public Integer reply_insertDo(BoardDto dto) {
-//		dto.setMid("jiin0960");
-//	    Integer result;
-//	    try {
-//	        result = boardService.reply_insert(dto);
-//	    } catch (Exception e) {
-//	    	e.printStackTrace();
-//	    	result = -1;
-//	    }
-//	    return result;
-//	}
-//	
-	
+// 게시글 좋아요 상태
+	@PostMapping("/getMyLikeStatus")
+	public HashMap<String, Object> getMyLikeStatus(LikeDto lDto) throws Exception{
+		HashMap<String, Object> data = new HashMap<>();
+		lDto.setMid("jiin0960");
+
+		int myLikeCount = boardService.getMyLikeCount(lDto);
+
+		data.put("result", "success");
+		
+		if(myLikeCount > 0) {
+			data.put("status", "like");
+		}else {
+			data.put("status", "unlike");
+		}
+		return data;
+	}
+
+// 게시글 좋아요 총 갯수
+	@PostMapping("/getTotalLikeCount")
+	public HashMap<String, Object> getTotalLikeCount(int bno) throws Exception{
+		HashMap<String, Object> data = new HashMap<>();
+		int totalLikeCount = boardService.getTotalLikeCount(bno);
+		data.put("totalLikeCount", totalLikeCount);
+		return data;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+

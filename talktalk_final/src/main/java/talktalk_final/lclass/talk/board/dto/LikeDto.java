@@ -16,6 +16,7 @@ import lombok.ToString;
 @Component
 public class LikeDto {
 	private int like_no;
-	private int bno;
 	private String mid;
+	private int bno;
+
 }
