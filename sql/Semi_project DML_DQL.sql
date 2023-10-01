@@ -2,7 +2,6 @@ UPDATE board SET BRE_STEP = BRE_STEP + 1
 WHERE BREF = 1 AND BRE_STEP > 0;
 select * from member;
 select * from board_like;
-DESC BOARD_REPLY;
 select like_no from board_like where bno = 3 and mid = 'jiin0960';
 desc board;
 

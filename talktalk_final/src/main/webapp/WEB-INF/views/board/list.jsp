@@ -85,6 +85,44 @@ body {
 .btn-container button:hover {
     background-color: #0056b3;
 }
+
+/* 모달 스타일 */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* 모달 내용 스타일 */
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+}
+
+/* 지도 컨테이너 스타일 */
+#map {
+    width: 400px;
+    height: 300px;
+}
+
+/* 모달 닫기 버튼 스타일 */
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 3; /* 모달 닫기 버튼의 z-index를 설정하여 다른 요소 위에 표시합니다. */
+}
 </style>
 </head>
 <body>
@@ -127,15 +165,58 @@ body {
 	<a href="<c:url value='/board/insert'/>">
 	    <button>글 등록</button>
 	</a>
+	<button type="button" id="openModalBtn">지도 보기</button>
 </div> 
-<!-- 이미지 지도를 표시할 div 입니다 -->
 <hr>
-<div id="staticMap" style="width:820; height:350px;"></div>
 
-
+<!-- 모달 창 -->
+<div id="mapModal" class="modal">
+    <div class="modal-content">
+        <!-- 지도 컨테이너 -->
+      <div id="map"></div>
+      <!-- 모달 닫기 버튼 -->
+        <button id="closeModalBtn" class="close-button">&times;</button>
+    </div>
+</div>
 
 <script>
-// 이미지 지도에 표시할 마커입니다
+//지도 모달
+document.getElementById('openModalBtn').addEventListener('click', function() {
+    var modal = document.getElementById('mapModal');
+    modal.style.display = 'block';
+
+    // 지도 초기화
+    var mapContainer = document.getElementById('map');
+    var options = {
+        center: new kakao.maps.LatLng(37.4989968, 127.032821),
+        level: 4
+    };
+    var map = new kakao.maps.Map(mapContainer, options);
+
+    // 마커 추가
+    var markerPosition = new kakao.maps.LatLng(37.4989968, 127.032821);
+    var marker = new kakao.maps.Marker({
+        position: markerPosition,
+        map: map
+    });
+    
+
+    // 모달 닫기 이벤트
+    var closeModalBtn = document.getElementById('closeModalBtn');
+    closeModalBtn.addEventListener('click', function() {
+        modal.style.display = 'none';
+    });
+
+    // 모달 외부 클릭 시 닫기
+    window.addEventListener('click', function(event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    });
+});
+
+
+/* // 이미지 지도에 표시할 마커입니다
 	var marker = {
 	    position: new kakao.maps.LatLng(37.4989968, 127.032821), 
 	    text: 'KH정보교육원' // text 옵션을 설정하면 마커 위에 텍스트를 함께 표시할 수 있습니다
@@ -149,10 +230,9 @@ body {
 	    };
 	
 	// 이미지 지도를 생성합니다
-	var staticMap = new kakao.maps.StaticMap(staticMapContainer, staticMapOption);
+	var staticMap = new kakao.maps.StaticMap(staticMapContainer, staticMapOption); */
+
 </script>
-	<div>
-		<p>주소: 서울 강남구 테헤란로14길 6 남도빌딩 2층, 3층</p>
-	</div>
+
 </body>
 </html>
