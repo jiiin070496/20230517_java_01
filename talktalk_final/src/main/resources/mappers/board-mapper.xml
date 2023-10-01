@@ -46,7 +46,6 @@
 	    INSERT INTO board_like (like_no, bno, mid) 
 	    VALUES (SEQ_BOARD_LIKE_LIKE_NO.nextval, #{bno}, #{mid})
 	</insert>
-	
 <!-- 좋아요 총 갯수 -->
 	  <select id="getTotalLikeCount" resultType="_int">
 	  	select count(*) from board_like where bno = #{bno}

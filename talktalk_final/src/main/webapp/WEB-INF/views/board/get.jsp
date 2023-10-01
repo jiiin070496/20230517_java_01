@@ -160,7 +160,7 @@ button:hover {
                        // 좋아요 상태이면 좋아요 취소로 변경
                        $("#btn-board-like").text("좋아요 취소");
                    } else {
-                	   console.log("좋아요 성공");
+                	   console.log("좋아요 취소 성공");
                 	   // 좋아요 취소 상태이면 좋아요로 변경
                        $("#btn-board-like").text("좋아요");
                    }
