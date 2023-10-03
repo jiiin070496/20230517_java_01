@@ -2,57 +2,68 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="board">
 
-<!-- 전체 게시글 -->
+	<!-- 전체 게시글 -->
 	<select id="selectList" resultType="BoardDto">
-		SELECT * FROM board ORDER BY ref desc, rstep asc
+		SELECT * FROM board ORDER BY
+		ref desc, rstep asc
 	</select>
 
-<!-- 상세 게시글 -->	
-	<select id="selectOne" resultType="BoardDto" parameterType="_int">
-		<!-- select * from board where bno=#{bno} order by BREF desc, BRE_STEP asc -->
-		SELECT n.*, (SELECT mname FROM member m WHERE m.mid = n.mid) name FROM board n WHERE bno=#{bno }
+	<!-- 상세 게시글 -->
+	<select id="selectOne" resultType="BoardDto"
+		parameterType="_int">
+		<!-- select * from board where bno=#{bno} order by BREF desc, BRE_STEP 
+			asc -->
+		SELECT n.*, (SELECT mname FROM member m WHERE m.mid = n.mid) name FROM
+		board n WHERE bno=#{bno }
 	</select>
-	
-<!-- 게시글 등록 -->	
+
+	<!-- 게시글 등록 -->
 	<insert id="insert" parameterType="BoardDto">
-		<selectKey keyProperty="bno" resultType="_int" order="BEFORE">
-		select SEQ_BOARD_BNO.nextval nextval from dual
+		<selectKey keyProperty="bno" resultType="_int"
+			order="BEFORE">
+			select SEQ_BOARD_BNO.nextval nextval from dual
 		</selectKey>
-		INSERT INTO board VALUES (#{bno}, #{btitle }, #{bcontent }, #{mid }, default, default, #{bno }, 0, 0)
- 	</insert>
+		INSERT INTO board VALUES (#{bno}, #{btitle }, #{bcontent }, #{mid },
+		default, default, #{bno }, 0, 0)
+	</insert>
 
-<!-- 글 수정 -->	
+	<!-- 글 수정 -->
 	<update id="update" parameterType="BoardDto">
-		update BOARD set btitle=#{btitle}, bcontent=#{bcontent} where bno=#{bno}
+		update BOARD set
+		btitle=#{btitle}, bcontent=#{bcontent} where bno=#{bno}
 	</update>
-	
-<!-- 글 삭제 -->	
+
+	<!-- 글 삭제 -->
 	<delete id="delete" parameterType="_int">
-		delete from board where bno=#{bno}
+		delete from board where
+		bno=#{bno}
 	</delete>
 
-<!-- 게시판 조회수 -->
+	<!-- 게시판 조회수 -->
 	<update id="boardReadCnt" parameterType="_int">
 		update board set readcnt = readcnt + 1 where bno = #{bno}
 	</update>
 
-<!-- 좋아요 유무 1 : 좋아요 누른 상태 -->
+	<!-- 좋아요 유무 1 : 좋아요 누른 상태 -->
 	<select id="getMyLikeCount" resultType="_int">
-		select count(*) from board_like where bno = #{bno} and mid = #{mid}
+		select count(*) from
+		board_like where bno = #{bno} and mid = #{mid}
 	</select>
-	
-<!-- 좋아요 -->
+
+	<!-- 좋아요 -->
 	<insert id="doLike">
-	    INSERT INTO board_like (like_no, bno, mid) 
-	    VALUES (SEQ_BOARD_LIKE_LIKE_NO.nextval, #{bno}, #{mid})
+		INSERT INTO board_like (like_no, bno, mid)
+		VALUES ((SELECT NVL(MAX(like_no), 0) + 1 as like_no FROM board_like),
+		#{bno}, #{mid})
 	</insert>
-<!-- 좋아요 총 갯수 -->
-	  <select id="getTotalLikeCount" resultType="_int">
-	  	select count(*) from board_like where bno = #{bno}
-	  </select>
-	  
-<!-- 좋아요 취소 -->	
-	  <delete id="deleteLike">
-	  	delete from board_like where bno = #{bno} and mid = #{mid}
-	  </delete>  		
+	
+	<!-- 좋아요 총 갯수 -->
+	<select id="getTotalLikeCount" resultType="_int">
+		select count(*) from board_like where bno = #{bno}
+	</select>
+
+	<!-- 좋아요 취소 -->
+	<delete id="deleteLike">
+		delete from board_like where bno = #{bno} and mid = #{mid}
+	</delete>
 </mapper>

@@ -70,6 +70,11 @@ public class BoardServiceImpl implements BoardService {
 		boardDao.deleteLike(lDto);
 		
 	}
+
+	@Override
+	public int boardReadCnt(int bno) throws Exception {
+		return boardDao.boardReadCnt(bno);
+	}
 		
 //	@Override
 //	public BoardPage selectOne(BoardPage page) throws Exception {

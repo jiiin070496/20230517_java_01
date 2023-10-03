@@ -52,7 +52,14 @@ public class BoardController {
 			result = -1;
 		}
 		return result;
-	}	
+	}
+	
+	@GetMapping("/readcnt")
+	@ResponseBody
+	public Integer updatecnt(ModelAndView mv, int bno ) throws Exception{
+		return boardService.boardReadCnt(bno);
+	}
+	
 // --INSERT--
 	@GetMapping("/insert")
 	public String insert() {
@@ -78,6 +85,7 @@ public class BoardController {
         model.addAttribute("dto", dto);
 	    return "board/update";
 	}
+	
 	@PostMapping("/update")
 	@ResponseBody
 	public Integer updateDo(BoardDto dto){

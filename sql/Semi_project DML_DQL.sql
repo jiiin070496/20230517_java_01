@@ -1,7 +1,7 @@
 UPDATE board SET BRE_STEP = BRE_STEP + 1
 WHERE BREF = 1 AND BRE_STEP > 0;
 select * from member;
-select * from board_like;
+select * from board_like where bno = 3;
 select like_no from board_like where bno = 3 and mid = 'jiin0960';
 desc board;
 
@@ -23,7 +23,7 @@ DELETE FROM member where mid = 'admin12';
 update board set btitle = '몽', bcontent = '총이' where bno = 23;
 
 
-INSERT INTO board_like VALUES (SEQ_BOARD_LIKE_LIKE_NO.nextval, 'jiin0960', 3);
+INSERT INTO board_like VALUES ((SELECT NVL(MAX(like_no), 0) + 1 as like_no FROM board_like), 'jiin0960', 3);
 
 --원본글
 

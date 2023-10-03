@@ -11,7 +11,8 @@ public interface BoardService {
 	public BoardDto selectOne(int bno)throws Exception;
 	public int insert(BoardDto dto)throws Exception;
 	public int update(BoardDto dto)throws Exception;
-	public int delete(int bno)throws Exception;	
+	public int delete(int bno)throws Exception;
+	public int boardReadCnt(int bno) throws Exception;
 	public void doLike (LikeDto lDto)throws Exception;
 	public int getMyLikeCount (LikeDto lDto)throws Exception;
 	public int getTotalLikeCount (int bno)throws Exception;
