@@ -158,7 +158,23 @@ public class BoardController {
 }
 
 
-
+//function submitreplyreplyHandler() {
+//    console.log("submitreplyreplyHandler");
+//    var replyreplyContent = $("[name=replyreplyContent]").val();
+//    console.log(replyreplyContent);
+//    $.ajax({
+//        type: "post",
+//        url: "${pageContext.request.contextPath}/replyboard/replyinsert",
+//        data: {memberId:"${bvo.mid}",  replyContent : replyreplyContent, boardNo:${bvo.bno},rref : $(this).parents(".replyCard").data("replyno") },
+//        success: function (result) {
+//            console.log("success");
+//        },
+//        error : function () {
+//            console.log("error");
+//        },
+//        dataType: "json"
+//    });
+//}
 
 
 

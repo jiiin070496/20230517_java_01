@@ -197,6 +197,7 @@ document.getElementById('openModalBtn').addEventListener('click', function() {
     var markerPosition = new kakao.maps.LatLng(37.4989968, 127.032821);
     var marker = new kakao.maps.Marker({
         position: markerPosition,
+        text: 'KH정보교육원',
         map: map
     });
     
