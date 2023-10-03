@@ -38,7 +38,6 @@ public class BoardController {
 		mv.setViewName("board/get"); // http://localhost:8090/jjap/board/get?bno=3
 		return mv;
 	}
-
 	
 // --DELETE--	
 	@PostMapping("/delete")

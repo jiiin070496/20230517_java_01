@@ -1,11 +1,11 @@
 UPDATE board SET BRE_STEP = BRE_STEP + 1
 WHERE BREF = 1 AND BRE_STEP > 0;
-select * from member;
+select BNO from BOARD;
 select * from board_like where bno = 3;
 select like_no from board_like where bno = 3 and mid = 'jiin0960';
 desc board;
-
-commit;
+insert into reply values(SEQ_REPLY_REPLY_NO.nextval,'onue0608','왜안됨ㅋㅋ',default,3,3,1,1);
+select * from reply where board_no=3 order by reply_no desc;
 
 insert into MEMBER values ('jiin0960', '0960','jin', 'a1@gmail.com');
 insert into MEMBER values ('sony0316', '0316','soni', 'a2@gmail.com');
@@ -37,25 +37,14 @@ insert into BOARD (
 );
 commit;
 
-
--- DECLARE
---   ref_param NUMBER := :ref;
---   rstep_param NUMBER := :rstep;
--- BEGIN
---   UPDATE board SET rstep = rstep + 1
---   WHERE ref = ref_param AND rstep > rstep_param;
-
---   INSERT INTO board ("BNO", "BTITLE", "BCONTENT", "MID", "BWRITE_DATE", "READCNT", "FILENAME", "FILEPATH", "REF", "RSTEP", "RLEVEL")
---   VALUES (SEQ_BOARD_BNO.nextval, '족', '발각이네?ㅋㅋ', 'sony0316', systimestamp, 0, NULL, NULL,
---           ref_param, rstep_param + 1, :rlevel + 1);
-  
---   COMMIT;
--- END;
-
-select ref from board where bno=3;
-SELECT n.*, (SELECT mid FROM member m WHERE m.mid = n.mid) name FROM board n WHERE bno=1;
-
-
---원본글
-insert into BOARD values (SEQ_BOARD_BNO.nextval, '첫글', '이랍니다.', default, 'jiin0960', SEQ_BOARD_BNO.nextval, 0,0) ;
+SELECT A.SID
+     , A.SERIAL#
+     , A.STATUS
+  FROM V$SESSION A
+     , V$LOCK B
+     , DBA_OBJECTS C
+ WHERE A.SID         = B.SID
+   AND B.ID1         = C.OBJECT_ID
+   AND B.TYPE        = 'TM'
+   AND C.OBJECT_NAME = 'COMMENT';
 
