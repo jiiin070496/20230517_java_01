@@ -24,11 +24,12 @@ public class ReplyController {
 
 	@GetMapping("/list")
 	@ResponseBody
-	public String selectListReply(Integer boardNo) throws Exception{
+	public String selectListReply(ModelAndView mv, Integer boardNo) throws Exception{
 		List<ReplyDto> result = replyService.selectList(boardNo);
+		mv.addObject("rList", replyService.selectList(boardNo));
+		mv.setViewName("replyboard/list");
 		return new Gson().toJson(result);
 	}
-	
 	@GetMapping("/one")
 	public ModelAndView selectOneReply(ModelAndView mv, int replyNo) throws Exception{
 		mv.addObject("replyboard", replyService.selectOne(replyNo));

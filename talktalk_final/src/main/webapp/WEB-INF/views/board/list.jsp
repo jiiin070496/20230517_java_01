@@ -146,7 +146,7 @@ body {
                 <td>${vo.bno }</td>
                 <td>
                    <a href="<c:url value='/board/get'/>?bno=${vo.bno }">
-                   		<c:forEach begin="1" end="${vo.rlevel }">&#8618; </c:forEach>
+                   		<%-- <c:forEach begin="1" end="${vo.rlevel }">&#8618; </c:forEach> --%>
                         ${vo.btitle }
                    </a>
                 </td>

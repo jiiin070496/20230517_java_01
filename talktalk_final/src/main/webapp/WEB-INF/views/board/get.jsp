@@ -1,6 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -70,17 +70,18 @@ button:hover {
 					<input type="hidden" class="form-control" id="boardNo"
 						name="boardNo" value="${bvo.bno}" disabled>
 				</div>
-				<form action="${pageContext.request.contextPath }/board/update"
-					method="get">
-					<input type="hidden" name="bno" value="${bvo.bno}"> <label
-						for="btitle">제목:</label> <input type="text" id="btitle"
-						name="btitle" value="${bvo.btitle}" readonly> <br> <label
-						for="bcontent">내용:</label>
-					<textarea id="bcontent" rows="10" cols="50" name="bcontent"
-						readonly>${bvo.bcontent}</textarea>
-					<br> <a href="#" id="likeCount">좋아요수:
-						(${data.totalLikeCount })</a> <a
-						href="${pageContext.request.contextPath}/board/list">
+				<form action="${pageContext.request.contextPath }/board/update" method="get">
+					<input type="hidden" name="bno" value="${bvo.bno}"> 
+					<label for="btitle">제목:</label> 
+					<input type="text" id="btitle" name="btitle" value="${bvo.btitle}" readonly> 
+					<br> 
+					<label for="bcontent">내용:</label>
+					<textarea id="bcontent" rows="10" cols="50" name="bcontent" readonly>${bvo.bcontent}</textarea>
+					<br> 
+					<a href="${pageContext.request.contextPath}/board/doLike" id="likeCount">
+						좋아요수: (${totalLikeCount })
+					</a> 
+					<a href="${pageContext.request.contextPath}/board/list">
 						<button type="submit" id="btn-board-update">글 수정</button>
 					</a>
 					<button type="button" id="btn-board-delete">글 삭제</button>
@@ -89,7 +90,7 @@ button:hover {
 					</a>
 					<button type="button" id="btn-board-like">좋아요</button>
 				</form>
-
+				
 				<!-- 댓글 입력 폼 -->
 				<div class="card">
 					<form method="post"
@@ -103,11 +104,16 @@ button:hover {
 					</form>
 				</div>
 				<!-- 댓글 리스트 -->
+				<%-- 
+				<c:if test="${not empty rList }">
+			    	<p>댓글 <c:out value="${fn:length(rList)}" /></p>
+				</c:if>
+				--%>
 				<div class="testappend"></div>
 			</div>
 		</div>
 	</div>
-	<script>
+<script>
 /* 댓글 삭제 */
    $("#btn-board-delete").click(function () {
        var bno = '${bvo.bno}';
