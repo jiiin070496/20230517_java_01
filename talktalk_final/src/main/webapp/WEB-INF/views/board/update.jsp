@@ -62,7 +62,7 @@
  -->
 <form id="frmBoard">
 	<input type="hidden" name="bno" value="${dto.bno}">
-    제목: <input type="text" name="btitle" value="${dto.btitle}">
+    제목: <input type="text" name="btitle" value="${dto.btitle}" readonly>
     <br>
     내용: <textarea rows="10" cols="50" name="bcontent">${dto.bcontent}</textarea>
     <br>

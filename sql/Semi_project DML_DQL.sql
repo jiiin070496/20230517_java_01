@@ -4,7 +4,6 @@ select BNO from BOARD;
 select * from board_like where bno = 3;
 select like_no from board_like where bno = 3 and mid = 'jiin0960';
 desc board;
-insert into reply values(SEQ_REPLY_REPLY_NO.nextval,'onue0608','왜안됨ㅋㅋ',default,3,3,1,1);
 select * from reply where board_no=3 order by reply_no desc;
 
 insert into MEMBER values ('jiin0960', '0960','jin', 'a1@gmail.com');

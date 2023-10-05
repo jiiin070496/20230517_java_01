@@ -156,26 +156,17 @@ body {
             </tr>
         </c:forEach>
     </table>
-	<div>
-		 <ul>
-			  <c:if test="${pageMaker.prev}">
-				   <li><a href="listPage?page=${pageMaker.startPage - 1}">이전</a></li>
-			  </c:if> 
-				  
-		  	  <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-			   		<li><a href="listPage?page=${idx}">${idx}</a></li>
-			  </c:forEach>
-			  <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-				   <li><a href="listPage?page=${pageMaker.endPage + 1}">다음</a></li>
-			  </c:if> 
-		 </ul>
+    <div>
+		<c:forEach begin="1" end="${pageNum}" var="num">
+	    	<span>
+		     	<a href="/board/listPage?num=${num}">${num}</a>
+		  	</span>
+		</c:forEach>
 	</div>
 </c:if>
-<%--
- <div class="btnSet">
+<%-- <div class="btnSet">
 	<jsp:include page="/WEB-INF/views/board/page.jsp"/>
-</div> 
---%>
+</div> --%>
 <div class="btn-container">
 	<a href="<c:url value='/board/insert'/>">
 	    <button>글 등록</button>

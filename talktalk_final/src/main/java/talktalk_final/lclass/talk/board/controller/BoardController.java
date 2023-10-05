@@ -1,18 +1,23 @@
 package talktalk_final.lclass.talk.board.controller;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import talktalk_final.lclass.talk.board.dto.BoardDto;
+import talktalk_final.lclass.talk.board.dto.Criteria;
 import talktalk_final.lclass.talk.board.dto.LikeDto;
+import talktalk_final.lclass.talk.board.dto.PageMaker;
 import talktalk_final.lclass.talk.board.service.BoardService;
 
 import org.springframework.ui.Model;
@@ -21,19 +26,16 @@ import org.springframework.ui.Model;
 @RequestMapping("/board")
 public class BoardController {
 	@Autowired private BoardService boardService;	
-//	@Autowired private BoardPage page; 
 // --LIST--
 	@GetMapping("/list")
-	public ModelAndView list(ModelAndView mv) throws Exception{
-//		page.setCurPage(curPage);
-//		mv.addObject("page", boardService.selectOne(page));
+	public ModelAndView list(ModelAndView mv, @RequestParam("num") int num) throws Exception{
 	    mv.addObject("boardList", boardService.selectList());
 		mv.setViewName("board/list");
 		return mv;
 	}
 // --GET--	
 	@GetMapping("/get")
-	public ModelAndView get(ModelAndView mv, int bno) throws Exception{ //jsp에서 controller로 데이터 전달
+	public ModelAndView get(ModelAndView mv, int bno) throws Exception{
 		mv.addObject("bvo", boardService.selectOne(bno));
 		mv.setViewName("board/get"); // http://localhost:8090/jjap/board/get?bno=3
 		return mv;
@@ -103,19 +105,14 @@ public class BoardController {
 	@ResponseBody
 	public HashMap<String, Object> doLike(@RequestBody LikeDto lDto) throws Exception{
 	    HashMap<String, Object> data = new HashMap<>();
-	    int myLikeCount = 0;
-	    try {
-	        myLikeCount = boardService.getMyLikeCount(lDto);
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
-
+	    int myLikeCount = boardService.getMyLikeCount(lDto);
+	    System.out.println("<<<LDTO = " + lDto + ">>>");
 	    if(myLikeCount > 0) {
-	        // 이미 좋아요를 눌렀으므로 좋아요를 취소합니다.
+	        // 이미 좋아요를 눌렀으므로 좋아요를 취소.
 	        boardService.deleteLike(lDto);
 	        data.put("status", "unlike");
 	    } else {
-	        // 좋아요를 누르지 않았으므로 좋아요를 추가합니다.
+	        // 좋아요를 누르지 않았으므로 좋아요를 추가.
 	        boardService.doLike(lDto);
 	        data.put("status", "like");
 	    }
@@ -154,26 +151,21 @@ public class BoardController {
 		data.put("totalLikeCount", totalLikeCount);
 		return data;
 	}
+	
+	// 글 목록 + 페이징
+	@GetMapping("/listPage")
+	public void listPage(@ModelAttribute("cri") Criteria cri, Model model) throws Exception {
+		List<BoardDto> list = boardService.listPage(cri);
+		model.addAttribute("boardList", list);
+		 
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(boardService.count());
+		model.addAttribute("pageMaker", pageMaker);
+		 
+	}
 }
 
-
-//function submitreplyreplyHandler() {
-//    console.log("submitreplyreplyHandler");
-//    var replyreplyContent = $("[name=replyreplyContent]").val();
-//    console.log(replyreplyContent);
-//    $.ajax({
-//        type: "post",
-//        url: "${pageContext.request.contextPath}/replyboard/replyinsert",
-//        data: {memberId:"${bvo.mid}",  replyContent : replyreplyContent, boardNo:${bvo.bno},rref : $(this).parents(".replyCard").data("replyno") },
-//        success: function (result) {
-//            console.log("success");
-//        },
-//        error : function () {
-//            console.log("error");
-//        },
-//        dataType: "json"
-//    });
-//}
 
 
 
