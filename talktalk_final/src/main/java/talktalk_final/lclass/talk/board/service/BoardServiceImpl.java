@@ -75,6 +75,16 @@ public class BoardServiceImpl implements BoardService {
 	public int boardReadCnt(int bno) throws Exception {
 		return boardDao.boardReadCnt(bno);
 	}
+	
+	@Override
+	public int count() throws Exception{
+		return boardDao.count();
+	}
+	
+	@Override
+	public List<BoardDto> listPage(int displayPost, int postNum) throws Exception {
+	 return boardDao.listPage(displayPost, postNum);
+	}
 		
 //	@Override
 //	public BoardPage selectOne(BoardPage page) throws Exception {

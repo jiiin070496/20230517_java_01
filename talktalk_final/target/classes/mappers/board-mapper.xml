@@ -51,11 +51,13 @@
 	</select>
 
 	<!-- 좋아요 -->
-<!-- 	<insert id="doLike">
+<!-- 	
+	<insert id="doLike">
 		INSERT INTO board_like (like_no, bno, mid)
 		VALUES ((SELECT NVL(MAX(like_no), 0) + 1 as like_no FROM board_like),
 		#{bno}, #{mid})
-	</insert> -->	
+	</insert>
+ -->	
  	<insert id="doLike" parameterType="LikeDto">
 		<selectKey keyProperty="like_no" resultType="_int" order="BEFORE">
 			select SEQ_REPLY_REPLY_NO.nextval nextval from dual
@@ -73,4 +75,18 @@
 	<delete id="deleteLike">
 		delete from board_like where bno = #{bno} and mid = #{mid}
 	</delete>
+	
+	<!-- 게시물 총 갯수 -->
+	<select id="count" resultType="int">
+		select count(bno) from tbl_board
+	</select>
+	
+	<select id="listPage" resultType="BoardDto" parameterType="hashMap">
+    	SELECT *
+			FROM ( 
+				SELECT a.*, ROWNUM AS rnum
+			    FROM ( SELECT * FROM board ORDER BY bno DESC) a
+				)
+			WHERE rnum BETWEEN #{displayPost} AND #{postNum};
+	</select>
 </mapper>

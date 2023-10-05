@@ -1,6 +1,7 @@
 package talktalk_final.lclass.talk.board.controller;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -151,26 +153,26 @@ public class BoardController {
 		data.put("totalLikeCount", totalLikeCount);
 		return data;
 	}
+	
+// 게시물 목록 + 페이징 추가
+	@GetMapping("/listpage")
+	public void getListPage(Model model, @RequestParam("num") int num) throws Exception {
+		 // 게시물 총 갯수
+		 int count = boardService.count();
+		  
+		 // 한 페이지에 출력할 게시물 갯수
+		 int postNum = 10;
+		  
+		 // 하단 페이징 번호 ([ 게시물 총 갯수 ÷ 한 페이지에 출력할 갯수 ]의 올림)
+		 int pageNum = (int)Math.ceil((double)count/postNum);
+		  
+		 // 출력할 게시물
+		 int displayPost = (num - 1) * postNum;
+		List<BoardDto> list = boardService.selectList(); 
+		model.addAttribute("list", list);   
+	}	
 }
 
-
-//function submitreplyreplyHandler() {
-//    console.log("submitreplyreplyHandler");
-//    var replyreplyContent = $("[name=replyreplyContent]").val();
-//    console.log(replyreplyContent);
-//    $.ajax({
-//        type: "post",
-//        url: "${pageContext.request.contextPath}/replyboard/replyinsert",
-//        data: {memberId:"${bvo.mid}",  replyContent : replyreplyContent, boardNo:${bvo.bno},rref : $(this).parents(".replyCard").data("replyno") },
-//        success: function (result) {
-//            console.log("success");
-//        },
-//        error : function () {
-//            console.log("error");
-//        },
-//        dataType: "json"
-//    });
-//}
 
 
 

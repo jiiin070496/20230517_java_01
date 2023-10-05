@@ -1,5 +1,6 @@
 package talktalk_final.lclass.talk.board.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -65,6 +66,17 @@ public class BoardDao {
 	public int getTotalLikeCount(int bno) throws Exception{
 		return sqlSession.selectOne("board.getTotalLikeCount", bno);
 	}
+	
+	public int count() throws Exception{
+		return sqlSession.selectOne("board.count");
+	}
+	
+	public List<BoardDto> listPage(int displayPost, int postNum) throws Exception {
+		 HashMap<String, Object> data = new HashMap<String, Object>();
+		 data.put("displayPost", displayPost);
+		 data.put("postNum", postNum);
+		 return sqlSession.selectList("board.listPage", data);
+		}
 }
 
 

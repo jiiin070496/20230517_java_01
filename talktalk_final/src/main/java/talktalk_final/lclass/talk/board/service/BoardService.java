@@ -17,6 +17,9 @@ public interface BoardService {
 	public int getMyLikeCount (LikeDto lDto)throws Exception;
 	public int getTotalLikeCount (int bno)throws Exception;
 	public void deleteLike (LikeDto lDto)throws Exception;
+	public int count() throws Exception;
+	// 게시물 목록 + 페이징
+	public List<BoardDto> listPage(int displayPost, int postNum) throws Exception;
 }
 
 //@Autowired

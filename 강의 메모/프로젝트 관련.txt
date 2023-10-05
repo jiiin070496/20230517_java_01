@@ -97,7 +97,15 @@ BREF desc, BRE_STEP asc
 
 
 
-
+// --GET--	
+	@GetMapping("/get")
+	public ModelAndView get(ModelAndView mv, int bno, Principal principal) throws Exception{ //jsp에서 controller로 데이터 전달
+		LikeDto ldto;
+		mv.addObject("bvo", boardService.selectOne(bno));
+		mv.addObject("likedStatus", boardService.getMyLikeCount(bno , principal.getName()));
+		mv.setViewName("board/get"); // http://localhost:8090/jjap/board/get?bno=3
+		return mv;
+	}
 
 
 

@@ -4,14 +4,20 @@ select BNO from BOARD;
 select * from board_like where bno = 3;
 select like_no from board_like where bno = 3 and mid = 'jiin0960';
 desc board;
-insert into reply values(SEQ_REPLY_REPLY_NO.nextval,'onue0608','왜안됨ㅋㅋ',default,3,3,1,1);
 select * from reply where board_no=3 order by reply_no desc;
+
+SELECT *
+FROM 
+( SELECT a.*, ROWNUM AS rnum
+    FROM ( SELECT * FROM board ORDER BY bno DESC) a
+)
+WHERE rnum BETWEEN 1 AND 10;
 
 insert into MEMBER values ('jiin0960', '0960','jin', 'a1@gmail.com');
 insert into MEMBER values ('sony0316', '0316','soni', 'a2@gmail.com');
 insert into MEMBER values ('onue0608', '0608','nue', 'a3@gmail.com');
-insert into BOARD values (SEQ_BOARD_BNO.nextval, '파', '파닭각', 'jiin0960', default, 0, SEQ_BOARD_BNO.nextval, 0, 0) ;
-insert into BOARD values (SEQ_BOARD_BNO.nextval, '고', '고기각', 'sony0316', default, 0, SEQ_BOARD_BNO.nextval, 0, 0) ;
+insert into BOARD values (SEQ_BOARD_BNO.nextval, '파', '후우루룽', 'jiin0960', default, 0, SEQ_BOARD_BNO.nextval, 0, 0) ;
+insert into BOARD values (SEQ_BOARD_BNO.nextval, '고', '고ㅁㅁㅁㅁㅁ', 'sony0316', default, 0, SEQ_BOARD_BNO.nextval, 0, 0) ;
 insert into BOARD values (SEQ_BOARD_BNO.nextval, '배', '배곺음', 'onue0608', default, 0, SEQ_BOARD_BNO.nextval, 0, 0) ;
 COMMIT;
 
