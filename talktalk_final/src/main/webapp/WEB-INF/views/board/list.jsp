@@ -146,6 +146,7 @@ body {
                 <td>${vo.bno }</td>
                 <td>
                    <a href="<c:url value='/board/get'/>?bno=${vo.bno }">
+                   		<%-- <c:forEach begin="1" end="${vo.rlevel }">&#8618; </c:forEach> --%>
                         ${vo.btitle }
                    </a>
                 </td>
@@ -156,26 +157,10 @@ body {
             </tr>
         </c:forEach>
     </table>
-	<div>
-		 <ul>
-			  <c:if test="${pageMaker.prev}">
-				   <li><a href="listPage?page=${pageMaker.startPage - 1}">이전</a></li>
-			  </c:if> 
-				  
-		  	  <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-			   		<li><a href="listPage?page=${idx}">${idx}</a></li>
-			  </c:forEach>
-			  <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-				   <li><a href="listPage?page=${pageMaker.endPage + 1}">다음</a></li>
-			  </c:if> 
-		 </ul>
-	</div>
 </c:if>
-<%--
- <div class="btnSet">
+<div class="btnSet">
 	<jsp:include page="/WEB-INF/views/board/page.jsp"/>
-</div> 
---%>
+</div>
 <div class="btn-container">
 	<a href="<c:url value='/board/insert'/>">
 	    <button>글 등록</button>

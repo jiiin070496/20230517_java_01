@@ -14,6 +14,7 @@
 		
 	<mappers>
 		<mapper resource="mappers/board-mapper.xml"/>
+		<mapper resource="mappers/like-mapper.xml"/>
 		<mapper resource="mappers/reply-mapper.xml"/>
 	</mappers>
 	
