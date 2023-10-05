@@ -3,12 +3,15 @@ package talktalk_final.lclass.talk.board.controller;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import talktalk_final.lclass.talk.board.dto.BoardDto;
 import talktalk_final.lclass.talk.board.dto.LikeDto;
 import talktalk_final.lclass.talk.board.service.BoardService;
+import talktalk_final.lclass.talk.board.service.LikeService;
 
 import org.springframework.ui.Model;
 
@@ -23,12 +27,11 @@ import org.springframework.ui.Model;
 @RequestMapping("/board")
 public class BoardController {
 	@Autowired private BoardService boardService;	
-//	@Autowired private BoardPage page; 
+	@Autowired private LikeService likeService;	
+
 // --LIST--
 	@GetMapping("/list")
 	public ModelAndView list(ModelAndView mv) throws Exception{
-//		page.setCurPage(curPage);
-//		mv.addObject("page", boardService.selectOne(page));
 	    mv.addObject("boardList", boardService.selectList());
 		mv.setViewName("board/list");
 		return mv;
@@ -153,10 +156,29 @@ public class BoardController {
 		data.put("totalLikeCount", totalLikeCount);
 		return data;
 	}
+// --------------------------------	
+	@ResponseBody
+	@RequestMapping(value = "/updateLike" , method = RequestMethod.POST)
+	public int updateLike(int bno, String mid)throws Exception{
+		
+			int likeCheck = likeService.likeCheck(bno, mid);
+			if(likeCheck == 0) {
+				//좋아요 처음누름
+				likeService.insertLike(bno, mid); //like테이블 삽입
+				likeService.updateLikeCheck(bno, mid);//like테이블 구분자 1
+			}else if(likeCheck == 1) {
+				likeService.updateLikeCheckCancel(bno, mid); //like테이블 구분자0
+				likeService.deleteLike(bno, mid); //like테이블 삭제
+			}
+			return likeCheck;
+	}
+// -------------------------------	
 	
 // 게시물 목록 + 페이징 추가
-	@GetMapping("/listpage")
-	public void getListPage(Model model, @RequestParam("num") int num) throws Exception {
+	@RequestMapping(value = "/listPage", method = RequestMethod.GET)
+	public void getListPage(Model model
+					, @RequestParam(name = "num", required = false, defaultValue = "1") int num
+							) throws Exception {
 		 // 게시물 총 갯수
 		 int count = boardService.count();
 		  
@@ -168,8 +190,9 @@ public class BoardController {
 		  
 		 // 출력할 게시물
 		 int displayPost = (num - 1) * postNum;
-		List<BoardDto> list = boardService.selectList(); 
-		model.addAttribute("list", list);   
+		 List<BoardDto> list = boardService.listPage(displayPost, postNum); 
+		 model.addAttribute("boardList", list);   
+		 model.addAttribute("pageNum", pageNum);
 	}	
 }
 

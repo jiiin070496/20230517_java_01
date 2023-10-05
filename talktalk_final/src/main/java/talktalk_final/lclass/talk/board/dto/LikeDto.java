@@ -18,4 +18,5 @@ public class LikeDto {
 	private int like_no;
 	private String mid;
 	private int bno;
+	private int likecheck;
 }

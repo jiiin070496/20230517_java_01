@@ -23,6 +23,8 @@ spring 댓글기능 구현
 	https://cameldev.tistory.com/62
 	https://cameldev.tistory.com/63
         	https://zi2eon.tistory.com/20 -- 다른
+https://github.com/NukNim/kh_final_project/blob/main/kh_final_project/src/main/webapp/WEB-INF/views/board/detail.jsp
+
 Spring 좋아요 기능 구현	
 	https://edendev.tistory.com/36
 	https://onecutwook.tistory.com/23

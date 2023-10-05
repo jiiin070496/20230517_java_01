@@ -72,7 +72,7 @@ public class BoardDao {
 	}
 	
 	public List<BoardDto> listPage(int displayPost, int postNum) throws Exception {
-		 HashMap<String, Object> data = new HashMap<String, Object>();
+		 HashMap<String, Integer> data = new HashMap<String, Integer>();
 		 data.put("displayPost", displayPost);
 		 data.put("postNum", postNum);
 		 return sqlSession.selectList("board.listPage", data);

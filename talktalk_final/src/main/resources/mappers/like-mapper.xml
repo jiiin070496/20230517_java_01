@@ -1,36 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="like">
-	<!-- 유저의 좋아요 유무, 없으면 insert, 있으면 select --> 
-	<select id="likeCount" resultType="Integer" parameterType="LikeDto">
-		select count(* ) from board_like where bno = #{bno} and mid = #{mid}
-	</select>
-	
-	<!-- 좋아요 -->
-	<insert id="likeInsert" parameterType="LikeDto">
-		insert into board_like (bno, mid) values (#{bno}, #{mid})
-	</insert>
-	
-    <!-- 좋아요 불러오기 -->  
-    <select id="likeGet" resultType="Integer" parameterType="LikeDto">
-   		select like_no from board_like where bno = #{bno} and mid = #{mid}
-    </select>
- 				
-	<sql id="cal">
-	    <choose>
-	        <when test="count == 1">
-	            like_no = 0
-	        </when>
-	        <otherwise>
-	            like_no = like_no + 1
-	        </otherwise>
-	    </choose>
-	</sql>		
-	<update id="likeUpdate" parameterType="LikeDto">
-			update board_like
-			set <include refid="cal"></include>
-			where mid = #{mid} and bno = #{bno}
-	</update>
 
-	
+<!-- 게시글 추천 시 Like 테이블에 insert -->
+<insert id="insertLike">
+	insert into board_like (like_no , bno, mid) 
+	values((SELECT NVL(MAX(like_no), 0) + 1 FROM board_like) ,#{bno} ,#{mid})
+</insert>
+
+<!-- 게시글 추천취소 시 delete -->
+<delete id="deleteLike">
+	delete from board_like where BNO = #{bno} and mid = #{mid}
+</delete>
+
+<!-- 게시글 추천 시 Check를 1로 만들어서 중복방지-->
+<update id="updateLikeCheck">
+	update board_like set likecheck = 1
+	where BNO = #{bno} and mid = #{mid}
+</update>
+
+<!-- 게시글 추천취소 시 다시 0  -->
+<update id="updateLikeCheckCancel">
+	update board_like set likecheck = 0
+	where BNO = #{bno} and mid = #{mid}
+</update>
+
+<!-- 게시글 추천 중복방지 select문 -->
+<select id="likeCheck" resultType="_int">
+	select count(*) from board_like where BNO = #{bno} and mid = #{mid} 
+</select>
 </mapper>

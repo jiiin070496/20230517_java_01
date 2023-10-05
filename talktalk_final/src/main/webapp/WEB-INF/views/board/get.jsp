@@ -89,9 +89,7 @@ button:hover {
 					<a href="${pageContext.request.contextPath}/board/list">
 						<button type="button">글 목록으로 이동</button>
 					</a>
-					<c:if test="${likedStatus == 0 }">
-						<button type="button" id="btn-board-like">좋아요</button>
-					</c:if>					
+					<button type="button" id="btn-board-like" onclick="updateLike(); return false;">좋아요</button>
 				</form>
 				
 				<!-- 댓글 입력 폼 -->
@@ -132,14 +130,37 @@ button:hover {
             }else {
             	alert("삭제 실패했습니다");
             }
-			location.href = "${pageContext.request.contextPath}/board/list";
+				location.href = "${pageContext.request.contextPath}/board/list";
 			}
 		});
 	}
 });
-   
+
+	var bno ='${bvo.bno}';
+	var mid = '${bvo.mid}';
+	 function updateLike(){ 
+	     $.ajax({
+	            type : "POST",  
+	            url : "${pageContext.request.contextPath}/board/updateLike",       
+	            dataType : "json",   
+	            data : {'bno' : bno, 'mid' : mid },
+	            error : function(){
+	               alert("통신 에러");
+	            },
+	            success : function(likeCheck) {	                
+	                    if(likeCheck == 0){
+	                    	alert("추천완료.");
+	                    	$("#btn-board-like").html("좋아요 취소");
+	                    }
+	                    else if (likeCheck == 1){
+	                     	alert("추천취소");
+	                    	$("#btn-board-like").html("좋아요");
+	                }
+	            }
+	        });
+	 } 
 // 좋아요 버튼 클릭 이벤트 핸들러
-   $("#btn-board-like").click(function() {
+/*    $("#btn-board-like").click(function() {
        var bno = "${bvo.bno}"; // 게시물 번호
        var mid = "${bvo.mid}"; // 사용자 아이디
        // 데이터를 JSON 형식으로 구성
@@ -169,7 +190,7 @@ button:hover {
                console.error("좋아요 처리 중 오류 발생");
            }
        });
-   });
+   }); */
 
 /* Reply */
    let replyreplyleftpadding = "";

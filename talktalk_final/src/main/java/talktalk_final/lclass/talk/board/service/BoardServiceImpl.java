@@ -86,32 +86,5 @@ public class BoardServiceImpl implements BoardService {
 	 return boardDao.listPage(displayPost, postNum);
 	}
 		
-//	@Override
-//	public BoardPage selectOne(BoardPage page) throws Exception {
-//		return boardDao.selectOne(page);
-//	}
-//	
-//	@Override
-//	public List<BoardDto> reply_list()throws Exception {
-//		return boardDao.reply_list();
-//	}
-//	
-//	@Override
-//	public int reply_insert(BoardDto dto) throws Exception {
-//		 BoardDto returnVo = boardDao.insert(dto); 
-//		 int result = returnVo.getBno();
-//		 return result;
-//	}
-	
 }
-//	  public List<BoardDto> selectList() throws Exception{ return
-//	  boardDao.selectList(); } public BoardDto selectOne(int bno) throws Exception{
-//	  return boardDao.selectOne(bno); }
-//	  
-//	  @Transactional // 바로 밑에있는 메소드 하나에만 영향을 줌 public int insert(BoardDto dto)
-//	  throws Exception{ BoardDto returnVo = boardDao.insert(dto); int result =
-//	  returnVo.getBno(); return result; }
-//	  
-//	  public int update(BoardDto dto) throws Exception{ return
-//	  boardDao.update(dto); } public int delete(int bno) throws Exception{ return
-//	  boardDao.delete(bno); }
+

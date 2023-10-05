@@ -77,16 +77,16 @@
 	</delete>
 	
 	<!-- 게시물 총 갯수 -->
-	<select id="count" resultType="int">
-		select count(bno) from tbl_board
+	<select id="count" resultType="_int">
+		select count(bno) from board
 	</select>
 	
-	<select id="listPage" resultType="BoardDto" parameterType="hashMap">
+	<select id="listPage" parameterType="hashMap" resultType="BoardDto">
     	SELECT *
 			FROM ( 
 				SELECT a.*, ROWNUM AS rnum
 			    FROM ( SELECT * FROM board ORDER BY bno DESC) a
 				)
-			WHERE rnum BETWEEN #{displayPost} AND #{postNum};
+			WHERE rnum BETWEEN #{displayPost} AND #{postNum}
 	</select>
 </mapper>
