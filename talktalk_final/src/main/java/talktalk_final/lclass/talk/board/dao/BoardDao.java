@@ -47,8 +47,8 @@ public class BoardDao {
 	}
 	
 // 좋아요
-	public void doLike(LikeDto lDto) throws Exception{
-		sqlSession.insert("board.doLike", lDto);
+	public int doLike(LikeDto lDto) throws Exception{
+		return sqlSession.insert("board.doLike", lDto);
 	}
 	
 // 좋아요 상태
@@ -57,8 +57,8 @@ public class BoardDao {
 	}
 	
 // 좋아요 취소
-	public void deleteLike(LikeDto lDto) throws Exception{
-		sqlSession.delete("board.deleteLike", lDto);
+	public int deleteLike(LikeDto lDto) throws Exception{
+		return sqlSession.delete("board.deleteLike", lDto);
 	}
 	
 // 좋아요 갯수

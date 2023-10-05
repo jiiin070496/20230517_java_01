@@ -51,10 +51,17 @@
 	</select>
 
 	<!-- 좋아요 -->
-	<insert id="doLike">
+<!-- 	<insert id="doLike">
 		INSERT INTO board_like (like_no, bno, mid)
 		VALUES ((SELECT NVL(MAX(like_no), 0) + 1 as like_no FROM board_like),
 		#{bno}, #{mid})
+	</insert> -->	
+ 	<insert id="doLike" parameterType="LikeDto">
+		<selectKey keyProperty="like_no" resultType="_int" order="BEFORE">
+			select SEQ_REPLY_REPLY_NO.nextval nextval from dual
+		</selectKey>
+		INSERT INTO board_like (like_no, bno, mid) 
+		VALUES (#{like_no}, #{bno}, #{mid})
 	</insert>
 	
 	<!-- 좋아요 총 갯수 -->

@@ -17,7 +17,6 @@ public interface BoardService {
 	public int getMyLikeCount (LikeDto lDto)throws Exception;
 	public int getTotalLikeCount (int bno)throws Exception;
 	public void deleteLike (LikeDto lDto)throws Exception;
-	
 }
 
 //@Autowired

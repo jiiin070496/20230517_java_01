@@ -71,6 +71,7 @@ button:hover {
 						name="boardNo" value="${bvo.bno}" disabled>
 				</div>
 				<form action="${pageContext.request.contextPath }/board/update" method="get">
+				<h3><c:out value="${bvo.bno}"/>번글</h3>
 					<input type="hidden" name="bno" value="${bvo.bno}"> 
 					<label for="btitle">제목:</label> 
 					<input type="text" id="btitle" name="btitle" value="${bvo.btitle}" readonly> 
@@ -88,7 +89,9 @@ button:hover {
 					<a href="${pageContext.request.contextPath}/board/list">
 						<button type="button">글 목록으로 이동</button>
 					</a>
-					<button type="button" id="btn-board-like">좋아요</button>
+					<c:if test="${likedStatus == 0 }">
+						<button type="button" id="btn-board-like">좋아요</button>
+					</c:if>					
 				</form>
 				
 				<!-- 댓글 입력 폼 -->
@@ -154,11 +157,11 @@ button:hover {
                    if (data.status === "like") {
                 	   console.log("좋아요 성공");
                        // 좋아요 상태이면 좋아요 취소로 변경
-                       $("#btn-board-like").text("좋아요 취소");
+                       $("#btn-board-like").html("좋아요 취소");
                    } else {
                 	   console.log("좋아요 취소 성공");
                 	   // 좋아요 취소 상태이면 좋아요로 변경
-                       $("#btn-board-like").text("좋아요");
+                       $("#btn-board-like").html("좋아요");
                    }
                }
            },

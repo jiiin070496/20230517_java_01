@@ -34,7 +34,9 @@ public class BoardController {
 // --GET--	
 	@GetMapping("/get")
 	public ModelAndView get(ModelAndView mv, int bno) throws Exception{ //jsp에서 controller로 데이터 전달
+		LikeDto ldto = new LikeDto();
 		mv.addObject("bvo", boardService.selectOne(bno));
+		mv.addObject("likedStatus", boardService.getMyLikeCount(ldto));
 		mv.setViewName("board/get"); // http://localhost:8090/jjap/board/get?bno=3
 		return mv;
 	}
@@ -103,13 +105,8 @@ public class BoardController {
 	@ResponseBody
 	public HashMap<String, Object> doLike(@RequestBody LikeDto lDto) throws Exception{
 	    HashMap<String, Object> data = new HashMap<>();
-	    int myLikeCount = 0;
-	    try {
-	        myLikeCount = boardService.getMyLikeCount(lDto);
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
-
+	    int myLikeCount = boardService.getMyLikeCount(lDto);
+	    
 	    if(myLikeCount > 0) {
 	        // 이미 좋아요를 눌렀으므로 좋아요를 취소합니다.
 	        boardService.deleteLike(lDto);
