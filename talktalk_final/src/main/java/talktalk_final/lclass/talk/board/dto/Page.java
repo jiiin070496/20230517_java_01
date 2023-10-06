@@ -5,7 +5,7 @@ public class Page {
 		private int nowPage, startPage, endPage, total, cntPerPage, lastPage, start, end;
 		private int cntPage = 5;
 		
-		public Page(){}
+		public Page() {}
 		
 		public Page(int total, int nowPage, int cntPerPage) {
 			setNowPage(nowPage);

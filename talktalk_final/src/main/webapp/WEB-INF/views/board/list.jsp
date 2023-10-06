@@ -131,7 +131,7 @@ body {
 	<h4>API Key: <spring:eval expression="@api['api.key']" /></h4>
 </div>
 <c:if test="${not empty boardList }">
-    <p>총 <c:out value="${fn:length(boardList)}" />개의 게시물이 있습니다</p>
+    <p>총 ${totalListCount } 개의 게시물이 있습니다</p>
     <table class="styled-board">
         <tr>
             <th>번호</th>

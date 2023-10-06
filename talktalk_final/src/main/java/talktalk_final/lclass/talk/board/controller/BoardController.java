@@ -34,15 +34,16 @@ public class BoardController {
 		int total = boardService.count();
 		if (nowPage == null && cntPerPage == null) {
 			nowPage = "1";
-			cntPerPage = "20";
+			cntPerPage = "5"; // 보여질 게시물 수
 		} else if (nowPage == null) {
 			nowPage = "1";
 		} else if (cntPerPage == null) { 
-			cntPerPage = "20";
+			cntPerPage = "5";
 		}
 		Page page = new Page(total,Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
 		mv.addObject("page", page);
 		mv.addObject("boardList", boardService.listPage(page));
+		mv.addObject("totalListCount", boardService.count());
 		mv.setViewName("board/list");
 		return mv;
 	}
@@ -125,25 +126,7 @@ public class BoardController {
 			}
 			return likeCheck;
 	}
-// ------------------------------------	
-	
-//// 게시물 목록 + 페이징 추가
-//	@RequestMapping(value = "/listPage", method = RequestMethod.GET)
-//	public void getListPage(Model model
-//					,@RequestParam(name = "num", required = false) int num
-//							) throws Exception {
-//		Page page = new Page();
-//		
-//		page.setNum(num);
-//		page.setCount(boardService.count());  
-//
-//		List<BoardDto> list = boardService.listPage(page.getDisplayPost(), page.getPostNum()); 
-//		
-//		model.addAttribute("boardList", list);   
-//		model.addAttribute("pageNum", page);
-//		model.addAttribute("select", num); 
-//
-//	}	
+
 }
 
 

@@ -7,7 +7,7 @@
 		SELECT * FROM board ORDER BY
 		ref desc, rstep asc
 	</select>
-
+	
 	<!-- 상세 게시글 -->
 	<select id="selectOne" resultType="BoardDto"
 		parameterType="_int">
