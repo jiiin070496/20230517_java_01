@@ -2,14 +2,13 @@ package talktalk_final.lclass.talk.board.dao;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import talktalk_final.lclass.talk.board.dto.BoardDto;
-import talktalk_final.lclass.talk.board.dto.LikeDto;
+import talktalk_final.lclass.talk.board.dto.Page;
 
 
 @Repository
@@ -46,37 +45,24 @@ public class BoardDao {
 	public int boardReadCnt(int bno) throws Exception{
 		return sqlSession.update("board.boardReadCnt", bno);
 	}
-	
-// 좋아요
-	public int doLike(LikeDto lDto) throws Exception{
-		return sqlSession.insert("board.doLike", lDto);
-	}
-	
-// 좋아요 상태
-	public int getMyLikeCount(LikeDto lDto) throws Exception{
-		return sqlSession.selectOne("board.getMyLikeCount", lDto);
-	}
-	
-// 좋아요 취소
-	public int deleteLike(LikeDto lDto) throws Exception{
-		return sqlSession.delete("board.deleteLike", lDto);
-	}
-	
+
 // 좋아요 갯수
-	public int getTotalLikeCount(int bno) throws Exception{
-		return sqlSession.selectOne("board.getTotalLikeCount", bno);
+	public int totalLike(int bno) throws Exception{
+		return sqlSession.update("board.updateLike", bno);
 	}
 	
+	public int totalLikeCancel(int bno) throws Exception{
+		return sqlSession.update("board.updateLikeCancel", bno);
+	}
+	
+// 페이징
 	public int count() throws Exception{
 		return sqlSession.selectOne("board.count");
 	}
 	
-	public List<BoardDto> listPage(int displayPost, int postNum) throws Exception {
-		 HashMap<String, Integer> data = new HashMap<String, Integer>();
-		 data.put("displayPost", displayPost);
-		 data.put("postNum", postNum);
-		 return sqlSession.selectList("board.listPage", data);
-		}
+	public List<BoardDto> listPage(Page page) throws Exception {
+		 return sqlSession.selectList("board.listPage", page);
+	}
 }
 
 

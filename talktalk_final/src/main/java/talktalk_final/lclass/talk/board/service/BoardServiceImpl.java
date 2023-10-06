@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import talktalk_final.lclass.talk.board.dao.BoardDao;
 import talktalk_final.lclass.talk.board.dto.BoardDto;
-import talktalk_final.lclass.talk.board.dto.LikeDto;
+import talktalk_final.lclass.talk.board.dto.Page;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -46,45 +46,25 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void doLike(LikeDto lDto) throws Exception {
-		int myLikeCount = boardDao.getMyLikeCount(lDto);
-		if(myLikeCount < 1) {
-			boardDao.doLike(lDto);
-		}else {
-			boardDao.deleteLike(lDto);
-		}
-	}
-
-	@Override
-	public int getMyLikeCount(LikeDto lDto) throws Exception {
-		return boardDao.getMyLikeCount(lDto);
-	}
-
-	@Override
-	public int getTotalLikeCount(int bno) throws Exception {
-		return boardDao.getTotalLikeCount(bno);
-	}
-
-	@Override
-	public void deleteLike(LikeDto lDto) throws Exception {
-		boardDao.deleteLike(lDto);
-		
-	}
-
-	@Override
-	public int boardReadCnt(int bno) throws Exception {
-		return boardDao.boardReadCnt(bno);
-	}
-	
-	@Override
 	public int count() throws Exception{
 		return boardDao.count();
 	}
 	
 	@Override
-	public List<BoardDto> listPage(int displayPost, int postNum) throws Exception {
-	 return boardDao.listPage(displayPost, postNum);
+	public List<BoardDto> listPage(Page page) throws Exception {
+	 return boardDao.listPage(page);
 	}
+
+	@Override
+	public int totalLike(int bno) throws Exception {
+		return boardDao.totalLike(bno);
+	}
+
+	@Override
+	public int totalLikeCancel(int bno) throws Exception {
+		return boardDao.totalLikeCancel(bno);
+	}
+
 		
 }
 

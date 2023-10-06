@@ -79,9 +79,7 @@ button:hover {
 					<label for="bcontent">내용:</label>
 					<textarea id="bcontent" rows="10" cols="50" name="bcontent" readonly>${bvo.bcontent}</textarea>
 					<br> 
-					<a href="${pageContext.request.contextPath}/board/doLike" id="likeCount">
-						좋아요수: (${totalLikeCount })
-					</a> 
+					<label for="likehit">좋아요수: (${bvo.likehit })</label>
 					<a href="${pageContext.request.contextPath}/board/list">
 						<button type="submit" id="btn-board-update">글 수정</button>
 					</a>
@@ -104,12 +102,6 @@ button:hover {
 						</div>
 					</form>
 				</div>
-				<!-- 댓글 리스트 -->
-				<%-- 
-				<c:if test="${not empty rList }">
-			    	<p>댓글 <c:out value="${fn:length(rList)}" /></p>
-				</c:if>
-				--%>
 				<div class="testappend"></div>
 			</div>
 		</div>
@@ -136,9 +128,9 @@ button:hover {
 	}
 });
 
-	var bno ='${bvo.bno}';
+	var bno = '${bvo.bno}';
 	var mid = '${bvo.mid}';
-	 function updateLike(){ 
+	function updateLike(){ 
 	     $.ajax({
 	            type : "POST",  
 	            url : "${pageContext.request.contextPath}/board/updateLike",       
@@ -149,48 +141,18 @@ button:hover {
 	            },
 	            success : function(likeCheck) {	                
 	                    if(likeCheck == 0){
-	                    	alert("추천완료.");
+	                    	alert("좋아요");
 	                    	$("#btn-board-like").html("좋아요 취소");
+	                    	location.reload();
 	                    }
 	                    else if (likeCheck == 1){
-	                     	alert("추천취소");
+	                     	alert("좋아요 취소");
 	                    	$("#btn-board-like").html("좋아요");
-	                }
-	            }
-	        });
-	 } 
-// 좋아요 버튼 클릭 이벤트 핸들러
-/*    $("#btn-board-like").click(function() {
-       var bno = "${bvo.bno}"; // 게시물 번호
-       var mid = "${bvo.mid}"; // 사용자 아이디
-       // 데이터를 JSON 형식으로 구성
-       var requestData = {
-           bno: bno,
-           mid: mid
-       };
-       $.ajax({
-           type: "POST",
-           url: "${pageContext.request.contextPath}/board/doLike",
-           data: JSON.stringify(requestData),
-           contentType: "application/json",
-           success: function(data) {
-               if (data.result === "success") {
-                   if (data.status === "like") {
-                	   console.log("좋아요 성공");
-                       // 좋아요 상태이면 좋아요 취소로 변경
-                       $("#btn-board-like").html("좋아요 취소");
-                   } else {
-                	   console.log("좋아요 취소 성공");
-                	   // 좋아요 취소 상태이면 좋아요로 변경
-                       $("#btn-board-like").html("좋아요");
-                   }
-               }
-           },
-           error: function() {
-               console.error("좋아요 처리 중 오류 발생");
-           }
-       });
-   }); */
+	                    	location.reload();
+	                    }
+	            	}
+	        	});
+			} 
 
 /* Reply */
    let replyreplyleftpadding = "";

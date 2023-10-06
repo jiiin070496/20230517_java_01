@@ -141,28 +141,38 @@ body {
             <th>조회수</th>
             <th>좋아요수</th>
         </tr>
-        <c:forEach items="${boardList }" var="vo">
+        <c:forEach items="${boardList }" var="dto">
             <tr>
-                <td>${vo.bno }</td>
+                <td>${dto.bno }</td>
                 <td>
-                   <a href="<c:url value='/board/get'/>?bno=${vo.bno }">
-                   		<%-- <c:forEach begin="1" end="${vo.rlevel }">&#8618; </c:forEach> --%>
-                        ${vo.btitle }
+                   <a href="<c:url value='/board/get'/>?bno=${dto.bno }">
+                        ${dto.btitle }
                    </a>
                 </td>
-                <td>${vo.mid }</td>
-                <td>${vo.bwriteDate }</td>
-                <td>${vo.readcnt }</td>
-                <td>${likeCount }</td>
+                <td>${dto.mid }</td>
+                <td>${dto.bwriteDate }</td>
+                <td>${dto.readcnt }</td>
+                <td>${dto.likehit }</td>
             </tr>
         </c:forEach>
     </table>
-    <div>
-		 <c:forEach begin="1" end="${pageNum}" var="num">
-		    <span>
-		    	<a href="/board/listPage?num=${num}">${num}</a>
-		  	</span>
-		 </c:forEach>
+	<div style="display: block; text-align: center;">		
+		<c:if test="${page.startPage != 1 }">
+			<span>[ <a href="${pageContext.request.contextPath}/board/list?nowPage=${page.startPage - 1 }&cntPerPage=${page.cntPerPage}">이전</a> ]</span>
+		</c:if>
+		<c:forEach begin="${page.startPage }" end="${page.endPage }" var="p">
+			<c:choose>
+				<c:when test="${p == page.nowPage }">
+					<b>${p }</b>
+				</c:when>
+				<c:when test="${p != page.nowPage }">
+					<a href="${pageContext.request.contextPath}/board/list?nowPage=${p }&cntPerPage=${page.cntPerPage}">${p }</a>
+				</c:when>
+			</c:choose>
+		</c:forEach>
+		<c:if test="${page.endPage != page.lastPage}">
+			<span>[ <a href="${pageContext.request.contextPath}/board/list?nowPage=${page.endPage+1 }&cntPerPage=${page.cntPerPage}">다음</a> ]</span>
+		</c:if>
 	</div>
 </c:if>
 
@@ -185,43 +195,41 @@ body {
 </div>
 
 <script>
-//지도 모달
-document.getElementById('openModalBtn').addEventListener('click', function() {
-    var modal = document.getElementById('mapModal');
-    modal.style.display = 'block';
-
-    // 지도 초기화
-    var mapContainer = document.getElementById('map');
-    var options = {
-        center: new kakao.maps.LatLng(37.4989968, 127.032821),
-        level: 4
-    };
-    var map = new kakao.maps.Map(mapContainer, options);
-
-    // 마커 추가
-    var markerPosition = new kakao.maps.LatLng(37.4989968, 127.032821);
-    var marker = new kakao.maps.Marker({
-        position: markerPosition,
-        text: 'KH정보교육원',
-        map: map
-    });
-    
-
-    // 모달 닫기 이벤트
-    var closeModalBtn = document.getElementById('closeModalBtn');
-    closeModalBtn.addEventListener('click', function() {
-        modal.style.display = 'none';
-    });
-
-    // 모달 외부 클릭 시 닫기
-    window.addEventListener('click', function(event) {
-        if (event.target == modal) {
-            modal.style.display = 'none';
-        }
-    });
-});
-
-
+	//지도 모달
+	document.getElementById('openModalBtn').addEventListener('click', function() {
+	    var modal = document.getElementById('mapModal');
+	    modal.style.display = 'block';
+	
+	    // 지도 초기화
+	    var mapContainer = document.getElementById('map');
+	    var options = {
+	        center: new kakao.maps.LatLng(37.4989968, 127.032821),
+	        level: 4
+	    };
+	    var map = new kakao.maps.Map(mapContainer, options);
+	
+	    // 마커 추가
+	    var markerPosition = new kakao.maps.LatLng(37.4989968, 127.032821);
+	    var marker = new kakao.maps.Marker({
+	        position: markerPosition,
+	        text: 'KH정보교육원',
+	        map: map
+	    });
+	    
+	
+	    // 모달 닫기 이벤트
+	    var closeModalBtn = document.getElementById('closeModalBtn');
+	    closeModalBtn.addEventListener('click', function() {
+	        modal.style.display = 'none';
+	    });
+	
+	    // 모달 외부 클릭 시 닫기
+	    window.addEventListener('click', function(event) {
+	        if (event.target == modal) {
+	            modal.style.display = 'none';
+	        }
+	    });
+	});
 </script>
 
 </body>

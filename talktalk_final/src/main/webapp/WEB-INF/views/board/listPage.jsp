@@ -153,16 +153,30 @@ body {
                 <td>${vo.mid }</td>
                 <td>${vo.bwriteDate }</td>
                 <td>${vo.readcnt }</td>
-                <td>${likeCount }</td>
+                <td>${vo.likehit }</td>
             </tr>
         </c:forEach>
     </table>
     <div>
-		 <c:forEach begin="1" end="${pageNum}" var="num">
-		    <span>
-		    	<a href="/board/listPage?num=${num}">${num}</a>
-		  	</span>
-		 </c:forEach>
+		<c:if test="${page.prev}">
+		 	<span>[ <a href="${Context.request.contextPath}/board/listPage?num=${page.startPageNum - 1}">이전</a> ]</span>
+		</c:if>
+		
+		<c:forEach begin="${page.startPageNum}" end="${page.endPageNum}" var="num">
+			 <span>
+				  <c:if test="${select != num}">
+		   	  			<a href="${Context.request.contextPath}/board/listPage?num=${num}">${num}</a>
+				  </c:if>    
+				  
+				  <c:if test="${select == num}">
+				   		<b>${num}</b>
+				  </c:if>
+			 </span>
+		</c:forEach>
+		
+		<c:if test="${page.next}">
+		 	<span>[ <a href="${Context.request.contextPath}/board/listPage?num=${page.endPageNum + 1}">다음</a> ]</span>
+		</c:if>
 	</div>
 </c:if>
 

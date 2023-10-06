@@ -24,7 +24,7 @@
 			select SEQ_BOARD_BNO.nextval nextval from dual
 		</selectKey>
 		INSERT INTO board VALUES (#{bno}, #{btitle }, #{bcontent }, #{mid },
-		default, default, #{bno }, 0, 0)
+		default, default, #{bno }, 0, 0, 0)
 	</insert>
 
 	<!-- 글 수정 -->
@@ -43,38 +43,20 @@
 	<update id="boardReadCnt" parameterType="_int">
 		update board set readcnt = readcnt + 1 where bno = #{bno}
 	</update>
-
-	<!-- 좋아요 유무 1 : 좋아요 누른 상태 -->
-	<select id="getMyLikeCount" resultType="_int">
-		select count(*) from
-		board_like where bno = #{bno} and mid = #{mid}
-	</select>
-
-	<!-- 좋아요 -->
-<!-- 	
-	<insert id="doLike">
-		INSERT INTO board_like (like_no, bno, mid)
-		VALUES ((SELECT NVL(MAX(like_no), 0) + 1 as like_no FROM board_like),
-		#{bno}, #{mid})
-	</insert>
- -->	
- 	<insert id="doLike" parameterType="LikeDto">
-		<selectKey keyProperty="like_no" resultType="_int" order="BEFORE">
-			select SEQ_REPLY_REPLY_NO.nextval nextval from dual
-		</selectKey>
-		INSERT INTO board_like (like_no, bno, mid) 
-		VALUES (#{like_no}, #{bno}, #{mid})
-	</insert>
 	
-	<!-- 좋아요 총 갯수 -->
-	<select id="getTotalLikeCount" resultType="_int">
-		select count(*) from board_like where bno = #{bno}
-	</select>
-
-	<!-- 좋아요 취소 -->
-	<delete id="deleteLike">
-		delete from board_like where bno = #{bno} and mid = #{mid}
-	</delete>
+	<!-- 좋아요시 증가 -->
+	<update id="updateLike" parameterType="_int">
+		update BOARD set 
+		LIKEHIT = LIKEHIT+1
+		where BNO = #{bno}
+	</update>
+	
+	<!-- 좋아요 취소 시 감소  -->
+	<update id="updateLikeCancel" parameterType="_int">
+		update BOARD set 
+		LIKEHIT = LIKEHIT - 1
+		where BNO = #{bno}
+	</update>
 	
 	<!-- 게시물 총 갯수 -->
 	<select id="count" resultType="_int">
@@ -87,6 +69,6 @@
 				SELECT a.*, ROWNUM AS rnum
 			    FROM ( SELECT * FROM board ORDER BY bno DESC) a
 				)
-			WHERE rnum BETWEEN #{displayPost} AND #{postNum}
+			WHERE rnum BETWEEN #{start} AND #{end}
 	</select>
 </mapper>
