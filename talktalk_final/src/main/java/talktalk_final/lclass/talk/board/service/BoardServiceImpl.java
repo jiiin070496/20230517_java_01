@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import talktalk_final.lclass.talk.board.dao.BoardDao;
 import talktalk_final.lclass.talk.board.dto.BoardDto;
-import talktalk_final.lclass.talk.board.dto.Page;
+import talktalk_final.lclass.talk.board.dto.Criteria;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -46,13 +46,13 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int count() throws Exception{
-		return boardDao.count();
+	public int getTotal() throws Exception{
+		return boardDao.getTotal();
 	}
 	
 	@Override
-	public List<BoardDto> listPage(Page page) throws Exception {
-	 return boardDao.listPage(page);
+	public List<BoardDto> getListPage(Criteria cri) throws Exception {
+	 return boardDao.getListPage(cri);
 	}
 
 	@Override

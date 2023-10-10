@@ -1,6 +1,5 @@
 package talktalk_final.lclass.talk.board.dao;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -8,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import talktalk_final.lclass.talk.board.dto.BoardDto;
-import talktalk_final.lclass.talk.board.dto.Page;
+import talktalk_final.lclass.talk.board.dto.Criteria;
 
 
 @Repository
@@ -56,12 +55,12 @@ public class BoardDao {
 	}
 	
 // 페이징
-	public int count() throws Exception{
-		return sqlSession.selectOne("board.count");
+	public int getTotal() throws Exception{
+		return sqlSession.selectOne("board.getTotal");
 	}
 	
-	public List<BoardDto> listPage(Page page) throws Exception {
-		 return sqlSession.selectList("board.listPage", page);
+	public List<BoardDto> getListPage(Criteria cri) throws Exception {
+		 return sqlSession.selectList("board.getListPage", cri);
 	}
 }
 

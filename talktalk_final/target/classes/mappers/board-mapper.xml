@@ -59,16 +59,17 @@
 	</update>
 	
 	<!-- 게시물 총 갯수 -->
-	<select id="count" resultType="_int">
+	<select id="getTotal" resultType="_int">
 		select count(bno) from board
 	</select>
 	
-	<select id="listPage" parameterType="hashMap" resultType="BoardDto">
-    	SELECT *
-			FROM ( 
-				SELECT a.*, ROWNUM AS rnum
-			    FROM ( SELECT * FROM board ORDER BY bno DESC) a
-				)
-			WHERE rnum BETWEEN #{start} AND #{end}
+	<select id="getListPage" resultType="BoardDto">
+    <![CDATA[
+        select * from(
+	        select rownum as rn
+	        , bno, btitle, bcontent, mid, bwrite_Date, readcnt, ref, rstep, rlevel, likehit
+	        from board where rownum <= #{pageNum} * #{amount}) 
+        where rn > (#{pageNum} -1) * #{amount}
+    ]]>
 	</select>
 </mapper>

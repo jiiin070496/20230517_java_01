@@ -3,7 +3,7 @@ package talktalk_final.lclass.talk.board.service;
 import java.util.List;
 
 import talktalk_final.lclass.talk.board.dto.BoardDto;
-import talktalk_final.lclass.talk.board.dto.Page;
+import talktalk_final.lclass.talk.board.dto.Criteria;
 
 
 public interface BoardService {
@@ -18,7 +18,7 @@ public interface BoardService {
 	public int totalLikeCancel(int bno) throws Exception;
 	
 // 게시물 목록 + 페이징
-	public int count() throws Exception;
-	public List<BoardDto> listPage(Page page) throws Exception;
+	public int getTotal() throws Exception;
+	public List<BoardDto> getListPage(Criteria cri) throws Exception;
 }
 

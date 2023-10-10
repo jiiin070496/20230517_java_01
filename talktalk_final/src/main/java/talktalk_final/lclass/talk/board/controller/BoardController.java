@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import talktalk_final.lclass.talk.board.dto.BoardDto;
-import talktalk_final.lclass.talk.board.dto.Page;
+import talktalk_final.lclass.talk.board.dto.Criteria;
+import talktalk_final.lclass.talk.board.dto.PageMakerDto;
 import talktalk_final.lclass.talk.board.service.BoardService;
 import talktalk_final.lclass.talk.board.service.LikeService;
 
@@ -27,23 +27,11 @@ public class BoardController {
 
 // --LIST--
 	@GetMapping("/list")
-	public ModelAndView list(ModelAndView mv
-			, @RequestParam(value="nowPage", required=false)String nowPage
-			, @RequestParam(value="cntPerPage", required=false)String cntPerPage) throws Exception{
-		
-		int total = boardService.count();
-		if (nowPage == null && cntPerPage == null) {
-			nowPage = "1";
-			cntPerPage = "5"; // 보여질 게시물 수
-		} else if (nowPage == null) {
-			nowPage = "1";
-		} else if (cntPerPage == null) { 
-			cntPerPage = "5";
-		}
-		Page page = new Page(total,Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
-		mv.addObject("page", page);
-		mv.addObject("boardList", boardService.listPage(page));
-		mv.addObject("totalListCount", boardService.count());
+	public ModelAndView list(ModelAndView mv, Criteria cri) throws Exception{
+		int total = boardService.getTotal();
+		PageMakerDto pageMake = new PageMakerDto(cri, total);
+		mv.addObject("boardList", boardService.getListPage(cri));
+		mv.addObject("pageMaker", pageMake);
 		mv.setViewName("board/list");
 		return mv;
 	}

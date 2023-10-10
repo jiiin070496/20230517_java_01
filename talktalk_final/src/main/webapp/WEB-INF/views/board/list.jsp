@@ -7,10 +7,8 @@
 <head>
 <meta charset="UTF-8">
 <title>boardList</title>
-
-
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<spring:eval expression="@api['api.key']" />" ></script>
-
 <style>
 body {
     background-color: #f9f9f9;
@@ -123,6 +121,47 @@ body {
   cursor: pointer;
   z-index: 3; /* 모달 닫기 버튼의 z-index를 설정하여 다른 요소 위에 표시합니다. */
 }
+
+/* 페이지 버튼 컨테이너 스타일 */
+.pageInfo-wrap {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* 페이지 버튼 스타일 */
+.pageInfo_btn {
+    display: inline-block;
+    margin: 5px;
+    padding: 10px 15px;
+    background-color: #white;
+    color: #fff;
+    border-radius: 5px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.pageInfo_btn:hover {
+    background-color: #0056b3;
+}
+
+/* 이전 페이지 버튼 스타일 */
+.pageInfo_btn.previous {
+    background-color: #ccc;
+}
+
+.pageInfo_btn.previous:hover {
+    background-color: #bbb;
+}
+
+/* 다음 페이지 버튼 스타일 */
+.pageInfo_btn.next {
+    background-color: #ccc;
+}
+
+.pageInfo_btn.next:hover {
+    background-color: #bbb;
+}
 </style>
 </head>
 <body>
@@ -156,24 +195,30 @@ body {
             </tr>
         </c:forEach>
     </table>
-	<div style="display: block; text-align: center;">		
-		<c:if test="${page.startPage != 1 }">
-			<span>[ <a href="${pageContext.request.contextPath}/board/list?nowPage=${page.startPage - 1 }&cntPerPage=${page.cntPerPage}">이전</a> ]</span>
-		</c:if>
-		<c:forEach begin="${page.startPage }" end="${page.endPage }" var="p">
-			<c:choose>
-				<c:when test="${p == page.nowPage }">
-					<b>${p }</b>
-				</c:when>
-				<c:when test="${p != page.nowPage }">
-					<a href="${pageContext.request.contextPath}/board/list?nowPage=${p }&cntPerPage=${page.cntPerPage}">${p }</a>
-				</c:when>
-			</c:choose>
-		</c:forEach>
-		<c:if test="${page.endPage != page.lastPage}">
-			<span>[ <a href="${pageContext.request.contextPath}/board/list?nowPage=${page.endPage+1 }&cntPerPage=${page.cntPerPage}">다음</a> ]</span>
-		</c:if>
-	</div>
+    <div class="pageInfo-wrap">
+    	<div class="pageInfo_area">
+    		<ul>
+		        <!-- 이전페이지 버튼 -->
+                <c:if test="${pageMaker.prev}">
+                    <li class="pageInfo_btn previous"><a href="${pageMaker.startPage-1}">Previous</a></li>
+                </c:if>
+                
+	           <!-- 각 번호 페이지 버튼 -->
+	           <c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
+	               <li class="pageInfo_btn"><a href="${num}">${num}</a></li>
+	           </c:forEach>
+	           
+	            <!-- 다음페이지 버튼 -->
+                <c:if test="${pageMaker.next}">
+                    <li class="pageInfo_btn next"><a href="${pageMaker.endPage + 1 }">Next</a></li>
+                </c:if>   
+            </ul>
+    	</div>
+    </div>
+    <form id="moveForm" method="get">
+	    <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">
+	    <input type="hidden" name="amount" value="${pageMaker.cri.amount }">
+	</form>
 </c:if>
 
 <div class="btn-container">
@@ -195,41 +240,55 @@ body {
 </div>
 
 <script>
-	//지도 모달
-	document.getElementById('openModalBtn').addEventListener('click', function() {
-	    var modal = document.getElementById('mapModal');
-	    modal.style.display = 'block';
-	
-	    // 지도 초기화
-	    var mapContainer = document.getElementById('map');
-	    var options = {
-	        center: new kakao.maps.LatLng(37.4989968, 127.032821),
-	        level: 4
-	    };
-	    var map = new kakao.maps.Map(mapContainer, options);
-	
-	    // 마커 추가
-	    var markerPosition = new kakao.maps.LatLng(37.4989968, 127.032821);
-	    var marker = new kakao.maps.Marker({
-	        position: markerPosition,
-	        text: 'KH정보교육원',
-	        map: map
-	    });
-	    
-	
-	    // 모달 닫기 이벤트
-	    var closeModalBtn = document.getElementById('closeModalBtn');
-	    closeModalBtn.addEventListener('click', function() {
-	        modal.style.display = 'none';
-	    });
-	
-	    // 모달 외부 클릭 시 닫기
-	    window.addEventListener('click', function(event) {
-	        if (event.target == modal) {
-	            modal.style.display = 'none';
-	        }
-	    });
-	});
+
+$(document).ready(function() {
+    var moveForm = $("#moveForm");
+
+    $(".pageInfo_btn a").on("click", function(e) {
+        e.preventDefault();
+        var pageNum = $(this).attr("href");
+        moveForm.find("input[name='pageNum']").val(pageNum);
+        moveForm.find("input[name='amount']").val(10); // 여기에 원하는 'amount' 값을 설정합니다.
+        moveForm.attr("action", "/talk/board/list"); // context root를 포함한 URL로 수정합니다.
+        moveForm.submit();
+    });
+});
+
+//지도 모달
+document.getElementById('openModalBtn').addEventListener('click', function() {
+    var modal = document.getElementById('mapModal');
+    modal.style.display = 'block';
+
+    // 지도 초기화
+    var mapContainer = document.getElementById('map');
+    var options = {
+        center: new kakao.maps.LatLng(37.4989968, 127.032821),
+        level: 4
+    };
+    var map = new kakao.maps.Map(mapContainer, options);
+
+    // 마커 추가
+    var markerPosition = new kakao.maps.LatLng(37.4989968, 127.032821);
+    var marker = new kakao.maps.Marker({
+        position: markerPosition,
+        text: 'KH정보교육원',
+        map: map
+    });
+    
+
+    // 모달 닫기 이벤트
+    var closeModalBtn = document.getElementById('closeModalBtn');
+    closeModalBtn.addEventListener('click', function() {
+        modal.style.display = 'none';
+    });
+
+    // 모달 외부 클릭 시 닫기
+    window.addEventListener('click', function(event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    });
+});
 </script>
 
 </body>
