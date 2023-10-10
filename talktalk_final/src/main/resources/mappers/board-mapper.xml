@@ -88,13 +88,13 @@
                 <trim prefix="OR">
                     <choose>
                         <when test="type == 'T'.toString()">
-                            title like '%'||#{keyword}||'%' 
+                            btitle like '%'||#{keyword}||'%' 
                         </when>
                         <when test="type == 'C'.toString()">
-                            content like '%'||#{keyword}||'%' 
+                            bcontent like '%'||#{keyword}||'%' 
                         </when>
                         <when test="type == 'W'.toString()">
-                            writer like '%'||#{keyword}||'%' 
+                            mid like '%'||#{keyword}||'%' 
                         </when>
                     </choose>
                 </trim>
