@@ -248,8 +248,8 @@ $(document).ready(function() {
         e.preventDefault();
         var pageNum = $(this).attr("href");
         moveForm.find("input[name='pageNum']").val(pageNum);
-        moveForm.find("input[name='amount']").val(10); // 여기에 원하는 'amount' 값을 설정합니다.
-        moveForm.attr("action", "/talk/board/list"); // context root를 포함한 URL로 수정합니다.
+        moveForm.find("input[name='amount']").val(20); // 보여질 글의 갯수
+        moveForm.attr("action", "/talk/board/list"); // context root를 포함한 URL
         moveForm.submit();
     });
 });
