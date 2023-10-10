@@ -55,7 +55,7 @@ public class BoardDao {
 	}
 	
 // 페이징
-	public int getTotal() throws Exception{
+	public int getTotal(Criteria cri) throws Exception{
 		return sqlSession.selectOne("board.getTotal");
 	}
 	

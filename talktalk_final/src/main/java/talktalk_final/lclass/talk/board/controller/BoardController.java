@@ -28,7 +28,7 @@ public class BoardController {
 // --LIST--
 	@GetMapping("/list")
 	public ModelAndView list(ModelAndView mv, Criteria cri) throws Exception{
-		int total = boardService.getTotal();
+		int total = boardService.getTotal(cri);
 		PageMakerDto pageMake = new PageMakerDto(cri, total);
 		mv.addObject("boardList", boardService.getListPage(cri));
 		mv.addObject("pageMaker", pageMake);
@@ -37,8 +37,9 @@ public class BoardController {
 	}
  //--GET--	
 	@GetMapping("/get")
-	public ModelAndView get(ModelAndView mv, int bno) throws Exception{ //jsp에서 controller로 데이터 전달
+	public ModelAndView get(ModelAndView mv, int bno, Criteria cri) throws Exception{ //jsp에서 controller로 데이터 전달
 		mv.addObject("bvo", boardService.selectOne(bno));
+		mv.addObject("cri", cri);
 		mv.setViewName("board/get"); // http://localhost:8090/jjap/board/get?bno=3
 		return mv;
 	}
@@ -77,9 +78,10 @@ public class BoardController {
 	}
 // --UPDATE--
 	@GetMapping("/update")
-	public String update(Model model, int bno) throws Exception{
+	public String update(Model model, int bno, Criteria cri) throws Exception{
 		BoardDto dto = boardService.selectOne(bno); // n번글 정보를 가져옴
         model.addAttribute("dto", dto);
+        model.addAttribute("cri", cri);
 	    return "board/update";
 	}
 	
@@ -116,12 +118,3 @@ public class BoardController {
 	}
 
 }
-
-
-
-
-
-
-
-
-

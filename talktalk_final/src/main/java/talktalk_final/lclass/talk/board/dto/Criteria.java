@@ -1,11 +1,17 @@
 package talktalk_final.lclass.talk.board.dto;
 
+import java.util.Arrays;
+
 public class Criteria {
 	private int pageNum;
 	private int amount;
-	
+	private String keyword;
+	private String type;
+	private String[] typeArr;
+
+
 	public Criteria() {
-		this(1, 10);
+		this(1, 20);
 	}
 	
 	public Criteria(int pageNum, int amount) {
@@ -29,10 +35,38 @@ public class Criteria {
 		this.amount = amount;
 	}
 
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+		this.typeArr = type.split("");
+	}
+
+	public String[] getTypeArr() {
+		return typeArr;
+	}
+
+	public void setTypeArr(String[] typeArr) {
+		this.typeArr = typeArr;
+	}
+
 	@Override
 	public String toString() {
-		return "Criteria [pageNum=" + pageNum + ", amount=" + amount + "]";
+		return "Criteria [pageNum=" + pageNum + ", amount=" + amount + ", keyword=" + keyword + ", type=" + type
+				+ ", typeArr=" + Arrays.toString(typeArr) + "]";
 	}
-	
+
 	
 }
+
+

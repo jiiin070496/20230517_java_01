@@ -70,7 +70,7 @@ button:hover {
 					<input type="hidden" class="form-control" id="boardNo"
 						name="boardNo" value="${bvo.bno}" disabled>
 				</div>
-				<form action="${pageContext.request.contextPath }/board/update" method="get">
+				<form id="infoForm" action="${pageContext.request.contextPath }/board/update" method="get">
 				<h3><c:out value="${bvo.bno}"/>번글</h3>
 					<input type="hidden" name="bno" value="${bvo.bno}"> 
 					<label for="btitle">제목:</label> 
@@ -84,12 +84,17 @@ button:hover {
 						<button type="submit" id="btn-board-update">글 수정</button>
 					</a>
 					<button type="button" id="btn-board-delete">글 삭제</button>
-					<a href="${pageContext.request.contextPath}/board/list">
+					<a  class="btn" id="btn-board-list">
 						<button type="button">글 목록으로 이동</button>
 					</a>
 					<button type="button" id="btn-board-like" onclick="updateLike(); return false;">좋아요</button>
-				</form>
 				
+					<input type="hidden" id="bno" name="bno" value='<c:out value="${bvo.bno}"/>'>
+					<input type="hidden" name="pageNum" value='<c:out value="${cri.pageNum}"/>'>
+					<input type="hidden" name="amount" value='<c:out value="${cri.amount}"/>'>
+				 	<input type="hidden" name="keyword" value="${cri.keyword }">
+				</form>
+
 				<!-- 댓글 입력 폼 -->
 				<div class="card">
 					<form method="post"
@@ -107,6 +112,20 @@ button:hover {
 		</div>
 	</div>
 <script>
+let form = $("#infoForm");
+
+$("#btn-board-list").on("click", function(e){
+	form.find("#bno").remove();
+	form.attr("action", "/talk/board/list");
+	form.submit();
+});
+$("#btn-board-update").on("click", function(e){
+	form.find("#bno").remove();
+	form.attr("action", "/talk/board/update");
+	form.submit();
+});
+
+
 /* 댓글 삭제 */
    $("#btn-board-delete").click(function () {
        var bno = '${bvo.bno}';

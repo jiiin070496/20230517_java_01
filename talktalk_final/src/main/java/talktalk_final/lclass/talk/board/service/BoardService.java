@@ -18,7 +18,7 @@ public interface BoardService {
 	public int totalLikeCancel(int bno) throws Exception;
 	
 // 게시물 목록 + 페이징
-	public int getTotal() throws Exception;
+	public int getTotal(Criteria cri) throws Exception;
 	public List<BoardDto> getListPage(Criteria cri) throws Exception;
 }
 

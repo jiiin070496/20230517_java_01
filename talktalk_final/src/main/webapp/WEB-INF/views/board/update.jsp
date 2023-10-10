@@ -57,10 +57,9 @@
 </head>
 <body>
 <h2>글 수정</h2>
-<!-- ajax가 있어서 action 안씀! -> id="frmBoard" 
-	ajax에 data: $("#frmBoard").serialize()
- -->
+
 <form id="frmBoard">
+	<h3><c:out value="${dto.bno}"/>번글</h3>
 	<input type="hidden" name="bno" value="${dto.bno}">
     제목: <input type="text" name="btitle" value="${dto.btitle}">
     <br>
@@ -70,9 +69,19 @@
     <button type="button" id="btn-board-list">메인으로</button>
 </form>
 
+<form id="infoForm" action="${pageContext.request.contextPath}/board/update" method="get">
+ 	<input type="hidden" id="bno" name="bno" value='<c:out value="${dto.bno}"/>'>
+	<input type="hidden" name="pageNum" value='<c:out value="${cri.pageNum}"/>'>
+	<input type="hidden" name="amount" value='<c:out value="${cri.amount}"/>'>
+	<input type="hidden" name="keyword" value="${cri.keyword }">
+</form>
+
 <script>   
-	$("#btn-board-list").click(function(){
-	    location.href = "${pageContext.request.contextPath}/board/list";
+	let form = $("#infoForm");
+	$("#btn-board-list").on("click", function(e){
+		form.find("#bno").remove();
+		form.attr("action", "/talk/board/list");
+		form.submit();
 	});
 	
 	$("#btn-board-update").click(function(){

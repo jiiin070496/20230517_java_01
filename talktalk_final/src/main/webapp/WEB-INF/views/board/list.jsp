@@ -162,6 +162,26 @@ body {
 .pageInfo_btn.next:hover {
     background-color: #bbb;
 }
+
+/* 현재 페이지 표시 스타일*/
+.active{ 
+    background-color: #cdd5ec;
+}
+
+/* 검색 */
+.search_area{
+   display: inline-block;
+   margin-top: 30px;
+   margin-left: 260px;
+ }
+ .search_area input{
+     height: 30px;
+   width: 250px;
+ }
+ .search_area button{
+    width: 100px;
+   height: 36px;
+ }
 </style>
 </head>
 <body>
@@ -184,7 +204,7 @@ body {
             <tr>
                 <td>${dto.bno }</td>
                 <td>
-                   <a href="<c:url value='/board/get'/>?bno=${dto.bno }">
+                   <a class="move" href='<c:out value="${dto.bno}"/>'>
                         ${dto.btitle }
                    </a>
                 </td>
@@ -195,6 +215,14 @@ body {
             </tr>
         </c:forEach>
     </table>
+<!-- 검색 -->
+    <div class="search_wrap">
+        <div class="search_area">
+            <input type="text" name="keyword" value="${pageMaker.cri.keyword }">
+            <button>Search</button>
+        </div>
+    </div>    
+<!-- 페이징 및 버튼 -->    
     <div class="pageInfo-wrap">
     	<div class="pageInfo_area">
     		<ul>
@@ -202,11 +230,11 @@ body {
                 <c:if test="${pageMaker.prev}">
                     <li class="pageInfo_btn previous"><a href="${pageMaker.startPage-1}">Previous</a></li>
                 </c:if>
-                
-	           <!-- 각 번호 페이지 버튼 -->
-	           <c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
-	               <li class="pageInfo_btn"><a href="${num}">${num}</a></li>
-	           </c:forEach>
+
+                <!-- 각 번호 페이지 버튼 (현재 페이지 표시)-->
+                <c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
+                    <li class="pageInfo_btn ${pageMaker.cri.pageNum == num ? "active":"" }"><a href="${num}">${num}</a></li>
+                </c:forEach>
 	           
 	            <!-- 다음페이지 버튼 -->
                 <c:if test="${pageMaker.next}">
@@ -215,9 +243,11 @@ body {
             </ul>
     	</div>
     </div>
+    
     <form id="moveForm" method="get">
 	    <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">
 	    <input type="hidden" name="amount" value="${pageMaker.cri.amount }">
+	    <input type="hidden" name="keyword" value="${pageMaker.cri.keyword }">
 	</form>
 </c:if>
 
@@ -240,10 +270,17 @@ body {
 </div>
 
 <script>
+let moveForm = $("#moveForm");
+$(".move").on("click", function(e){
+	e.preventDefault();
+	moveForm.append("<input type='hidden' name='bno' value='"+ $(this).attr("href")+ "'>");
+	moveForm.attr("action", "/talk/board/get");
+	moveForm.submit();
+});
+
 
 $(document).ready(function() {
     var moveForm = $("#moveForm");
-
     $(".pageInfo_btn a").on("click", function(e) {
         e.preventDefault();
         var pageNum = $(this).attr("href");
@@ -252,6 +289,14 @@ $(document).ready(function() {
         moveForm.attr("action", "/talk/board/list"); // context root를 포함한 URL
         moveForm.submit();
     });
+});
+
+$(".search_area button").on("click", function(e){
+    e.preventDefault();
+    let val = $("input[name='keyword']").val();
+    moveForm.find("input[name='keyword']").val(val);
+    moveForm.find("input[name='pageNum']").val(1);
+    moveForm.submit();
 });
 
 //지도 모달
@@ -290,6 +335,5 @@ document.getElementById('openModalBtn').addEventListener('click', function() {
     });
 });
 </script>
-
 </body>
 </html>
