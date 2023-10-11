@@ -1,4 +1,7 @@
 -- TALK
+insert into MEMBER values ('jiin0960', '0960','jin', 'a1@gmail.com');
+insert into MEMBER values ('sony0316', '0316','soni', 'a2@gmail.com');
+insert into MEMBER values ('onue0608', '0608','nue', 'a3@gmail.com');
 insert into BOARD values (SEQ_BOARD_BNO.nextval, 'TEST1', 'ㅋ', 'jiin0960', default, 0, SEQ_BOARD_BNO.nextval, 0, 0, 0) ;
 insert into BOARD values (SEQ_BOARD_BNO.nextval, 'TEST2', 'ㅋㅋ', 'sony0316', default, 0, SEQ_BOARD_BNO.nextval, 0, 0, 0) ;
 insert into BOARD values (SEQ_BOARD_BNO.nextval, 'TEST3', 'ㅋㅋㅋ', 'onue0608', default, 0, SEQ_BOARD_BNO.nextval, 0, 0, 0) ;

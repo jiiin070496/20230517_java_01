@@ -209,7 +209,7 @@ body {
     </div>
 </div>   
 <c:if test="${not empty boardList }">
-    <p>총 ${totalListCount } 개의 게시물이 있습니다</p>
+    <p>총 ${total } 개의 게시물이 있습니다</p>
     <table class="styled-board">
         <tr>
             <th>번호</th>
@@ -305,27 +305,50 @@ $(document).ready(function() {
     });
 });
 
-$(".search_area button").on("click", function(e){
-    e.preventDefault();
-    
-    let type = $(".search_area select").val();
-    let keyword = $(".search_area input[name='keyword']").val();
-    
-    if(!type){
-        alert("검색 종류를 선택하세요.");
-        return false;
-    }
-    
-    if(!keyword){
-        alert("키워드를 입력하세요.");
-        return false;
-    }        
-    
-    moveForm.find("input[name='type']").val(type);
-    moveForm.find("input[name='keyword']").val(keyword);
-    moveForm.find("input[name='pageNum']").val(1);
-    moveForm.submit();
+
+ 
+$(document).ready(function() {
+    // 페이지 로드 시 초기화
+    updatePagingDisplay();
+
+    $(".search_area button").on("click", function(e) {
+        e.preventDefault();
+
+        let type = $(".search_area select").val();
+        let keyword = $(".search_area input[name='keyword']").val();
+
+        if (!type) {
+            alert("검색 종류를 선택하세요.");
+            return false;
+        }
+
+        if (!keyword) {
+            alert("키워드를 입력하세요.");
+            return false;
+        }
+
+        let moveForm = $("#moveForm");
+
+        moveForm.attr("action", "/talk/board/list");
+        moveForm.find("input[name='type']").val(type);
+        moveForm.find("input[name='keyword']").val(keyword);
+        moveForm.find("input[name='pageNum']").val(1);
+
+        moveForm.submit();
+    });
 });
+
+function updatePagingDisplay() {
+    var totalResults = '${total}'; // 검색 결과의 총 개수
+    var resultsPerPage = '${cri.amount}'; // 한 페이지에 표시되는 결과 개수
+    var currentPage = '${cri.pageNum}'; // 현재 페이지
+ 
+    if (totalResults <= resultsPerPage) {
+        $(".pageInfo-wrap").hide();
+    } else {
+        $(".pageInfo-wrap").show();
+    }
+};
 
 //지도 모달
 document.getElementById('openModalBtn').addEventListener('click', function() {

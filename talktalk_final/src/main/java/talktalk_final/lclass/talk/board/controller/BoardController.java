@@ -32,6 +32,7 @@ public class BoardController {
 		PageMakerDto pageMake = new PageMakerDto(cri, total);
 		mv.addObject("boardList", boardService.getListPage(cri));
 		mv.addObject("pageMaker", pageMake);
+		mv.addObject("total", total);
 		mv.setViewName("board/list");
 		return mv;
 	}

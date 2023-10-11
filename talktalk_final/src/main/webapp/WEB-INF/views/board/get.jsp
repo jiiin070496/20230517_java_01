@@ -176,7 +176,7 @@ $("#btn-board-update").on("click", function(e){
 
 /* Reply */
    let replyreplyleftpadding = "";
-   window.onload = function () {
+    window.onload = function () {
        var moreReply = "";
        $.ajax({
            type: "get",
@@ -204,7 +204,7 @@ $("#btn-board-update").on("click", function(e){
            dataType: "json"
        });
 
-   }
+    }
    
    $(".submitreply").click(submitreplyHandler);
    function submitreplyHandler() {
@@ -220,6 +220,7 @@ $("#btn-board-update").on("click", function(e){
                rlevel: ${bvo.rlevel} + 1
            },
            success: function (result) {
+        	   console.log("서버 응답:", result);
                refreshCommentList(result);
                $("[name=replyContent]").val("");
            },
@@ -231,7 +232,7 @@ $("#btn-board-update").on("click", function(e){
    }
 
    function refreshCommentList(comments) {
-       $(".testappend").html("");
+      /*  $(".testappend").html(""); */
        for (var i = 0; i < comments.length; i++) {
            var htmlVal = '<div class="card replyCard" data-replyno="' + comments[i].replyNo + '" data-writer="' + comments[i].memberId + '"><div class="firstReply card"><div class="updatewriter">작성자 : ' + comments[i].memberId + '</div><div class="updatereplyContent">내용 : ' + comments[i].replyContent + '</div><div class="updatereplyDate">입력날짜 : ' + comments[i].replyDate + '</div>'
                + '<div class="groupbtn"><button class="updatereply">수정</button><button class="deletereply">삭제</button><button class="insertreplyreply">댓글 삽입</button></div></div>';
@@ -242,19 +243,21 @@ $("#btn-board-update").on("click", function(e){
        $(".insertreplyreply").click(insertreplyreplyHandler);
    }
    
-	function deletereplyHandler(){
-		console.log($(this).parents(".replyCard").data("replyno"));
-		 $.ajax({
-	       type: "post",
-	       url: "${pageContext.request.contextPath}/replyboard/delete",
-	       data: {replyNo : $(this).parents(".replyCard").data("replyno")},
-	       success: function (result) {
-	    	   location.reload(true);
-    	   },
-		   error : function (){
-		   		console.log("error");
-				},dataType:"json"
-		});
+   function deletereplyHandler() {
+	    var replyCard = $(this).parents(".replyCard"); // 댓글 요소를 변수에 저장
+	    $.ajax({
+	        type: "post",
+	        url: "${pageContext.request.contextPath}/replyboard/delete",
+	        data: { replyNo: replyCard.data("replyno") },
+	        success: function (result) {
+	            console.log("삭제");
+	            replyCard.hide(); // 댓글 숨기기
+	        },
+	        error: function () {
+	            console.log("error");
+	        },
+	        dataType: "json"
+	    });
 	}
 	
 	function updatereplyHandler(){

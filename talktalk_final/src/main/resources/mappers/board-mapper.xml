@@ -4,7 +4,7 @@
 
 	<!-- 전체 게시글 -->
 	<select id="selectList" resultType="BoardDto">
-		SELECT * FROM board ORDER BY bwrite_Date desc
+		SELECT * FROM board ORDER BY BNO desc
 	</select>
 	
 	<!-- 상세 게시글 -->
@@ -66,9 +66,9 @@
 	</select>
 	
 	<select id="getListPage" resultType="BoardDto">
-    <![CDATA[
+	<![CDATA[
         select * from(
-	        select rownum as rn
+	        select /*+INDEX_DESC(board pk_board) */ rownum as rn
 	        , bno, btitle, bcontent, mid, bwrite_Date, readcnt, ref, rstep, rlevel, likehit
 	        from board where rownum <= #{pageNum} * #{amount}
     ]]> 
@@ -78,6 +78,7 @@
     <![CDATA[
     		)
         where rn > (#{pageNum} -1) * #{amount}
+
 	]]>
 	</select>
 	

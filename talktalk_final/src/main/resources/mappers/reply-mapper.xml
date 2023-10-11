@@ -21,7 +21,7 @@
 	<insert id="insertreplyreply">
 		insert into reply values(
 		SEQ_REPLY_REPLY_NO.nextval,#{memberId},#{replyContent},default,#{boardNo},#{rref}
-		,(select rstep from (select * from reply where board_no=#{boardNo} order by rstep ) where rownum =1)+1,2)
+		,(select rstep from (select * from reply where board_no=#{boardNo} order by rstep desc ) where rownum =1)+1,2)
 	</insert>
 	
 	<update id="update" parameterType="ReplyDto">
