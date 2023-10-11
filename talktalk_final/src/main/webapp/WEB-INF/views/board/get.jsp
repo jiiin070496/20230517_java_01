@@ -175,7 +175,7 @@ $("#btn-board-update").on("click", function(e){
 			} 
 
 /* Reply */
-   /* let replyreplyleftpadding = ""; */
+   let replyreplyleftpadding = "";
    window.onload = function () {
        var moreReply = "";
        $.ajax({
@@ -215,11 +215,16 @@ $("#btn-board-update").on("click", function(e){
                rlevel: ${bvo.rlevel} + 1
            },
            success: function (result) {
-        	   console.log("서버 응답:", result);
-               refreshCommentList(result);
-               $("[name=replyContent]").val("");
-               location.reload();
-           },
+    		   $(".testappend").html("");
+					for (var i = 0; i < result.length; i++) {
+	   		   		var  htmlVal =  '<div class="card replyCard" data-replyno="'+result[i].replyNo+'" data-writer="'+ result[i].memberId+'"><div class="firstReply card"><div class="updatewriter">작성자 : '+ result[i].memberId+'</div><div class="updatereplyContent">내용 : '+result[i].replyContent+'</div><div class="updatereplyDate">입력날짜 : '+result[i].replyDate+'</div>'
+	   		   		+'<div class="groupbtn"><button class="updatereply">수정</button><button onclick="deletereplyHandler('+result[i].replyNo+');">삭제</button><button class="insertreplyreply">댓글 삽입</button></div></div>';
+	   				$(".testappend").append(htmlVal);   
+ 	   			};
+	   	   		$(".addreply").html("");
+	   			$(".updatereply").click(updatereplyHandler);
+	   			$(".insertreplyreply").click(insertreplyreplyHandler);
+ 	   		},
            error: function () {
                console.log("error");
            },
@@ -238,7 +243,7 @@ $("#btn-board-update").on("click", function(e){
        $(".insertreplyreply").click(insertreplyreplyHandler);
    }
    
-   function deletereplyHandler() {
+    function deletereplyHandler() {
 	    var replyCard = $(this).parents(".replyCard"); // 댓글 요소를 변수에 저장
 	    $.ajax({
 	        type: "post",
@@ -253,7 +258,7 @@ $("#btn-board-update").on("click", function(e){
 	        },
 	        dataType: "json"
 	    });
-	}
+	} 
 	
 	function updatereplyHandler(){
 		console.log("test123");

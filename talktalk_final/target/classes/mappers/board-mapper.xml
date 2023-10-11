@@ -78,7 +78,6 @@
     <![CDATA[
     		)
         where rn > (#{pageNum} -1) * #{amount}
-
 	]]>
 	</select>
 	

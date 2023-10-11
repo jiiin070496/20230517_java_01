@@ -30,11 +30,12 @@ public class ReplyController {
 		mv.setViewName("replyboard/list");
 		return new Gson().toJson(result);
 	}
+	
 	@GetMapping("/one")
-	public ModelAndView selectOneReply(ModelAndView mv, int replyNo) throws Exception{
-		mv.addObject("replyboard", replyService.selectOne(replyNo));
-		mv.setViewName("replyboard/one");
-		return mv;
+	@ResponseBody
+	public String selectOnereplyboard(int replyNo) throws Exception{
+		ReplyDto result = replyService.selectOne(replyNo);
+		return new Gson().toJson(result);
 	}
 	
 	@PostMapping("/insert")
