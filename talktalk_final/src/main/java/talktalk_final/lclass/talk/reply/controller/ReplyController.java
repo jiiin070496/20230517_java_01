@@ -26,8 +26,8 @@ public class ReplyController {
 	@ResponseBody
 	public String selectListReply(ModelAndView mv, Integer boardNo) throws Exception{
 		List<ReplyDto> result = replyService.selectList(boardNo);
-		mv.addObject("rList", replyService.selectList(boardNo));
-		mv.setViewName("replyboard/list");
+		mv.addObject("replyList", replyService.selectList(boardNo));
+		mv.setViewName("board/list");
 		return new Gson().toJson(result);
 	}
 	@GetMapping("/one")
@@ -60,7 +60,7 @@ public class ReplyController {
 	
 	@PostMapping("/delete")
 	@ResponseBody
-	public String deleteDoMemeber(RedirectAttributes redirectAttr,int replyNo) throws Exception{
+	public String deleteDoMemeber(RedirectAttributes redirectAttr, int replyNo) throws Exception{
 		List<ReplyDto> result = replyService.delete(replyNo);
 		return new Gson().toJson(result);
 	}

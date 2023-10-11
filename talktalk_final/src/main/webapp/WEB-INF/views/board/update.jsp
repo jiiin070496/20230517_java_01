@@ -79,6 +79,7 @@
 
 <script>   
 	let form = $("#infoForm");
+	
 	$("#btn-board-list").on("click", function(e){
 		form.find("#bno").remove();
 		form.attr("action", "/talk/board/list");
@@ -86,14 +87,10 @@
 	});
 	
 	$("#btn-board-update").click(function(){
-/* 		if(btitle === ''){
-			alert("제목을 입력해주세요");
-		}
 		if(bcontent === ''){
 			alert("내용을 입력해주세요");
 		}
 		console.log($("#frmBoard").serialize());
-*/
 	    if(confirm("글 수정하시겠습니까?")){
 	        $.ajax({
 	            type: "post",
