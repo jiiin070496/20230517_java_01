@@ -7,7 +7,7 @@
 	</select> 
 
 	<select id="selectReply" resultType="ReplyDto">
-		select * from reply where rref=#{rref} and rstep !=1 order by RSTEP asc,reply_Date 
+		select * from reply where rref=#{rref} and rstep !=1 order by RSTEP asc, reply_Date desc
 	</select> 
 	
 	<select id="selectOne" resultType="ReplyDto" parameterType="_int">
