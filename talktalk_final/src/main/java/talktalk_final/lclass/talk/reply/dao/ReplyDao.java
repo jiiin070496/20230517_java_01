@@ -16,6 +16,10 @@ public class ReplyDao {
 		return sqlSession.selectList("reply.selectList", boardNo);
 	}
 	
+	public List<ReplyDto> selectMoreList(int rref) {
+		return sqlSession.selectList("replyboard.selectReply", rref);
+	}
+	
 	public ReplyDto selectOne(Integer replyNo) throws Exception{
 		return sqlSession.selectOne("reply.selectOne", replyNo);
 	}

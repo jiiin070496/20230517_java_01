@@ -31,6 +31,13 @@ public class ReplyController {
 		return new Gson().toJson(result);
 	}
 	
+	@GetMapping("/moreReplylist")
+	@ResponseBody
+	public String selectmoreReplylistboard(int rref) {
+		List<ReplyDto> result = replyService.selectMoreList(rref);
+		return new Gson().toJson(result);
+	}
+	
 	@GetMapping("/one")
 	@ResponseBody
 	public String selectOnereplyboard(int replyNo) throws Exception{

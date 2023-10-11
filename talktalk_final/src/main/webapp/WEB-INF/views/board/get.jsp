@@ -289,31 +289,37 @@ $("#btn-board-update").on("click", function(e){
 		});
 	}
 	
-	function insertreplyreplyHandler(){
-		var replyreplywriter=$(this).parents(".replyCard").data("writer");
-		var addreplyreply ='<div class="contenttextarea card replyreplycard" data-writer="${bvo.mid}"><div>↳작성자 : ${bvo.mid}</div><div><textarea rows="3" class="col-xl-12 replyContent" name="replyreplyContent">@'+replyreplywriter+'</textarea></div><div><button class="submitreplyreply">답글 저장</button></div></div>'
-		$(".contenttextarea").remove();
-		$(this).parents(".replyCard ").append(addreplyreply);
-		$(".submitreplyreply").click(submitreplyreplyHandler);
+	function insertreplyreplyHandler() {
+	    var replyreplywriter = $(this).parents(".replyCard").data("writer");
+	    var addreplyreply = '<div class="contenttextarea card replyreplycard" data-writer="${bvo.mid}"><div>↳작성자: ${bvo.mid}</div><div><textarea rows="3" class="col-xl-12 replyContent" name="replyreplyContent">@' + replyreplywriter + '</textarea></div><div><button class="submitreplyreply">답글 저장</button></div></div>';
+	    $(this).parents(".replyCard ").append(addreplyreply);
+	    $(".submitreplyreply").click(submitreplyreplyHandler);
 	}
-	
-	function submitreplyreplyHandler(){
-		console.log("submitreplyreplyHandler");
-		var replyreplyContent= $("[name=replyreplyContent]").val();
-		console.log(replyreplyContent);
-	  	$.ajax({
-	       type: "post",
-	       url: "${pageContext.request.contextPath}/replyboard/replyinsert",
-	       data: {memberId:"${bvo.mid}",  replyContent : replyreplyContent, boardNo:${bvo.bno},rref : $(this).parents(".replyCard").data("replyno") },
-	       success: function (result) {
-	    	   console.log("result: ", result);
-	    	   console.log("success");
-	    	   },
-			error : function (){
-				 console.log("error");
-			},
-			dataType:"json"
-		});
+
+	function submitreplyreplyHandler() {
+	    console.log("submitreplyreplyHandler");
+	    var replyreplyContent = $("[name=replyreplyContent]").val();
+	    console.log(replyreplyContent);
+	    
+	    $.ajax({
+	        type: "post",
+	        url: "${pageContext.request.contextPath}/replyboard/replyinsert",
+	        data: {
+	            memberId: "${bvo.mid}",
+	            replyContent: replyreplyContent,
+	            boardNo: ${bvo.bno},
+	            rref: $(this).parents(".replyCard").data("replyno")
+	        },
+	        success: function (result) {
+	            console.log("result: ", result);
+	            console.log("success");
+	            $(".contenttextarea").remove();
+	        },
+	        error: function () {
+	            console.log("error");
+	        },
+	        dataType: "json"
+	    });
 	}
 </script>
 </body>
