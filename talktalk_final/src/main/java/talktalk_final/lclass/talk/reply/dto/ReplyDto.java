@@ -9,7 +9,7 @@ import lombok.Data;
 public class ReplyDto {
 	private int replyNo;
 	private String memberId;
-	private String replyContent;
+	private String replyContent ;
 	private String replyDate;
 	private int boardNo;
 	private int rref;
