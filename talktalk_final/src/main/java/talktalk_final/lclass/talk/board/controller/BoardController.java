@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import talktalk_final.lclass.talk.board.dto.BoardDto;
+import talktalk_final.lclass.talk.board.dto.BoardParam;
+import talktalk_final.lclass.talk.board.dto.BoardSelectReplyParam;
 import talktalk_final.lclass.talk.board.dto.Criteria;
 import talktalk_final.lclass.talk.board.dto.PageMakerDto;
 import talktalk_final.lclass.talk.board.service.BoardService;
@@ -79,6 +81,18 @@ public class BoardController {
 	    }
 	    return result;
 	}
+	@GetMapping("/readcnt")
+	@ResponseBody
+	public Integer readcnt(BoardParam param) throws Exception{
+		return boardService.boardReadCnt(param);
+	}
+	
+	@PostMapping("/selectReply")
+	@ResponseBody
+	public BoardDto selectReplyBoard(BoardSelectReplyParam param) throws Exception{
+		return boardService.selectReply(param);
+	}
+	
 // --UPDATE--
 	@GetMapping("/update")
 	public String update(Model model, int bno, Criteria cri) throws Exception{

@@ -4,11 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import talktalk_final.lclass.talk.board.dao.BoardDao;
 import talktalk_final.lclass.talk.board.dto.BoardDto;
+import talktalk_final.lclass.talk.board.dto.BoardParam;
+import talktalk_final.lclass.talk.board.dto.BoardSelectReplyParam;
 import talktalk_final.lclass.talk.board.dto.Criteria;
 
 @Service
@@ -21,10 +22,10 @@ public class BoardServiceImpl implements BoardService {
 		 return boardDao.selectList();
 	}
 	
-	@Transactional(isolation = Isolation.READ_COMMITTED)
+//	@Transactional(isolation = Isolation.READ_COMMITTED)
 	@Override
 	public BoardDto selectOne(int bno) throws Exception{
-		boardDao.boardReadCnt(bno);
+//		boardDao.boardReadCnt(param);
 		return boardDao.selectOne(bno);
 	}
 
@@ -63,6 +64,19 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int totalLikeCancel(int bno) throws Exception {
 		return boardDao.totalLikeCancel(bno);
+	}
+
+	@Override
+	public int boardReadCnt(BoardParam param) throws Exception {
+		return boardDao.boardReadCnt(param);
+	}
+
+	@Override
+	@Transactional
+	public BoardDto selectReply(BoardSelectReplyParam param) throws Exception {
+		boardDao.selectReply(param);
+		BoardDto selectReplyBoard = boardDao.selectOneForReply(param.getBno());
+		return selectReplyBoard;
 	}
 
 		

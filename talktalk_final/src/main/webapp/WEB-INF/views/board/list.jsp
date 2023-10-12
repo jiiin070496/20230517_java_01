@@ -8,8 +8,7 @@
 <meta charset="UTF-8">
 <title>boardList</title>
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<spring:eval expression="@api['api.key']" />" ></script>
-<style>
+<%-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<spring:eval expression="@api['api.key']" />" ></script>--%><style>
 body {
     background-color: #f9f9f9;
     margin: 0;
@@ -304,7 +303,6 @@ button.keyword:hover {
         <button type="button" id="openModalBtn">지도 보기</button>
     </div>
 </c:if>
-
 <!-- 모달 창 -->
 <div id="mapModal" class="modal">
     <div class="modal-content">
@@ -350,7 +348,6 @@ $(document).ready(function() {
 	        performSearch();
 	    }
 	});
-
 	function performSearch() {
 	    var type = $(".search_area select").val();
 	    var keyword = $(".search_area input[name='keyword']").val();
@@ -360,16 +357,13 @@ $(document).ready(function() {
 	        alert("검색 종류를 선택하세요.");
 	        return false;
 	    }
-	    
 	    if (!keyword) {
 	        alert("키워드를 입력하세요.");
 	        return false;
 	    }
-	    
 	    if (sKey != keyword) {
 	        moveForm.find("input[name='pageNum']").val(1);
 	    }
-	    
 	    moveForm.attr("action", "${pageContext.request.contextPath}/board/list");
 	    moveForm.find("input[name='type']").val(type);
 	    moveForm.find("input[name='keyword']").val(keyword);

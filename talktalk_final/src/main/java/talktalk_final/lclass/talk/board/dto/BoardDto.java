@@ -27,4 +27,5 @@ public class BoardDto {
 	private int rstep;
 	private int rlevel;
 	private int likehit;
+	private int selectReplyNo;
 }
