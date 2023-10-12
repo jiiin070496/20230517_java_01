@@ -62,26 +62,46 @@ body {
     color: #555;
 }
 
+/* 공통 스타일 */
 .btn-container {
-    text-align: center;
-    margin-top: 20px;
+  margin: 10px;
 }
-.btn-container button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    border: none;
-    border-radius: 3px;
-    color: #fff;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.2s;
-    margin-right: 10px;
+
+a.button-link {
+  text-decoration: none;
 }
-.btn-container button:last-child {
-    margin-right: 0;
+
+/* 키워드가 있는 경우 버튼 스타일 */
+.btn-container-keyword {
+  margin: 10px;
+  float: right; /* 오른쪽으로 이동 */
 }
-.btn-container button:hover {
-    background-color: #0056b3;
+
+/* 키워드가 없는 경우 버튼 스타일 */
+.btn-container-no-keyword {
+  margin: 10px;
+  float: right; /* 오른쪽으로 이동 */
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button.keyword {
+  background-color: #4CAF50;
+}
+
+button.keyword:hover {
+  background-color: #45a049;
 }
 
 /* 모달 스타일 */
@@ -260,14 +280,30 @@ body {
 	    <input type="hidden" name="type" value="${pageMaker.cri.type }">
 	</form>
 </c:if>
-
-<div class="btn-container">
-	<a href="<c:url value='/board/insert'/>">
-	    <button>글 등록</button>
-	</a>
-	<button type="button" id="openModalBtn">지도 보기</button>
-</div> 
-<hr>
+<!-- 키워드 있을때 -->
+<c:if test="${not empty pageMaker.cri.keyword }">
+    <div class="btn-container btn-container-keyword">
+        <a href="<c:url value='/board/list'/>" class="button-link">
+            <button class="keyword">메인으로</button>
+        </a>
+    </div>
+    <div class="btn-container btn-container-keyword">
+        <a href="<c:url value='/board/insert'/>" class="button-link">
+            <button class="keyword">글 등록</button>
+        </a>
+    </div>
+</c:if>
+<!-- 키워드 없을때 -->
+<c:if test="${empty pageMaker.cri.keyword }">
+    <div class="btn-container btn-container-no-keyword">
+        <a href="<c:url value='/board/insert'/>" class="button-link">
+            <button>글 등록</button>
+        </a>
+    </div>
+    <div class="btn-container btn-container-no-keyword">
+        <button type="button" id="openModalBtn">지도 보기</button>
+    </div>
+</c:if>
 
 <!-- 모달 창 -->
 <div id="mapModal" class="modal">
@@ -280,7 +316,7 @@ body {
 </div>
 
 <script>
-
+/* ------- 페이지 및 검색 ------- */
 $(document).ready(function() {
 	let moveForm = $("#moveForm");
     $(".pageInfo_btn a").on("click", function(e) {
@@ -293,7 +329,6 @@ $(document).ready(function() {
         moveForm.submit();
     });
 	
-	
 	$(".move").on("click", function(e){
 		e.preventDefault();
 		var bno = moveForm.find("input[name='bno']").val();
@@ -305,7 +340,7 @@ $(document).ready(function() {
 		moveForm.submit();
 	});
 		
-
+/* --- 엔터키 --- */
 	$(".search_area button").on("click", function(e) {
 	    performSearch();
 	});
@@ -341,13 +376,13 @@ $(document).ready(function() {
 	    moveForm.submit();
 	}
 });
-
+/* --------------------------- */
 //지도 모달
 document.getElementById('openModalBtn').addEventListener('click', function() {
     var modal = document.getElementById('mapModal');
     modal.style.display = 'block';
 
-    // 지도 초기화
+// 지도 초기화
     var mapContainer = document.getElementById('map');
     var options = {
         center: new kakao.maps.LatLng(37.4989968, 127.032821),
@@ -355,22 +390,20 @@ document.getElementById('openModalBtn').addEventListener('click', function() {
     };
     var map = new kakao.maps.Map(mapContainer, options);
 
-    // 마커 추가
+// 마커 추가
     var markerPosition = new kakao.maps.LatLng(37.4989968, 127.032821);
     var marker = new kakao.maps.Marker({
         position: markerPosition,
         text: 'KH정보교육원',
         map: map
     });
-    
-
-    // 모달 닫기 이벤트
+// 모달 닫기 이벤트
     var closeModalBtn = document.getElementById('closeModalBtn');
     closeModalBtn.addEventListener('click', function() {
         modal.style.display = 'none';
     });
 
-    // 모달 외부 클릭 시 닫기
+// 모달 외부 클릭 시 닫기
     window.addEventListener('click', function(event) {
         if (event.target == modal) {
             modal.style.display = 'none';
