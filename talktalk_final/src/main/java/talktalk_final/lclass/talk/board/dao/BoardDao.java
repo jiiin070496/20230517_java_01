@@ -56,7 +56,7 @@ public class BoardDao {
 	
 // 페이징
 	public int getTotal(Criteria cri) throws Exception{
-		return sqlSession.selectOne("board.getTotal");
+		return sqlSession.selectOne("board.getTotal", cri);
 	}
 	
 	public List<BoardDto> getListPage(Criteria cri) throws Exception {

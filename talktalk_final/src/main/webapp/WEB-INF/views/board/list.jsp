@@ -196,13 +196,13 @@ body {
 <div class="search_wrap">
     <div class="search_area">
         <select name="type">
-        	<option value="" <c:out value="${pageMaker.cri.type == null?'selected':'' }"/>>--</option>
+        	<%-- <option value="" <c:out value="${pageMaker.cri.type == null?'selected':'' }"/>>--</option> --%>
             <option value="T" <c:out value="${pageMaker.cri.type eq 'T'?'selected':'' }"/>>제목</option>
             <option value="C" <c:out value="${pageMaker.cri.type eq 'C'?'selected':'' }"/>>내용</option>
             <option value="W" <c:out value="${pageMaker.cri.type eq 'W'?'selected':'' }"/>>작성자</option>
-            <option value="TC" <c:out value="${pageMaker.cri.type eq 'TC'?'selected':'' }"/>>제목 + 내용</option>
+       <%-- <option value="TC" <c:out value="${pageMaker.cri.type eq 'TC'?'selected':'' }"/>>제목 + 내용</option>
             <option value="TW" <c:out value="${pageMaker.cri.type eq 'TW'?'selected':'' }"/>>제목 + 작성자</option>
-            <option value="TCW" <c:out value="${pageMaker.cri.type eq 'TCW'?'selected':'' }"/>>제목 + 내용 + 작성자</option>
+            <option value="TCW" <c:out value="${pageMaker.cri.type eq 'TCW'?'selected':'' }"/>>제목 + 내용 + 작성자</option> --%>
         </select>   
         <input type="text" name="keyword" value="${pageMaker.cri.keyword }">
         <button>Search</button>
@@ -234,7 +234,6 @@ body {
             </tr>
         </c:forEach>
     </table>
- 
 <!-- 페이징 및 버튼 -->    
     <div class="pageInfo-wrap">
     	<div class="pageInfo_area">
@@ -284,71 +283,66 @@ body {
 </div>
 
 <script>
-let moveForm = $("#moveForm");
-$(".move").on("click", function(e){
-	e.preventDefault();
-	moveForm.append("<input type='hidden' name='bno' value='"+ $(this).attr("href")+ "'>");
-	moveForm.attr("action", "/talk/board/get");
-	moveForm.submit();
-});
-
 
 $(document).ready(function() {
-    var moveForm = $("#moveForm");
+	let moveForm = $("#moveForm");
     $(".pageInfo_btn a").on("click", function(e) {
         e.preventDefault();
-        var pageNum = $(this).attr("href");
+        moveForm.find("input[name='pageNum']").val($(this).attr("href"));
+	    var pageNum = $(this).attr("href");
         moveForm.find("input[name='pageNum']").val(pageNum);
         moveForm.find("input[name='amount']").val(10); // 보여질 글의 갯수
-        moveForm.attr("action", "/talk/board/list"); // context root를 포함한 URL
+        moveForm.attr("action", "${pageContext.request.contextPath}/board/list"); // context root를 포함한 URL
         moveForm.submit();
     });
+	
+	
+	$(".move").on("click", function(e){
+		e.preventDefault();
+		var bno = moveForm.find("input[name='bno']").val();
+		if(bno != ''){
+			moveForm.find("input[name='bno']").remove();
+		}
+		moveForm.append("<input type='hidden' name='bno' value='"+ $(this).attr("href")+ "'>");
+		moveForm.attr("action", "${pageContext.request.contextPath}/board/get");
+		moveForm.submit();
+	});
+		
+
+	$(".search_area button").on("click", function(e) {
+	var type = $(".search_area select").val();
+	var keyword = $(".search_area input[name='keyword']").val();
+	var sKey = '<c:out value="${pageMaker.cri.keyword}"/>';
+       if (!type) {
+           alert("검색 종류를 선택하세요.");
+           return false;
+       }
+       if (!keyword) {
+           alert("키워드를 입력하세요.");
+           return false;
+       }
+       if(sKey != keyword){
+       	moveForm.find("input[name='pageNum']").val(1);
+		}
+       /* moveForm.attr("action", "${pageContext.request.contextPath}/board/list"); */
+       moveForm.find("input[name='type']").val(type);
+       moveForm.find("input[name='keyword']").val(keyword);
+       /* moveForm.find("input[name='pageNum']").val(1); */
+       moveForm.submit();
+	});
 });
-
-
- 
-$(document).ready(function() {
-    // 페이지 로드 시 초기화
-    updatePagingDisplay();
-
-    $(".search_area button").on("click", function(e) {
-        e.preventDefault();
-
-        let type = $(".search_area select").val();
-        let keyword = $(".search_area input[name='keyword']").val();
-
-        if (!type) {
-            alert("검색 종류를 선택하세요.");
-            return false;
+    
+/*     function updatePagingDisplay() {
+        var totalResults = '${total}'; // 검색 결과의 총 개수
+        var resultsPerPage = '${cri.amount}'; // 한 페이지에 표시되는 결과 개수
+        var currentPage = '${cri.pageNum}'; // 현재 페이지
+     
+        if (totalResults <= resultsPerPage) {
+            $(".pageInfo-wrap").hide();
+        } else {
+            $(".pageInfo-wrap").show();
         }
-
-        if (!keyword) {
-            alert("키워드를 입력하세요.");
-            return false;
-        }
-
-        let moveForm = $("#moveForm");
-
-        moveForm.attr("action", "/talk/board/list");
-        moveForm.find("input[name='type']").val(type);
-        moveForm.find("input[name='keyword']").val(keyword);
-        moveForm.find("input[name='pageNum']").val(1);
-
-        moveForm.submit();
-    });
-});
-
-function updatePagingDisplay() {
-    var totalResults = '${total}'; // 검색 결과의 총 개수
-    var resultsPerPage = '${cri.amount}'; // 한 페이지에 표시되는 결과 개수
-    var currentPage = '${cri.pageNum}'; // 현재 페이지
- 
-    if (totalResults <= resultsPerPage) {
-        $(".pageInfo-wrap").hide();
-    } else {
-        $(".pageInfo-wrap").show();
-    }
-};
+    }; */
 
 //지도 모달
 document.getElementById('openModalBtn').addEventListener('click', function() {

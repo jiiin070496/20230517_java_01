@@ -107,8 +107,10 @@ button:hover {
 							<button class="submitreply" type="button">댓글 작성</button>
 						</div>
 					</form>
-				</div>
-				<div class="testappend"></div>
+				</div>		
+				<div class="testappend">
+					<!-- 댓글 -->
+				</div> 
 			</div>
 		</div>
 	</div>
@@ -225,9 +227,9 @@ $("#btn-board-update").on("click", function(e){
 	   			$(".updatereply").click(updatereplyHandler);
 	   			$(".insertreplyreply").click(insertreplyreplyHandler);
  	   		},
-           error: function () {
-               console.log("error");
-           },
+	 	   	error: function (request, status, error) {
+	            alert("code: " + request.status + "\n" + "error: " + error);
+	        },
            dataType: "json"
        });
    }
@@ -235,7 +237,7 @@ $("#btn-board-update").on("click", function(e){
    function refreshCommentList(comments) {
        for (var i = 0; i < comments.length; i++) {
            var htmlVal = '<div class="card replyCard" data-replyno="' + comments[i].replyNo + '" data-writer="' + comments[i].memberId + '"><div class="firstReply card"><div class="updatewriter">작성자 : ' + comments[i].memberId + '</div><div class="updatereplyContent">내용 : ' + comments[i].replyContent + '</div><div class="updatereplyDate">입력날짜 : ' + comments[i].replyDate + '</div>'
-               + '<div class="groupbtn"><button class="updatereply">수정</button><button class="deletereply">삭제</button><button class="insertreplyreply">댓글 삽입</button></div></div>';
+               + '<div class="groupbtn"><button class="updatereply">수정</button><button class="deletereply">삭제</button><button class="insertreplyreply">답글</button></div></div>';
            $(".testappend").append(htmlVal);
        }
        $(".deletereply").click(deletereplyHandler);
@@ -261,7 +263,7 @@ $("#btn-board-update").on("click", function(e){
 	} 
 	
 	function updatereplyHandler(){
-		console.log("test123");
+		console.log("ReplyUpdate");
 		$(this).parents(".replyCard").find(".updatereplyContent").html("");
 		$(this).parents(".replyCard").find(".updatereplyDate").hide();
 		var updateContent ='<textarea rows="3" class="col-xl-12 replyContent" name="replyContent1"></textarea>'
@@ -300,6 +302,7 @@ $("#btn-board-update").on("click", function(e){
 	    console.log("submitreplyreplyHandler");
 	    var replyreplyContent = $("[name=replyreplyContent]").val();
 	    console.log(replyreplyContent);
+	    var $replyCard = $(this).parents(".replyCard");
 	    
 	    $.ajax({
 	        type: "post",
@@ -308,12 +311,12 @@ $("#btn-board-update").on("click", function(e){
 	            memberId: "${bvo.mid}",
 	            replyContent: replyreplyContent,
 	            boardNo: ${bvo.bno},
-	            rref: $(this).parents(".replyCard").data("replyno")
+	            rref: $replyCard.data("replyno")
 	        },
 	        success: function (result) {
 	            console.log("result: ", result);
 	            console.log("success");
-	            $(".contenttextarea").remove();
+	            $replyCard.find(".contenttextarea").remove();
 	        },
 	        error: function () {
 	            console.log("error");

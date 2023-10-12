@@ -5,6 +5,7 @@ package talktalk_final.lclass.talk.board.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,7 +39,8 @@ public class BoardController {
 	}
  //--GET--	
 	@GetMapping("/get")
-	public ModelAndView get(ModelAndView mv, int bno, Criteria cri) throws Exception{ //jsp에서 controller로 데이터 전달
+	public ModelAndView get(ModelAndView mv, int bno
+			, @ModelAttribute("cri") Criteria cri) throws Exception{ //jsp에서 controller로 데이터 전달
 		mv.addObject("bvo", boardService.selectOne(bno));
 		mv.addObject("cri", cri);
 		mv.setViewName("board/get"); // http://localhost:8090/jjap/board/get?bno=3

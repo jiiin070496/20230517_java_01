@@ -2,6 +2,15 @@ package talktalk_final.lclass.talk.board.dto;
 
 import java.util.Arrays;
 
+import org.springframework.web.util.UriComponentsBuilder;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
 public class Criteria {
 	private int pageNum;
 	private int amount;
@@ -19,53 +28,22 @@ public class Criteria {
 		this.amount = amount;
 	}
 
-	public int getPageNum() {
-		return pageNum;
-	}
-
-	public int getAmount() {
-		return amount;
-	}
-
-	public void setPageNum(int pageNum) {
-		this.pageNum = pageNum;
-	}
-
-	public void setAmount(int amount) {
-		this.amount = amount;
-	}
-
-	public String getKeyword() {
-		return keyword;
-	}
-
-	public void setKeyword(String keyword) {
-		this.keyword = keyword;
-	}
-
-	public String getType() {
-		return type;
-	}
-
 	public void setType(String type) {
 		this.type = type;
 		this.typeArr = type.split("");
 	}
 
 	public String[] getTypeArr() {
-		return typeArr;
+		return type == null ? new String[] {} : type.split("");
 	}
 
-	public void setTypeArr(String[] typeArr) {
-		this.typeArr = typeArr;
+	public String getListLink() {
+		UriComponentsBuilder builder 
+			= UriComponentsBuilder.fromPath("").queryParam("pageNum", this.pageNum)
+			.queryParam("amount", this.getAmount()).queryParam("type", this.getType())
+			.queryParam("keyword", this.getKeyword());
+		return builder.toUriString();
 	}
-
-	@Override
-	public String toString() {
-		return "Criteria [pageNum=" + pageNum + ", amount=" + amount + ", keyword=" + keyword + ", type=" + type
-				+ ", typeArr=" + Arrays.toString(typeArr) + "]";
-	}
-
 	
 }
 
