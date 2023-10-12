@@ -213,7 +213,7 @@ let replyreplyleftpadding = "";
 				   $(".updatereply").click(updatereplyHandler);
 	        	   $(".insertreplyreply").click(insertreplyreplyHandler);
 	        	   $(".moreReply").click(moreReplyHandler);
-
+/* 
                		if(${bvo.selectReplyNo}!=0){
                			var firstReply = document.getElementsByClassName('firstReply');
                			for (var i = 0; i < firstReply.length; i++){
@@ -222,6 +222,7 @@ let replyreplyleftpadding = "";
 							}   
                			}
                		}
+*/
            },
            error: function (result) {
                console.log("error");
