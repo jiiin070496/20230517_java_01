@@ -180,56 +180,60 @@ $("#btn-board-delete").click(function () {
 	        	});
 			} 
 
-/* Reply */
-let replyreplyleftpadding = "";
+	/* Reply */
+	let replyreplyleftpadding = "";
 	window.onload = function () {
-	    replyreplyleftpadding=$(".cardwidth").width()*0.03;
+	    replyreplyleftpadding = $(".cardwidth").width() * 0.03;
 	    $.ajax({
-			type: "get",
-			url: "${pageContext.request.contextPath}/board/readcnt",
-			data: {  boardCount :${bvo.readcnt},boardNo:${bvo.bno}  },
-			success: function (result) {
-	        	  console.log("readcnt : success");
-			},
-			error : function(request, status, error){
-				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-			}
-		});
-        var moreReply = "";
-        $.ajax({
-           type: "get",
-           url: "${pageContext.request.contextPath}/replyboard/list",
-           data: { boardNo :${bvo.bno}},
-           success: function (result) {
-        	   console.log("list : success");
-               for (var i = 0; i < result.length; i++) {
-                   if (result[i].rref == 0) {
-                	   var  htmlVal =  '<div class="card replyCard" data-replyno="'+result[i].replyNo+'" data-writer="'+ result[i].memberId+'"><div class="firstReply card" data-replyno="'+result[i].replyNo+'" data-writer="'+ result[i].memberId+'"><div class="updatewriter">작성자 : '+ result[i].memberId+'</div><div class="updatereplyContent">내용 : '+result[i].replyContent+'</div><div class="updatereplyDate">입력날짜 : '+result[i].replyDate+'</div>'
-	    		   		+'<div class="groupbtn"><button class="updatereply">수정</button><button onclick="deletereplyHandler("'+result[i].replyNo+'");">삭제</button><button class="insertreplyreply">댓글 삽입</button>'
-	    		   		+'<button class="moreReply" data-replyno="'+result[i].replyNo+'">댓글 더보기</button>';
-                       $(".testappend").append(htmlVal);
-                   }
-               };
-				   $(".updatereply").click(updatereplyHandler);
-	        	   $(".insertreplyreply").click(insertreplyreplyHandler);
-	        	   $(".moreReply").click(moreReplyHandler);
-/* 
-               		if(${bvo.selectReplyNo}!=0){
-               			var firstReply = document.getElementsByClassName('firstReply');
-               			for (var i = 0; i < firstReply.length; i++){
-               				if($(firstReply[i]).data("replyno")==${bvo.selectReplyNo}){
-								firstReply[i].classList.add('text-bg-warning');
-							}   
-               			}
-               		}
-*/
-           },
-           error: function (result) {
-               console.log("error");
-           },
-           dataType: "json"
-       });
-   }
+	        type: "get",
+	        url: "${pageContext.request.contextPath}/board/readcnt",
+	        data: { boardCount: ${bvo.readcnt}, boardNo: ${bvo.bno} },
+	        success: function (result) {
+	            console.log("readcnt: success");
+	        },
+	        error: function (request, status, error) {
+	            alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+	        }
+	    });
+	    var moreReply = "";
+	    $.ajax({
+	        type: "get",
+	        url: "${pageContext.request.contextPath}/replyboard/list",
+	        data: { boardNo: ${bvo.bno} },
+	        success: function (result) {
+	            console.log("list: success");
+	            for (var i = 0; i < result.length; i++) {
+	                if (result[i].rref == 0) {
+	                    var htmlVal = '<div class="card replyCard" data-replyno="' + result[i].replyNo + '" data-writer="' + result[i].memberId + '"><div class="firstReply card" data-replyno="' + result[i].replyNo + '" data-writer="' + result[i].memberId + '"><div class="updatewriter">작성자 : ' + result[i].memberId + '</div><div class="updatereplyContent">내용 : ' + result[i].replyContent + '</div><div class="updatereplyDate">입력날짜 : ' + result[i].replyDate + '</div>' +
+	                        '<div class="groupbtn"><button class="updatereply">수정</button><button onclick="deletereplyHandler(\'' + result[i].replyNo + '\');">삭제</button><button class="insertreplyreply">댓글 삽입</button>' +
+	                        '<button class="moreReply" data-replyno="' + result[i].replyNo + '">댓글 더보기</button>';
+	                    if (writerHtml == "${bvo.mid}") {
+	                        if (!${boardone.selectReplyNo}) {
+	                            htmlVal += '<button class="forPlusRequtation" onclick="forPlusReputationHandler(\'' + result[i].replyNo + '\');">채택하기</button>'
+	                        }
+	                    }
+	                    htmlVal += '</div></div><div class="forAppendArea"></div>';
+	                    $(".testappend").append(htmlVal);
+	                }
+	            }
+	            $(".updatereply").click(updatereplyHandler);
+	            $(".insertreplyreply").click(insertreplyreplyHandler);
+	            $(".moreReply").click(moreReplyHandler);
+	            if (${bvo.selectReplyNo} != 0) {
+	                var firstReply = document.getElementsByClassName('firstReply');
+	                for (var i = 0; i < firstReply.length; i++) {
+	                    if ($(firstReply[i]).data("replyno") == ${bvo.selectReplyNo}) {
+	                        firstReply[i].classList.add('text-bg-warning');
+	                    }
+	                }
+	            }
+	        },
+	        error: function (result) {
+	            console.log("error");
+	        },
+	        dataType: "json"
+	    });
+	}
 
 	function moreReplyHandler(e){
 		console.log("moreReplylist 진입");
@@ -347,18 +351,22 @@ let replyreplyleftpadding = "";
 				},
 				dataType:"json"
 			});
-	
+   		}
 	function updatereplyHandler(){
 		var replyWriter= $(this).parents(".replyCard").data("writer");
-		console.log("ReplyUpdate");
+		console.log("test123");
+		if(replyWriter=="${bvo.mid}"){
 		$(this).parents(".replyCard").find(".updatereplyContent").html("");
 		$(this).parents(".replyCard").find(".updatereplyDate").hide();
 		var updateContent ='<textarea rows="3" class="col-xl-12 replyContent" name="replyContent1"></textarea>'
 			
 		$(this).parents(".replyCard").find(".updatereplyContent").html(updateContent);	
-		var updateDoBtn ='<button type="button" class="updateDoBtn">댓글 수정</button>'
+		 var updateDoBtn ='<button type="button" class="updateDoBtn">댓글 수정</button>'
 		$(this).parents(".groupbtn").html(updateDoBtn); 
-		$(".updateDoBtn").click(updateDoBtnHandler);
+		 $(".updateDoBtn").click(updateDoBtnHandler);
+		}else{
+			alert("작성자가 아닙니다");
+		}
 	}
 	
 	function updateDoBtnHandler(){
@@ -410,7 +418,6 @@ let replyreplyleftpadding = "";
 	        dataType: "json"
 	    });
 	}
-}
 </script>
 </body>
 </html>
