@@ -196,15 +196,12 @@ body {
 <div class="search_wrap">
     <div class="search_area">
         <select name="type">
-        	<%-- <option value="" <c:out value="${pageMaker.cri.type == null?'selected':'' }"/>>--</option> --%>
+        	<option value="" <c:out value="${pageMaker.cri.type == null?'selected':'' }"/>>선택</option>
             <option value="T" <c:out value="${pageMaker.cri.type eq 'T'?'selected':'' }"/>>제목</option>
             <option value="C" <c:out value="${pageMaker.cri.type eq 'C'?'selected':'' }"/>>내용</option>
             <option value="W" <c:out value="${pageMaker.cri.type eq 'W'?'selected':'' }"/>>작성자</option>
-       <%-- <option value="TC" <c:out value="${pageMaker.cri.type eq 'TC'?'selected':'' }"/>>제목 + 내용</option>
-            <option value="TW" <c:out value="${pageMaker.cri.type eq 'TW'?'selected':'' }"/>>제목 + 작성자</option>
-            <option value="TCW" <c:out value="${pageMaker.cri.type eq 'TCW'?'selected':'' }"/>>제목 + 내용 + 작성자</option> --%>
         </select>   
-        <input type="text" name="keyword" value="${pageMaker.cri.keyword }">
+        <input type="text" name="keyword" placeholder="키워드를 입력해주세요!" value="${pageMaker.cri.keyword }">
         <button>Search</button>
     </div>
 </div>   
@@ -238,17 +235,17 @@ body {
     <div class="pageInfo-wrap">
     	<div class="pageInfo_area">
     		<ul>
-		        <!-- 이전페이지 버튼 -->
+		        <!-- Previous -->
                 <c:if test="${pageMaker.prev}">
                     <li class="pageInfo_btn previous"><a href="${pageMaker.startPage-1}">Previous</a></li>
                 </c:if>
 
-                <!-- 각 번호 페이지 버튼 (현재 페이지 표시)-->
+                <!-- Page (현재 페이지 표시)-->
                 <c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
                     <li class="pageInfo_btn ${pageMaker.cri.pageNum == num ? "active":"" }"><a href="${num}">${num}</a></li>
                 </c:forEach>
 	           
-	            <!-- 다음페이지 버튼 -->
+	            <!-- Next -->
                 <c:if test="${pageMaker.next}">
                     <li class="pageInfo_btn next"><a href="${pageMaker.endPage + 1 }">Next</a></li>
                 </c:if>   
@@ -310,39 +307,40 @@ $(document).ready(function() {
 		
 
 	$(".search_area button").on("click", function(e) {
-	var type = $(".search_area select").val();
-	var keyword = $(".search_area input[name='keyword']").val();
-	var sKey = '<c:out value="${pageMaker.cri.keyword}"/>';
-       if (!type) {
-           alert("검색 종류를 선택하세요.");
-           return false;
-       }
-       if (!keyword) {
-           alert("키워드를 입력하세요.");
-           return false;
-       }
-       if(sKey != keyword){
-       	moveForm.find("input[name='pageNum']").val(1);
-		}
-       /* moveForm.attr("action", "${pageContext.request.contextPath}/board/list"); */
-       moveForm.find("input[name='type']").val(type);
-       moveForm.find("input[name='keyword']").val(keyword);
-       /* moveForm.find("input[name='pageNum']").val(1); */
-       moveForm.submit();
+	    performSearch();
 	});
+
+	$(".search_area input[name='keyword']").on("keyup", function(e) {
+	    if (e.keyCode === 13) {
+	        performSearch();
+	    }
+	});
+
+	function performSearch() {
+	    var type = $(".search_area select").val();
+	    var keyword = $(".search_area input[name='keyword']").val();
+	    var sKey = '<c:out value="${pageMaker.cri.keyword}"/>';
+
+	    if (!type) {
+	        alert("검색 종류를 선택하세요.");
+	        return false;
+	    }
+	    
+	    if (!keyword) {
+	        alert("키워드를 입력하세요.");
+	        return false;
+	    }
+	    
+	    if (sKey != keyword) {
+	        moveForm.find("input[name='pageNum']").val(1);
+	    }
+	    
+	    moveForm.attr("action", "${pageContext.request.contextPath}/board/list");
+	    moveForm.find("input[name='type']").val(type);
+	    moveForm.find("input[name='keyword']").val(keyword);
+	    moveForm.submit();
+	}
 });
-    
-/*     function updatePagingDisplay() {
-        var totalResults = '${total}'; // 검색 결과의 총 개수
-        var resultsPerPage = '${cri.amount}'; // 한 페이지에 표시되는 결과 개수
-        var currentPage = '${cri.pageNum}'; // 현재 페이지
-     
-        if (totalResults <= resultsPerPage) {
-            $(".pageInfo-wrap").hide();
-        } else {
-            $(".pageInfo-wrap").show();
-        }
-    }; */
 
 //지도 모달
 document.getElementById('openModalBtn').addEventListener('click', function() {
