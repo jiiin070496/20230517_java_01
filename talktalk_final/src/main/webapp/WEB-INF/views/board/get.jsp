@@ -221,7 +221,6 @@ $("#btn-board-delete").click(function () {
 	    var eTarget = e.target;
 	    var $replyCard = $(eTarget).parents(".replyCard");
 	    var $forAppendArea = $replyCard.find(".forAppendArea");
-	    var $hideRepliesBtn = $replyCard.find(".hideReplies");
 
 	    $.ajax({
 	        type: "get",
@@ -253,9 +252,14 @@ $("#btn-board-delete").click(function () {
 	    console.log("보기!");
 	    var $card = $(this).closest(".replyCard");
 	    var $forAppendArea = $card.find(".forAppendArea");
-	    $forAppendArea.show();
-	    $(this).hide();
-	    $card.find(".hideReplies").show();
+	    
+	    if ($forAppendArea.children().length === 0) {
+	    	$card.find(".moreReply").show();
+	    } else {
+	        $forAppendArea.show();
+	        $(this).hide();
+	        $card.find(".hideReplies").show();
+	    }
 	});
 	
 	$(document).on("click", ".hideReplies", function() {
@@ -316,33 +320,36 @@ $(".replyBoard").click(replyBoardInsertHandler);
        });
    }
   
-   function deletereplyHandler(forNumber){
-		console.log(forNumber);
-		 $.ajax({
-		       type: "get",
-		       url: "${pageContext.request.contextPath}/replyboard/one",
-		       data: {replyNo :forNumber},
-		       success: function (result) {
-		    		   $.ajax({
-					       type: "post",
-					       url: "${pageContext.request.contextPath}/replyboard/delete",
-					       data: {replyNo :forNumber},
-					       success: function (result) {
-					    	   console.log("deletereplyHandler(forNumber) : success");
-					    	   location.reload(true);
-				    	   },
-						   error : function (){
-								 console.log("error");
-						   },
-						   dataType:"json"
-						});
-		    	   },
-				error : function (){
-					 console.log("error");
-				},
-				dataType:"json"
-			});
-   		}
+   function deletereplyHandler(forNumber) {
+	    $.ajax({
+	        type: "get",
+	        url: "${pageContext.request.contextPath}/replyboard/one",
+	        data: { replyNo: forNumber },
+	        success: function (result) {
+	            $.ajax({
+	                type: "post",
+	                url: "${pageContext.request.contextPath}/replyboard/delete",
+	                data: { replyNo: forNumber },
+	                success: function (result) {
+	                	 console.log("forNumber: "+ forNumber);
+	                    console.log("deletereplyHandler(forNumber) : success");
+	                    // 삭제한 댓글의 DOM 요소를 찾아서 삭제
+	                    var $deletedReply = $(forNumber);
+	                    $deletedReply.remove();
+	                },
+	                error: function () {
+	                    console.log("error");
+	                },
+	                dataType: "json"
+	            });
+	        },
+	        error: function () {
+	            console.log("error");
+	        },
+	        dataType: "json"
+	    });
+	}
+   
 	function updatereplyHandler(){
 		var replyWriter= $(this).parents(".replyCard").data("writer");
 
@@ -383,7 +390,34 @@ $(".replyBoard").click(replyBoardInsertHandler);
 	    $(this).parents(".replyCard ").append(addreplyreply);
 	    $(".submitreplyreply").click(submitreplyreplyHandler);
 	}
-/* 	
+
+	function submitreplyreplyHandler() {
+	    console.log("submitreplyreplyHandler");
+	    console.log(replyreplyContent);
+	    var replyreplyContent = $("[name=replyreplyContent]").val();
+	    var $replyCard = $(this).parents(".replyCard");
+	    
+	    $.ajax({
+	        type: "post",
+	        url: "${pageContext.request.contextPath}/replyboard/replyinsert",
+	        data: {
+	            memberId: "${bvo.mid}",
+	            replyContent: replyreplyContent,
+	            boardNo: ${bvo.bno},
+	            rref: $replyCard.data("replyno")
+	        },
+	        success: function (result) {
+	            console.log("result: ", result);
+	            console.log("success");
+	           $replyCard.find(".contenttextarea").remove();
+	        },
+	        error: function () {
+	            console.log("error");
+	        },
+	        dataType: "json"
+	    });
+	}
+	/* 	
 	function submitreplyreplyHandler() {
 	    console.log("submitreplyreplyHandler 진입");
 	    var replyreplyContent = $("[name=replyreplyContent]").val();
@@ -418,33 +452,6 @@ $(".replyBoard").click(replyBoardInsertHandler);
 	}
  */	
  
-	function submitreplyreplyHandler() {
-	    console.log("submitreplyreplyHandler");
-	    var replyreplyContent = $("[name=replyreplyContent]").val();
-	    console.log(replyreplyContent);
-	    var $replyCard = $(this).parents(".replyCard");
-	    
-	    $.ajax({
-	        type: "post",
-	        url: "${pageContext.request.contextPath}/replyboard/replyinsert",
-	        data: {
-	            memberId: "${bvo.mid}",
-	            replyContent: replyreplyContent,
-	            boardNo: ${bvo.bno},
-	            rref: $replyCard.data("replyno")
-	        },
-	        success: function (result) {
-	            console.log("result: ", result);
-	            console.log("success");
-	            $replyCard.find(".contenttextarea").remove();
-	        },
-	        error: function () {
-	            console.log("error");
-	        },
-	        dataType: "json"
-	    });
-	}
-
 </script>
 </body>
 </html>
