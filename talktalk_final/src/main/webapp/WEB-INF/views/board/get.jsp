@@ -46,18 +46,18 @@ input[type="text"], textarea {
 }
 
 button {
-	padding: 10px 20px;
-	border: none;
-	border-radius: 4px;
-	cursor: pointer;
-	background-color: #007bff;
-	color: #ffffff;
-	font-size: 16px;
-	transition: background-color 0.2s;
+    padding: 1px 4px; /* 수정된 버튼 크기 */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #ffffff;
+    font-size: 12px;
+    transition: background-color 0.2s;
 }
 
 button:hover {
-	background-color: #0056b3;
+    background-color: #0056b3;
 }
 </style>
 </head>
@@ -96,21 +96,13 @@ button:hover {
 				 	<input type="hidden" name="keyword" value="${cri.keyword }">
 				</form>
 
-<%-- 				<!-- 댓글 입력 폼 -->
-				<div class="card">
-					<form method="post"
-						action="${pageContext.request.contextPath}/replyboard/insert">
-						<div class="card-body addaddreply contenttextarea">
-							<label>댓글 작성자(로그인한 아이디로 변경) : ${bvo.mid}</label>
-							<textarea rows="3" class="col-xl-12" name="replyContent"
-								class="replyContent"></textarea>
-							<button class="submitreply" type="button">댓글 작성</button>
-						</div>
-					</form>
-				</div> --%>	
-					<div class="testappend">
-						<!-- 댓글 -->
-					</div>
+			<!-- 댓글 작성란 -->
+				<div class="card-body addreply"></div>	
+			<!-- 댓글 대댓글 리스트 -->
+				<div class="replyList">	
+					<div class="testappend"></div>
+					<div class="testtwoappend"></div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -241,7 +233,8 @@ $("#btn-board-delete").click(function () {
 				console.log(result.length);
 /* 				if(result.length==0){
 					alert("답글이 없습니다.");
-				}else{ */
+				}else{
+					*/
 				 for (var i = 0; i < result.length; i++) {
         			var  htmlVal =  '<div class="firstReply card"  style="padding-left :'+replyreplyleftpadding+'px" data-replyno="'+result[i].replyNo+'" data-writer="'+ result[i].memberId+'"><div class="updatewriter">작성자 : '+ result[i].memberId+'</div><div class="updatereplyContent">내용 : '+result[i].replyContent+'</div><div class="updatereplyDate">입력날짜 : '+result[i].replyDate+'</div>'
     		   		+'<div class="groupbtn"><button onclick="deletereplyHandler('+result[i].replyNo+');">삭제</button></div>';
@@ -255,13 +248,13 @@ $("#btn-board-delete").click(function () {
 			dataType:"json"
 		});
 	}   
-
+ 
 $(".replyBoard").click(replyBoardInsertHandler);
 	function replyBoardInsertHandler(){
 		console.log("replyBoardInsertHandler 진입");
 		$(".addreply").html("");
-		var addreplyVal = `
-			<div class="card">
+  		var addreplyVal = `
+ 			<div class="card">
 			<form method="post" action="${pageContext.request.contextPath}/replyboard/insert">
 			<div class="card-body addaddreply contenttextarea">
 					<label>댓글 작성자 : ${bvo.mid}</label>
@@ -269,12 +262,12 @@ $(".replyBoard").click(replyBoardInsertHandler);
 					<button class="submitreply" type="button">댓글 작성</button>
 			</form>
 			</div>
-			`
+			`  
 		$(".contenttextarea").remove();
 		$(".addreply").append(addreplyVal);
 		$(".submitreply").click(submitreplyHandler);
 	}	
-	
+
    function submitreplyHandler() {
        var replyContent = $("[name=replyContent]").val();
        $.ajax({
@@ -371,7 +364,6 @@ $(".replyBoard").click(replyBoardInsertHandler);
 	    $replyCard.find(".contenttextarea").remove();
 	    $(this).parents(".replyCard ").append(addreplyreply);
 	    $(".submitreplyreply").click(submitreplyreplyHandler);
-	    /* $(".addAppend").append(addreplyreply); */
 	}
 
 	function submitreplyreplyHandler() {
@@ -390,7 +382,12 @@ $(".replyBoard").click(replyBoardInsertHandler);
 	        success: function (result) {
 	            console.log("submitreplyreplyHandler : success");
 	            console.log(result);
-	            location.reload(false);
+    		    $(".testtwoappend").html("");
+				for (var i = 0; i < result.length; i++) {
+	   		   		var  htmlVal =  '<div class="card replyCard" data-replyno="'+result[i].rref+'" data-writer="'+ result[i].memberId+'"><div class="firstReply card"><div class="updatewriter">작성자 : '+ result[i].memberId+'</div><div class="updatereplyContent">내용 : '+result[i].replyContent+'</div><div class="updatereplyDate">입력날짜 : '+result[i].replyDate+'</div>'
+	   		   		+'<div class="groupbtn"><button class="updatereply">수정</button><button onclick="deletereplyHandler('+result[i].replyNo+');">삭제</button><button class="insertreplyreply">댓글 삽입</button></div></div>';
+	   				$(".testtwoappend").append(htmlVal);   
+   				};
 	        },
 	        error: function () {
 	            console.log("error");
