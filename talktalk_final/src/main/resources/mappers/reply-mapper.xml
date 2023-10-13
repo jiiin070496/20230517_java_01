@@ -30,6 +30,9 @@
 	</update>
 	
 	<delete id="delete" parameterType="_int">
-		delete from reply where reply_No = #{replyNo}
+		delete from reply
+			where reply_No 
+				in (select reply_No from reply START WITH reply_No = #{replyNo}
+                   		CONNECT BY PRIOR reply_No = rref)
 	</delete>
 </mapper>
