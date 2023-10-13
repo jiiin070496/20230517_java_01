@@ -321,7 +321,7 @@ $(".replyBoard").click(replyBoardInsertHandler);
    }
   
    function deletereplyHandler(forNumber) {
-	    $.ajax({
+ 	    $.ajax({
 	        type: "get",
 	        url: "${pageContext.request.contextPath}/replyboard/one",
 	        data: { replyNo: forNumber },
