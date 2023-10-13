@@ -8,7 +8,8 @@
 <meta charset="UTF-8">
 <title>boardList</title>
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<%-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<spring:eval expression="@api['api.key']" />" ></script>--%><style>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<spring:eval expression="@api['api.key']" />" ></script>
+<style>
 body {
     background-color: #f9f9f9;
     margin: 0;
@@ -371,6 +372,7 @@ $(document).ready(function() {
 	}
 });
 /* --------------------------- */
+
 //지도 모달
 document.getElementById('openModalBtn').addEventListener('click', function() {
     var modal = document.getElementById('mapModal');

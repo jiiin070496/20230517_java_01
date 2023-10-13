@@ -33,7 +33,7 @@ public class ReplyController {
 	
 	@GetMapping("/moreReplylist")
 	@ResponseBody
-	public String selectmoreReplylistboard(int rref) {
+	public String selectmoreReplylistboard(Integer rref) {
 		List<ReplyDto> result = replyService.selectMoreList(rref);
 		return new Gson().toJson(result);
 	}

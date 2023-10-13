@@ -59,7 +59,7 @@ public class ReplyServiceImpl implements ReplyService {
 	}
 
 	@Override
-	public List<ReplyDto> selectMoreList(int rref) {
+	public List<ReplyDto> selectMoreList(Integer rref) {
 		return replyDao.selectMoreList(rref);
 	}
 

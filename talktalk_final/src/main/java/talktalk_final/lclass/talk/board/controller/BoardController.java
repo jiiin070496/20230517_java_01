@@ -2,6 +2,9 @@ package talktalk_final.lclass.talk.board.controller;
 
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,10 +33,12 @@ public class BoardController {
 
 // --LIST--
 	@GetMapping("/list")
-	public ModelAndView list(ModelAndView mv, Criteria cri) throws Exception{
+	public ModelAndView list(ModelAndView mv, Criteria cri, BoardParam param) throws Exception{
+		int readCount = boardService.boardReadCnt(param);
 		int total = boardService.getTotal(cri);
 		PageMakerDto pageMake = new PageMakerDto(cri, total);
 		mv.addObject("boardList", boardService.getListPage(cri));
+		mv.addObject("readCount", readCount);
 		mv.addObject("pageMaker", pageMake);
 		mv.addObject("total", total);
 		mv.setViewName("board/list");
@@ -42,7 +47,7 @@ public class BoardController {
  //--GET--	
 	@GetMapping("/get")
 	public ModelAndView get(ModelAndView mv, int bno
-			, @ModelAttribute("cri") Criteria cri) throws Exception{ //jsp에서 controller로 데이터 전달
+							, @ModelAttribute("cri") Criteria cri) throws Exception{ //jsp에서 controller로 데이터 전달
 		mv.addObject("bvo", boardService.selectOne(bno));
 		mv.addObject("cri", cri);
 		mv.setViewName("board/get"); // http://localhost:8090/jjap/board/get?bno=3
@@ -81,11 +86,12 @@ public class BoardController {
 	    }
 	    return result;
 	}
+	
+	
 	@GetMapping("/readcnt")
-	@ResponseBody
-	public Integer readcnt(BoardParam param) throws Exception{
+	@ResponseBody public Integer readcnt(Model model, BoardParam param) throws Exception{ 
 		return boardService.boardReadCnt(param);
-	}
+	 }
 	
 	@PostMapping("/selectReply")
 	@ResponseBody
