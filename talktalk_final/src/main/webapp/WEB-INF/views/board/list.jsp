@@ -280,30 +280,32 @@ button.keyword:hover {
 	    <input type="hidden" name="type" value="${pageMaker.cri.type }">
 	</form>
 </c:if>
+
 <!-- 키워드 있을때 -->
-<c:if test="${not empty pageMaker.cri.keyword }">
-    <div class="btn-container btn-container-keyword">
-        <a href="<c:url value='/board/list'/>" class="button-link">
-            <button class="keyword">메인으로</button>
-        </a>
-    </div>
-    <div class="btn-container btn-container-keyword">
-        <a href="<c:url value='/board/insert'/>" class="button-link">
-            <button class="keyword">글 등록</button>
-        </a>
-    </div>
-</c:if>
+	<c:if test="${not empty pageMaker.cri.keyword }">
+	    <div class="btn-container btn-container-keyword">
+	        <a href="<c:url value='/board/list'/>" class="button-link">
+	            <button class="keyword">메인으로</button>
+	        </a>
+	    </div>
+	    <div class="btn-container btn-container-keyword">
+	        <a href="<c:url value='/board/insert'/>" class="button-link">
+	            <button class="keyword">글 등록</button>
+	        </a>
+	    </div>
+	</c:if>
+	
 <!-- 키워드 없을때 -->
-<c:if test="${empty pageMaker.cri.keyword }">
-    <div class="btn-container btn-container-no-keyword">
-        <a href="<c:url value='/board/insert'/>" class="button-link">
-            <button>글 등록</button>
-        </a>
-    </div>
-    <div class="btn-container btn-container-no-keyword">
-        <button type="button" id="openModalBtn">지도 보기</button>
-    </div>
-</c:if>
+	<c:if test="${empty pageMaker.cri.keyword }">
+	    <div class="btn-container btn-container-no-keyword">
+	        <a href="<c:url value='/board/insert'/>" class="button-link">
+	            <button>글 등록</button>
+	        </a>
+	    </div>
+	    <div class="btn-container btn-container-no-keyword">
+	        <button type="button" id="openModalBtn">지도 보기</button>
+	    </div>
+	</c:if>
 <!-- 모달 창 -->
 <div id="mapModal" class="modal">
     <div class="modal-content">
