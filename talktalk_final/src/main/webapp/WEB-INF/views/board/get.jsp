@@ -134,13 +134,13 @@ button:hover {
 }
 /* 대댓글 목록 스타일 */
 .forAppendArea {
-    margin-left: 30px; /* 왼쪽 여백을 조절하여 떨어짐을 강조 */
+    margin-left: 30px;
 }
 
 .forAppendArea {
     border: 1px solid #ccc;
     padding: 10px;
-    background-color: #f3f3f3; /* 대댓글 배경 색상 */
+    background-color: #f3f3f3;
 }
 </style>
 </head>
