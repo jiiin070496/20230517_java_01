@@ -59,6 +59,89 @@ button {
 button:hover {
     background-color: #0056b3;
 }
+
+/* 댓글 카드 스타일 */
+.replyCard {
+    border: 1px solid #ccc;
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+/* 댓글 작성자 스타일 */
+.updatewriter {
+    font-weight: bold;
+    color: #333;
+}
+
+/* 댓글 내용 스타일 */
+.updatereplyContent {
+    margin: 10px 0;
+    color: #333;
+}
+
+/* 댓글 날짜 스타일 */
+.updatereplyDate {
+    color: #888;
+}
+
+/* 버튼 스타일 */
+.groupbtn {
+    margin: 10px 0;
+}
+
+/* 수정, 삭제 버튼 스타일 */
+.updatereply,
+.insertreplyreply,
+.submitreplyreply,
+.updateDoBtn {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 1px 4px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.updatereply:hover,
+.insertreplyreply:hover,
+.submitreplyreply:hover,
+.updateDoBtn:hover {
+    background-color: #0056b3;
+}
+
+/* 더보기, 숨기기 버튼 스타일 */
+.moreReply,
+.hideReplies {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.moreReply:hover,
+.hideReplies:hover {
+    background-color: #0056b3 ;
+}
+
+/* 대댓글 카드 스타일 */
+.replyreplycard {
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f3f3f3;
+    margin-left: 20px;
+}
+/* 대댓글 목록 스타일 */
+.forAppendArea {
+    margin-left: 30px; /* 왼쪽 여백을 조절하여 떨어짐을 강조 */
+}
+
+.forAppendArea {
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f3f3f3; /* 대댓글 배경 색상 */
+}
 </style>
 </head>
 <body>
@@ -176,58 +259,69 @@ $("#btn-board-delete").click(function () {
 			} 
 
 /* ---------- Reply ---------- */
-	let replyreplyleftpadding = "";
-	window.onload = function () {
-	    replyreplyleftpadding = $(".cardwidth").width() * 0.03;
-	    $.ajax({
-	        type: "get",
-	        url: "${pageContext.request.contextPath}/board/readcnt",
-	        data: { boardCount: ${bvo.readcnt}, boardNo: ${bvo.bno} },
-	        success: function (result) {
-	            console.log("readcnt: success(" + result + ")");
-	        },
-	        error: function (request, status, error) {
-	            alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-	        }
-	    });
-	    var moreReply = "";
 
-	    $.ajax({
-	        type: "get",
-	        url: "${pageContext.request.contextPath}/replyboard/list",
-	        data: { boardNo: ${bvo.bno} },
-	        success: function (result) {
-	            console.log("list: success");
-	            console.log(result);
-	            for (var i = 0; i < result.length; i++) {
-	                if (result[i].rref == 0) {
-	                    var htmlVal = '<div class="card replyCard" data-replyno="' + result[i].replyNo + '" data-writer="' + result[i].memberId + '"><div class="firstReply card" data-replyno="' + result[i].replyNo + '" data-writer="' + result[i].memberId + '"><div class="updatewriter">작성자 : ' + result[i].memberId + '</div><div class="updatereplyContent">내용 : ' + result[i].replyContent + '</div><div class="updatereplyDate">입력날짜 : ' + result[i].replyDate + '</div>' +
-	                        '<div class="groupbtn"><button class="updatereply">수정</button><button onclick="deletereplyHandler(\'' + result[i].replyNo + '\');">삭제</button><button class="insertreplyreply">댓글 삽입</button>' +
-	                        '<button class="moreReply" data-replyno="' + result[i].replyNo + '" style="display:none">댓글 더보기</button><button class="hideReplies" style="display:none">댓글 숨기기</button>';
-                        htmlVal += '</div></div><div class="forAppendArea"></div>';
-	                    $(".testappend").append(htmlVal);
-	                }
-	            }
-	            $(".updatereply").click(updatereplyHandler);
-	            $(".insertreplyreply").click(insertreplyreplyHandler);
-	            $(".moreReply").click(moreReplyHandler);
-	            if (${bvo.bno} != 0) {
-	            	console.log(${bvo.selectReplyNo});
-	                var firstReply = document.getElementsByClassName('firstReply');
-	                for (var i = 0; i < firstReply.length; i++) {
-	                    if ($(firstReply[i]).data("replyno") == ${bvo.selectReplyNo}) {
-	                        firstReply[i].classList.add('text-bg-warning');
-	                    }
-	                }
-	            }
-	        },
-	        error: function (result) {
-	            console.log("error");
-	        },
-	        dataType: "json"
-	    });
-	}
-	
+let replyreplyleftpadding = "";
+window.onload = function () {
+    replyreplyleftpadding = $(".cardwidth").width() * 0.03;
+    $.ajax({
+        type: "get",
+        url: "${pageContext.request.contextPath}/board/readcnt",
+        data: { boardCount: ${bvo.readcnt}, boardNo: ${bvo.bno} },
+        success: function (result) {
+            console.log("readcnt: success(" + result + ")");
+        },
+        error: function (request, status, error) {
+            alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+        }
+    });
+
+    var moreReply = "";
+
+    $.ajax({
+        type: "get",
+        url: "${pageContext.request.contextPath}/replyboard/list",
+        data: { boardNo: ${bvo.bno} },
+        success: function (result) {
+            console.log("list: success");
+            console.log(result);
+            for (var i = 0; i < result.length; i++) {
+                if (result[i].rref == 0) {
+                    var htmlVal = '<div class="card replyCard" data-replyno="' + result[i].replyNo + '" data-writer="' + result[i].memberId + '"><div class="firstReply card" data-replyno="' + result[i].replyNo + '" data-writer="' + result[i].memberId + '"><div class="updatewriter">작성자 : ' + result[i].memberId + '</div><div class="updatereplyContent">내용 : ' + result[i].replyContent + '</div><div class="updatereplyDate">입력날짜 : ' + result[i].replyDate + '</div>' +
+                        '<div class="groupbtn"><button class="updatereply">수정</button><button onclick="deletereplyHandler(\'' + result[i].replyNo + '\');">삭제</button><button class="insertreplyreply">댓글 삽입</button>' +
+                        '<button class="moreReply" data-replyno="' + result[i].replyNo + '" style="display:none">더보기</button><button class="hideReplies" style="display:none">숨기기</button>';
+                    htmlVal += '</div></div><div class="forAppendArea"></div>';
+                    $(".testappend").append(htmlVal);
+                }
+            }
+            $(".updatereply").click(updatereplyHandler);
+            $(".insertreplyreply").click(insertreplyreplyHandler);
+            $(".moreReply").click(moreReplyHandler);
+            
+            if (${bvo.bno} != 0) {
+                console.log(${bvo.selectReplyNo});
+                var firstReply = document.getElementsByClassName('firstReply');
+                for (var i = 0; i < firstReply.length; i++) {
+                    if ($(firstReply[i]).data("replyno") == ${bvo.selectReplyNo}) {
+                        firstReply[i].classList.add('text-bg-warning');
+                    }
+                }
+            }
+        },
+        error: function (result) {
+            console.log("error");
+        },
+        dataType: "json"
+    });
+    
+}
+	$(".moreReply").each(function() {
+	    var $forAppendArea = $(this).closest(".replyCard").find(".forAppendArea");
+	    if ($forAppendArea.find(".firstReply").length > 0) {
+	        $(this).show(); // 대댓글이 있는 경우 "moreReply" 버튼을 표시합니다.
+	    } else {
+	        $(this).hide(); // 대댓글이 없는 경우 "moreReply" 버튼을 숨깁니다.
+	    }
+	});
 	function moreReplyHandler(e) {
 	    var rrefReplyNo = $(this).data("replyno");
 	    var eTarget = e.target;
@@ -249,7 +343,6 @@ $("#btn-board-delete").click(function () {
 	                    var htmlVal = '<div class="firstReply card" style="padding-left:' + replyreplyleftpadding + 'px" data-replyno="' + result[i].replyNo + '" data-writer="' + result[i].memberId + '"><div class="updatewriter">작성자 : ' + result[i].memberId + '</div><div class="updatereplyContent">내용 : ' + result[i].replyContent + '</div><div class="updatereplyDate">입력날짜 : ' + result[i].replyDate + '</div>'
 	                        + '<div class="groupbtn"><button onclick="deletereplyHandler(' + result[i].replyNo + ');">삭제</button></div>';
 	                    $forAppendArea.append(htmlVal);
-	                    // 새로운 댓글이 추가되면 "댓글 숨기기" 버튼을 표시
 	                }
 	            }
 	        },
@@ -288,7 +381,7 @@ $("#btn-board-delete").click(function () {
        var replyContent = $("[name=replyContent]").val();
        if(replyContent === ''){
     	   alert("댓글을 입력해주세요.");
-    	   return
+    	   return false;
        }
        $.ajax({
            type: "post",
@@ -330,7 +423,7 @@ $("#btn-board-delete").click(function () {
 	                url: "${pageContext.request.contextPath}/replyboard/delete",
 	                data: { replyNo: forNumber },
 	                success: function (result) {
-	                	console.log("forNumber: "+ forNumber);
+	                	console.log("forNumber: "+ forNumber +"삭제");
 	                    if(forNumber > 0){
 	               			alert("삭제되었습니다.");
 	               		 	$(".replyCard[data-replyno='" + forNumber + "']").remove();
@@ -396,7 +489,6 @@ $("#btn-board-delete").click(function () {
 	    console.log("submitreplyreplyHandler");
 	    var replyreplyContent = $("[name=replyreplyContent]").val();
 	    var $replyCard = $(this).parents(".replyCard");
-	    
 	    $.ajax({
 	        type: "post",
 	        url: "${pageContext.request.contextPath}/replyboard/replyinsert",
