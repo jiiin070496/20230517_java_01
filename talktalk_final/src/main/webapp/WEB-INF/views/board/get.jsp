@@ -500,15 +500,15 @@ function updateDoBtnHandler(){
 }
 
 function insertreplyreplyHandler() {
-    var $replyCard = $(".replyCard");
-    var replyreplywriter = $(this).parents(".replyCard").data("writer");
-    var $contenttextarea = $(this).parents(".replyCard").find(".contenttextarea");
+    var $replyCard = $(this).closest(".replyCard"); // 클릭된 버튼의 부모 .replyCard 요소를 찾습니다.
+    var $contenttextarea = $replyCard.find(".contenttextarea");
 
     if ($contenttextarea.length > 0) {
         $contenttextarea.remove();
     } else {
-    	var addreplyreply = '<div class="contenttextarea card replyreplycard" data-writer="${bvo.mid}"><div>↳작성자: ${bvo.mid}</div><div><textarea rows="3" class="col-xl-12 replyContent" name="replyreplyContent">@' + replyreplywriter + " " + '</textarea></div><div><button class="submitreplyreply">답글 저장</button></div></div>';
-        $(this).parents(".replyCard").append(addreplyreply);
+        var replyreplywriter = $replyCard.data("writer");
+        var addreplyreply = '<div class="contenttextarea card replyreplycard" data-writer="${bvo.mid}"><div>↳작성자: ${bvo.mid}</div><div><textarea rows="3" class="col-xl-12 replyContent" name="replyreplyContent">@' + replyreplywriter + " " + '</textarea></div><div><button class="submitreplyreply">답글 저장</button></div></div>';
+        $replyCard.append(addreplyreply);
         $(".submitreplyreply").click(submitreplyreplyHandler);
     }
 }

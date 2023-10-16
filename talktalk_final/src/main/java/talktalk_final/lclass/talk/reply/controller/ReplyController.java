@@ -72,16 +72,4 @@ public class ReplyController {
 		List<ReplyDto> result = replyService.delete(replyNo);
 		return new Gson().toJson(result);
 	}
-
-
-
-
-
-
-
-
-
-
-
-
 }
