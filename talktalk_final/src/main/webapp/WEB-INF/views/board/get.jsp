@@ -357,6 +357,7 @@ function moreReplyHandler(e) {
             console.log(result.length);
             if (result.length === 0) {
                 alert("댓글이 없습니다.");
+                location.reload();
             } else {
                 for (var i = 0; i < result.length; i++) {
                     var htmlVal = '<div class="firstReply card" style="padding-left:' + replyreplyleftpadding + 'px" data-replyno="' + result[i].replyNo + '" data-writer="' + result[i].memberId + '"><div class="updatewriter">작성자 : ' + result[i].memberId + '</div><div class="updatereplyContent">내용 : ' + result[i].replyContent + '</div><div class="updatereplyDate">입력날짜 : ' + result[i].replyDate + '</div>'
