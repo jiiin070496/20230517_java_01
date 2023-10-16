@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>boardList</title>
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<spring:eval expression="@api['api.key']" />" ></script>
+<%-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<spring:eval expression="@api['api.key']" />" ></script> --%>
 <style>
 body {
     background-color: #f9f9f9;
@@ -210,7 +210,7 @@ button.keyword:hover {
 <body>
 <div class="title">
 	<h2> 쿵's 게시판 </h2>
-	<h4>API Key: <spring:eval expression="@api['api.key']" /></h4>
+	<%-- <h4>API Key: <spring:eval expression="@api['api.key']" /></h4> --%>
 </div>
 <!-- 검색 -->
 <div class="search_wrap">
