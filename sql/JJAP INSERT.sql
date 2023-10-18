@@ -117,6 +117,7 @@ insert into BOARD values (SEQ_BOARD_BNO.nextval, 'TEST112', 'ㅋㅋㅋ', 'onue06
 COMMIT;
 
 -- JJAP KOREA
+insert into MEMBER values ('jiin0960', 'jin', default, default, default, default, default);
 insert into BOARD values (SEQ_BOARD_BNO.nextval, 'TEST1', 'ㅋ', 'admin', default, 0, SEQ_BOARD_BNO.nextval, 0, 0, 0) ;
 insert into BOARD values (SEQ_BOARD_BNO.nextval, 'TEST2', 'ㅋㅋ', 'admin', default, 0, SEQ_BOARD_BNO.nextval, 0, 0, 0) ;
 insert into BOARD values (SEQ_BOARD_BNO.nextval, 'TEST3', 'ㅋㅋㅋ', 'admin', default, 0, SEQ_BOARD_BNO.nextval, 0, 0, 0) ;
