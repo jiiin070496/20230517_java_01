@@ -17,7 +17,7 @@ create user jjapkorea identified by jjapkorea;
 create user jjaptest identified by jjaptest;
 
 DROP USER semi CASCADE;
-DROP USER jjapkorea CASCADE;
+DROP USER jjaptest CASCADE;
 
 --상태: 실패 -테스트 실패: ORA-01045: 사용자 SCOTT는 CREATE SESSION 권한을 가지고있지 않음; 로그온이 거절되었습니다
 --해결방법 -> grant 권한명, 롤명 to scott;

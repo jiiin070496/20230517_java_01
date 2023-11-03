@@ -27,12 +27,12 @@
 	</select>
 	
 <!-- 상세 게시글 -->
-	<select id="selectOne" resultType="BoardDto"
-		parameterType="_int">
-		<!-- select * from board where bno=#{bno} order by BREF desc, BRE_STEP 
-			asc -->
-		SELECT n.*, (SELECT mname FROM member m WHERE m.mid = n.mid) name FROM
+	<select id="selectOne" resultType="BoardDto" parameterType="_int">
+		select * from board where bno=#{bno}
+<!--
+ 		SELECT n.*, (SELECT mname FROM member m WHERE m.mid = n.mid) name FROM
 		board n WHERE bno=#{bno }
+ -->
 	</select>
 
 <!-- 게시글 등록 -->
